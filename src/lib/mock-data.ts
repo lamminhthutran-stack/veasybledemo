@@ -9,7 +9,7 @@ export const executor = {
 
 export const ops = {
   name: "Linh Trần",
-  role: "Ops Member",
+  role: "Ops Lead",
 };
 
 export type Task = {
