@@ -119,8 +119,7 @@ function ProfileSetup() {
           >
             Hoàn tất & Vào Pool →
           </button>
-        </main>
-      </div>
+      </main>
     </div>
   );
 }
