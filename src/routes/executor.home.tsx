@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { executor, tasks, type Task } from "@/lib/mock-data";
-import { getDeclinedTaskIds } from "@/lib/task-state";
+import { getCompletedTaskIds, getDeclinedTaskIds } from "@/lib/task-state";
 import { MapPin, Clock, CalendarDays, Store, ChevronDown } from "lucide-react";
 import { useState } from "react";
 
@@ -21,9 +21,11 @@ const acceptedTasks: AcceptedTask[] = acceptedTaskIds.map((id, index) => ({
 function ExecutorHome() {
   const [activeTab, setActiveTab] = useState<HomeTab>("my");
   const [declinedTaskIds] = useState(() => getDeclinedTaskIds());
-  const myTasks = acceptedTasks.filter((task) => !declinedTaskIds.includes(task.id));
+  const [completedTaskIds] = useState(() => getCompletedTaskIds());
+  const hiddenTaskIds = new Set([...declinedTaskIds, ...completedTaskIds]);
+  const myTasks = acceptedTasks.filter((task) => !hiddenTaskIds.has(task.id));
   const availableTasks = tasks.filter(
-    (task) => !acceptedTaskIds.includes(task.id) && !declinedTaskIds.includes(task.id),
+    (task) => !acceptedTaskIds.includes(task.id) && !hiddenTaskIds.has(task.id),
   );
 
   return (
