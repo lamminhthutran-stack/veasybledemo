@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Camera, Check } from "lucide-react";
 
 export const Route = createFileRoute("/executor/profile/setup")({
@@ -89,8 +89,8 @@ function ProfileSetup() {
               <div />
               {days.map((d) => <div key={d} className="font-semibold py-1">{d}</div>)}
               {slots.map((s) => (
-                <>
-                  <div key={`l-${s}`} className="font-semibold flex items-center justify-end pr-1">{s}</div>
+                <Fragment key={s}>
+                  <div className="font-semibold flex items-center justify-end pr-1">{s}</div>
                   {days.map((d) => {
                     const k = `${d}-${s}`;
                     const on = grid[k];
@@ -104,7 +104,7 @@ function ProfileSetup() {
                       </button>
                     );
                   })}
-                </>
+                </Fragment>
               ))}
             </div>
           </Section>

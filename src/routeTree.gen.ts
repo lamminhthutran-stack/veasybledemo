@@ -17,6 +17,7 @@ import { Route as OpsQueueRouteImport } from './routes/ops.queue'
 import { Route as OpsExecutorsRouteImport } from './routes/ops.executors'
 import { Route as OpsDashboardRouteImport } from './routes/ops.dashboard'
 import { Route as OpsCampaignsRouteImport } from './routes/ops.campaigns'
+import { Route as ExecutorProfileRouteImport } from './routes/executor.profile'
 import { Route as ExecutorHomeRouteImport } from './routes/executor.home'
 import { Route as ExecutorBrowseRouteImport } from './routes/executor.browse'
 import { Route as ExecutorAcademyRouteImport } from './routes/executor.academy'
@@ -76,6 +77,11 @@ const OpsCampaignsRoute = OpsCampaignsRouteImport.update({
   path: '/campaigns',
   getParentRoute: () => OpsRoute,
 } as any)
+const ExecutorProfileRoute = ExecutorProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => ExecutorRoute,
+} as any)
 const ExecutorHomeRoute = ExecutorHomeRouteImport.update({
   id: '/home',
   path: '/home',
@@ -102,9 +108,9 @@ const OpsExecutorsIndexRoute = OpsExecutorsIndexRouteImport.update({
   getParentRoute: () => OpsExecutorsRoute,
 } as any)
 const ExecutorProfileIndexRoute = ExecutorProfileIndexRouteImport.update({
-  id: '/profile/',
-  path: '/profile/',
-  getParentRoute: () => ExecutorRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => ExecutorProfileRoute,
 } as any)
 const OpsExecutorsIdRoute = OpsExecutorsIdRouteImport.update({
   id: '/$id',
@@ -117,9 +123,9 @@ const ExecutorTaskIdRoute = ExecutorTaskIdRouteImport.update({
   getParentRoute: () => ExecutorRoute,
 } as any)
 const ExecutorProfileSetupRoute = ExecutorProfileSetupRouteImport.update({
-  id: '/profile/setup',
-  path: '/profile/setup',
-  getParentRoute: () => ExecutorRoute,
+  id: '/setup',
+  path: '/setup',
+  getParentRoute: () => ExecutorProfileRoute,
 } as any)
 const ExecutorAcademyCompleteRoute = ExecutorAcademyCompleteRouteImport.update({
   id: '/complete',
@@ -179,6 +185,7 @@ export interface FileRoutesByFullPath {
   '/executor/academy': typeof ExecutorAcademyRouteWithChildren
   '/executor/browse': typeof ExecutorBrowseRoute
   '/executor/home': typeof ExecutorHomeRoute
+  '/executor/profile': typeof ExecutorProfileRouteWithChildren
   '/ops/campaigns': typeof OpsCampaignsRoute
   '/ops/dashboard': typeof OpsDashboardRoute
   '/ops/executors': typeof OpsExecutorsRouteWithChildren
@@ -233,6 +240,7 @@ export interface FileRoutesById {
   '/executor/academy': typeof ExecutorAcademyRouteWithChildren
   '/executor/browse': typeof ExecutorBrowseRoute
   '/executor/home': typeof ExecutorHomeRoute
+  '/executor/profile': typeof ExecutorProfileRouteWithChildren
   '/ops/campaigns': typeof OpsCampaignsRoute
   '/ops/dashboard': typeof OpsDashboardRoute
   '/ops/executors': typeof OpsExecutorsRouteWithChildren
@@ -263,6 +271,7 @@ export interface FileRouteTypes {
     | '/executor/academy'
     | '/executor/browse'
     | '/executor/home'
+    | '/executor/profile'
     | '/ops/campaigns'
     | '/ops/dashboard'
     | '/ops/executors'
@@ -316,6 +325,7 @@ export interface FileRouteTypes {
     | '/executor/academy'
     | '/executor/browse'
     | '/executor/home'
+    | '/executor/profile'
     | '/ops/campaigns'
     | '/ops/dashboard'
     | '/ops/executors'
@@ -402,6 +412,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OpsCampaignsRouteImport
       parentRoute: typeof OpsRoute
     }
+    '/executor/profile': {
+      id: '/executor/profile'
+      path: '/profile'
+      fullPath: '/executor/profile'
+      preLoaderRoute: typeof ExecutorProfileRouteImport
+      parentRoute: typeof ExecutorRoute
+    }
     '/executor/home': {
       id: '/executor/home'
       path: '/home'
@@ -439,10 +456,10 @@ declare module '@tanstack/react-router' {
     }
     '/executor/profile/': {
       id: '/executor/profile/'
-      path: '/profile'
+      path: '/'
       fullPath: '/executor/profile/'
       preLoaderRoute: typeof ExecutorProfileIndexRouteImport
-      parentRoute: typeof ExecutorRoute
+      parentRoute: typeof ExecutorProfileRoute
     }
     '/ops/executors/$id': {
       id: '/ops/executors/$id'
@@ -460,10 +477,10 @@ declare module '@tanstack/react-router' {
     }
     '/executor/profile/setup': {
       id: '/executor/profile/setup'
-      path: '/profile/setup'
+      path: '/setup'
       fullPath: '/executor/profile/setup'
       preLoaderRoute: typeof ExecutorProfileSetupRouteImport
-      parentRoute: typeof ExecutorRoute
+      parentRoute: typeof ExecutorProfileRoute
     }
     '/executor/academy/complete': {
       id: '/executor/academy/complete'
@@ -549,6 +566,20 @@ const ExecutorAcademyRouteWithChildren = ExecutorAcademyRoute._addFileChildren(
   ExecutorAcademyRouteChildren,
 )
 
+interface ExecutorProfileRouteChildren {
+  ExecutorProfileSetupRoute: typeof ExecutorProfileSetupRoute
+  ExecutorProfileIndexRoute: typeof ExecutorProfileIndexRoute
+}
+
+const ExecutorProfileRouteChildren: ExecutorProfileRouteChildren = {
+  ExecutorProfileSetupRoute: ExecutorProfileSetupRoute,
+  ExecutorProfileIndexRoute: ExecutorProfileIndexRoute,
+}
+
+const ExecutorProfileRouteWithChildren = ExecutorProfileRoute._addFileChildren(
+  ExecutorProfileRouteChildren,
+)
+
 interface ExecutorTaskIdRouteChildren {
   ExecutorTaskIdOnsiteRoute: typeof ExecutorTaskIdOnsiteRoute
   ExecutorTaskIdPreExecuteRoute: typeof ExecutorTaskIdPreExecuteRoute
@@ -571,18 +602,16 @@ interface ExecutorRouteChildren {
   ExecutorAcademyRoute: typeof ExecutorAcademyRouteWithChildren
   ExecutorBrowseRoute: typeof ExecutorBrowseRoute
   ExecutorHomeRoute: typeof ExecutorHomeRoute
-  ExecutorProfileSetupRoute: typeof ExecutorProfileSetupRoute
+  ExecutorProfileRoute: typeof ExecutorProfileRouteWithChildren
   ExecutorTaskIdRoute: typeof ExecutorTaskIdRouteWithChildren
-  ExecutorProfileIndexRoute: typeof ExecutorProfileIndexRoute
 }
 
 const ExecutorRouteChildren: ExecutorRouteChildren = {
   ExecutorAcademyRoute: ExecutorAcademyRouteWithChildren,
   ExecutorBrowseRoute: ExecutorBrowseRoute,
   ExecutorHomeRoute: ExecutorHomeRoute,
-  ExecutorProfileSetupRoute: ExecutorProfileSetupRoute,
+  ExecutorProfileRoute: ExecutorProfileRouteWithChildren,
   ExecutorTaskIdRoute: ExecutorTaskIdRouteWithChildren,
-  ExecutorProfileIndexRoute: ExecutorProfileIndexRoute,
 }
 
 const ExecutorRouteWithChildren = ExecutorRoute._addFileChildren(
