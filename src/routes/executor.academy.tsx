@@ -11,23 +11,21 @@ function AcademyLayout() {
   const isRoot = loc.pathname === "/executor/academy" || loc.pathname === "/executor/academy/";
 
   return (
-    <div className="min-h-screen bg-surface flex justify-center">
-      <div className="w-full max-w-[390px] bg-background min-h-screen flex flex-col shadow-xl">
-        <header className="sticky top-0 z-10 bg-navy text-navy-foreground px-4 py-3 flex items-center gap-3">
-          {!isRoot && (
-            <Link to="/executor/academy" className="opacity-80 hover:opacity-100">
-              <ArrowLeft className="w-5 h-5" />
-            </Link>
-          )}
-          <div>
-            <div className="font-bold tracking-tight leading-none">Veasyble</div>
-            <div className="text-[10px] text-white/70">Academy</div>
-          </div>
-        </header>
-        <main className="flex-1 pb-8">
-          {isRoot ? <AcademyHome /> : <Outlet />}
-        </main>
-      </div>
+    <div className="flex flex-col min-h-screen">
+      <header className="sticky top-0 z-10 bg-navy text-navy-foreground px-4 py-3 flex items-center gap-3">
+        {!isRoot && (
+          <Link to="/executor/academy" className="opacity-80 hover:opacity-100">
+            <ArrowLeft className="w-5 h-5" />
+          </Link>
+        )}
+        <div>
+          <div className="font-bold tracking-tight leading-none">Veasyble</div>
+          <div className="text-[10px] text-white/70">Academy</div>
+        </div>
+      </header>
+      <main className="flex-1 pb-8">
+        {isRoot ? <AcademyHome /> : <Outlet />}
+      </main>
     </div>
   );
 }

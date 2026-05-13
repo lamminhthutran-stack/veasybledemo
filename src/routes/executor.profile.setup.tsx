@@ -27,14 +27,13 @@ function ProfileSetup() {
   const toggleSlot = (k: string) => setGrid((g) => ({ ...g, [k]: !g[k] }));
 
   return (
-    <div className="min-h-screen bg-surface flex justify-center">
-      <div className="w-full max-w-[390px] bg-background min-h-screen flex flex-col shadow-xl">
-        <header className="sticky top-0 z-10 bg-navy text-navy-foreground px-4 py-3">
-          <div className="font-bold tracking-tight">Veasyble</div>
-          <div className="text-[10px] text-white/70">Profile Setup</div>
-        </header>
+    <div className="flex flex-col min-h-screen">
+      <header className="sticky top-0 z-10 bg-navy text-navy-foreground px-4 py-3">
+        <div className="font-bold tracking-tight">Veasyble</div>
+        <div className="text-[10px] text-white/70">Profile Setup</div>
+      </header>
 
-        <main className="flex-1 p-5 space-y-5">
+      <main className="flex-1 p-5 space-y-5">
           <div className="flex items-center gap-2 text-[11px]">
             <Step done label="Academy" />
             <Bar />
