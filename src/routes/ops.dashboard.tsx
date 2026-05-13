@@ -1,8 +1,7 @@
-import { Gear, X } from "lucide-react";
+import { Settings, X } from "lucide-react";
 import { createFileRoute } from "@tanstack/react-router";
-import { escalations, ops } from "@/lib/mock-data";
+import { escalations, ops, campaigns, executionTasks } from "@/lib/mock-data";
 import { useState } from "react";
-
 
 export const Route = createFileRoute("/ops/dashboard")({
   component: OpsDashboard,
@@ -52,11 +51,20 @@ const metrics = {
 function OpsDashboard() {
   const [thresholds, setThresholds] = useState(defaults);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [surgeActive, setSurgeActive] = useState<Record<string, boolean>>({});
+  const [queueFilters, setQueueFilters] = useState({ phase: "all", severity: "all", status: "all" });
   const canEditThresholds = ops?.role === "Ops Lead";
 
   const setThreshold = (key: ThresholdKey, value: number) => {
     setThresholds((current) => ({ ...current, [key]: value }));
   };
+
+  const filteredEscalations = escalations.filter((e) => {
+    if (queueFilters.phase !== "all" && e.phase !== queueFilters.phase) return false;
+    if (queueFilters.severity !== "all" && e.priority !== queueFilters.severity) return false;
+    if (queueFilters.status !== "all" && e.status !== queueFilters.status) return false;
+    return true;
+  });
 
   return (
     <div className="space-y-6">
@@ -71,7 +79,7 @@ function OpsDashboard() {
             onClick={() => setSettingsOpen(true)}
             className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-sm font-semibold shadow-sm hover:border-orange/50"
           >
-            <Gear className="h-4 w-4" />
+            <Settings className="h-4 w-4" />
             Threshold Settings
           </button>
         )}
@@ -153,7 +161,7 @@ function OpsDashboard() {
         <div className="bg-card border border-border rounded-xl p-5">
           <h3 className="font-semibold mb-3">Recent Escalations</h3>
           <div className="space-y-3">
-            {escalations && escalations.slice(0, 5).map((e) => (
+            {escalations.slice(0, 5).map((e) => (
               <div key={e.id} className="text-sm">
                 <div className="flex items-center justify-between gap-2">
                   <div className="font-medium truncate">{e.type}</div>
@@ -166,6 +174,48 @@ function OpsDashboard() {
         </div>
       </div>
 
+      {/* Campaign Monitor */}
+      <section className="space-y-3">
+        <div className="flex items-center gap-3">
+          <h2 className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">Campaign Monitor</h2>
+          <div className="h-px flex-1 bg-border" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          {campaigns
+            .filter((c) => c.status !== "Completed")
+            .map((c) => (
+              <CampaignCard
+                key={c.id}
+                campaign={c}
+                isSurged={!!surgeActive[c.id]}
+                onSurge={() => setSurgeActive((prev) => ({ ...prev, [c.id]: true }))}
+              />
+            ))}
+        </div>
+      </section>
+
+      {/* Escalation Queue */}
+      <section className="space-y-3">
+        <div className="flex items-center gap-3">
+          <h2 className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">Escalation Queue</h2>
+          <span className="text-xs font-semibold text-[#F97316] bg-orange-50 px-2 py-0.5 rounded-full">
+            {filteredEscalations.length} cases
+          </span>
+          <div className="h-px flex-1 bg-border" />
+        </div>
+        <EscalationQueue filters={queueFilters} setFilters={setQueueFilters} filtered={filteredEscalations} />
+      </section>
+
+      {/* Execution Live */}
+      <section className="space-y-3">
+        <div className="flex items-center gap-3">
+          <h2 className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">Execution Team</h2>
+          <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+          <div className="h-px flex-1 bg-border" />
+        </div>
+        <ExecutionLive />
+      </section>
+
       {settingsOpen && (
         <ThresholdPanel
           thresholds={thresholds}
@@ -176,6 +226,246 @@ function OpsDashboard() {
     </div>
   );
 }
+
+// ─── Campaign Monitor ─────────────────────────────────────────────────────────
+
+function CampaignCard({
+  campaign,
+  isSurged,
+  onSurge,
+}: {
+  campaign: (typeof campaigns)[0];
+  isSurged: boolean;
+  onSurge: () => void;
+}) {
+  const { fillRate, assignedCount, totalSlots, stalledExecutorCount } = campaign;
+  const barColor =
+    fillRate >= 80 ? "bg-green-500" : fillRate >= 50 ? "bg-orange-400" : "bg-red-500";
+  const rateBadge =
+    fillRate >= 80
+      ? "bg-green-50 text-green-700"
+      : fillRate >= 50
+      ? "bg-orange-50 text-orange-700"
+      : "bg-red-50 text-red-700";
+
+  return (
+    <div className="bg-card border border-border rounded-xl p-4 shadow-sm">
+      <div className="flex justify-between items-start mb-2">
+        <div>
+          <p className="font-semibold text-sm">{campaign.name}</p>
+          <p className="text-xs text-muted-foreground">
+            {campaign.brand} · {campaign.city} · {campaign.date}
+          </p>
+        </div>
+        <span className={`text-[10px] font-semibold px-2 py-1 rounded-full ${rateBadge}`}>
+          {fillRate}% filled
+        </span>
+      </div>
+
+      <div className="w-full bg-gray-100 rounded-full h-1.5 mb-1">
+        <div
+          className={`h-1.5 rounded-full transition-all ${barColor}`}
+          style={{ width: `${fillRate}%` }}
+        />
+      </div>
+      <p className="text-xs text-muted-foreground mb-3">
+        {assignedCount}/{totalSlots} executor assigned
+      </p>
+
+      {fillRate < 80 && (
+        <div className="flex gap-2 pt-3 border-t border-border">
+          <button
+            onClick={onSurge}
+            className={`flex-1 text-xs py-2 rounded-xl font-semibold transition-colors ${
+              isSurged
+                ? "bg-orange-100 text-orange-700 border border-orange-200"
+                : "bg-[#F97316] text-white"
+            }`}
+          >
+            {isSurged ? "⚡ Surge Active" : "⚡ Force Surge"}
+          </button>
+          {stalledExecutorCount > 0 && (
+            <button
+              onClick={() => {
+                if (window.confirm(`Unassign ${stalledExecutorCount} executor chưa check-in và mở lại slot?`)) {
+                  alert(`Reassigned ${stalledExecutorCount} slots for ${campaign.name}`);
+                }
+              }}
+              className="flex-1 text-xs py-2 rounded-xl font-semibold bg-gray-100 text-gray-700 border border-gray-200"
+            >
+              🔄 Reassign ({stalledExecutorCount})
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Escalation Queue ─────────────────────────────────────────────────────────
+
+function EscalationQueue({
+  filters,
+  setFilters,
+  filtered,
+}: {
+  filters: { phase: string; severity: string; status: string };
+  setFilters: React.Dispatch<React.SetStateAction<{ phase: string; severity: string; status: string }>>;
+  filtered: typeof escalations;
+}) {
+  const pill = (active: boolean) =>
+    `text-xs px-3 py-1.5 rounded-full border font-medium transition-colors cursor-pointer ${
+      active
+        ? "bg-[#1A3557] text-white border-[#1A3557]"
+        : "bg-gray-50 text-gray-600 border-gray-200"
+    }`;
+
+  return (
+    <div className="bg-card border border-border rounded-xl p-5 space-y-4">
+      {/* Filter rows */}
+      <div className="space-y-3">
+        <div>
+          <p className="text-xs font-semibold text-muted-foreground mb-2">Phase</p>
+          <div className="flex flex-wrap gap-2">
+            {["all", "Onboard", "Dispatch", "Execute", "Verification", "Quality"].map((p) => (
+              <button
+                key={p}
+                onClick={() => setFilters((f) => ({ ...f, phase: p }))}
+                className={pill(filters.phase === p)}
+              >
+                {p === "all" ? "All" : p}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <p className="text-xs font-semibold text-muted-foreground mb-2">Severity</p>
+          <div className="flex flex-wrap gap-2">
+            {["all", "High", "Medium", "Low"].map((s) => (
+              <button
+                key={s}
+                onClick={() => setFilters((f) => ({ ...f, severity: s }))}
+                className={pill(filters.severity === s)}
+              >
+                {s === "all" ? "All" : s === "High" ? "🔴 High" : s === "Medium" ? "🟡 Medium" : "🟢 Low"}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <p className="text-xs font-semibold text-muted-foreground mb-2">Status</p>
+          <div className="flex flex-wrap gap-2">
+            {["all", "Open", "In Progress", "Resolved"].map((s) => (
+              <button
+                key={s}
+                onClick={() => setFilters((f) => ({ ...f, status: s }))}
+                className={pill(filters.status === s)}
+              >
+                {s === "all" ? "All" : s}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Queue list */}
+      {filtered.length === 0 ? (
+        <div className="text-center py-8 text-muted-foreground text-sm">
+          No escalations match the current filter
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {filtered.map((e) => (
+            <div
+              key={e.id}
+              className="flex items-start gap-3 p-3 rounded-lg border border-border bg-background"
+            >
+              <div
+                className={`mt-1 w-2 h-2 rounded-full flex-shrink-0 ${
+                  e.priority === "High"
+                    ? "bg-red-500"
+                    : e.priority === "Medium"
+                    ? "bg-yellow-500"
+                    : "bg-green-500"
+                }`}
+              />
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-0.5">
+                  <span className="text-xs font-semibold">{e.type}</span>
+                  <span className="text-[10px] text-muted-foreground bg-surface px-1.5 py-0.5 rounded">
+                    {e.phase}
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground truncate">{e.desc}</p>
+              </div>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <span className="text-[10px] text-muted-foreground">{e.time}</span>
+                <span
+                  className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                    e.status === "Open"
+                      ? "bg-red-50 text-red-700"
+                      : e.status === "In Progress"
+                      ? "bg-yellow-50 text-yellow-700"
+                      : "bg-gray-100 text-gray-600"
+                  }`}
+                >
+                  {e.status}
+                </span>
+                {"assignee" in e && e.assignee && (
+                  <span className="text-[10px] text-muted-foreground">→ {e.assignee}</span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Execution Live ───────────────────────────────────────────────────────────
+
+function ExecutionLive() {
+  const statusConfig: Record<string, { label: string; color: string }> = {
+    "on-site": { label: "On Site", color: "bg-green-50 text-green-700" },
+    late: { label: "Late", color: "bg-orange-50 text-orange-700" },
+    "not-checked-in": { label: "Not Checked In", color: "bg-red-50 text-red-700" },
+    completed: { label: "Completed", color: "bg-gray-100 text-gray-500" },
+  };
+
+  return (
+    <div className="bg-card border border-border rounded-xl overflow-hidden">
+      <div className="grid grid-cols-[2fr_2fr_1fr_1fr_1fr] gap-4 px-4 py-3 text-[11px] uppercase tracking-wider text-muted-foreground font-semibold border-b border-border">
+        <div>Executor</div>
+        <div>Store</div>
+        <div>District</div>
+        <div>Check-in</div>
+        <div>Status</div>
+      </div>
+      {(executionTasks ?? []).map((task) => {
+        const s = statusConfig[task.status] ?? { label: task.status, color: "bg-gray-100 text-gray-500" };
+        return (
+          <div
+            key={task.id}
+            className="grid grid-cols-[2fr_2fr_1fr_1fr_1fr] gap-4 px-4 py-3 text-sm items-center border-b border-border last:border-0"
+          >
+            <div className="font-medium">{task.executorName}</div>
+            <div className="text-muted-foreground truncate">{task.storeName}</div>
+            <div className="text-muted-foreground text-xs">{task.district}</div>
+            <div className="text-muted-foreground text-xs">{task.checkInTime ?? "—"}</div>
+            <div>
+              <span className={`text-[10px] font-semibold px-2 py-1 rounded-full ${s.color}`}>
+                {s.label}
+              </span>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── Shared primitives ────────────────────────────────────────────────────────
 
 function PhaseSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (

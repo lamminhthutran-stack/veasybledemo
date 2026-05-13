@@ -17,6 +17,7 @@ import { Route as OpsQueueRouteImport } from './routes/ops.queue'
 import { Route as OpsExecutorsRouteImport } from './routes/ops.executors'
 import { Route as OpsDashboardRouteImport } from './routes/ops.dashboard'
 import { Route as OpsCampaignsRouteImport } from './routes/ops.campaigns'
+import { Route as ExecutorTasksRouteImport } from './routes/executor.tasks'
 import { Route as ExecutorProfileRouteImport } from './routes/executor.profile'
 import { Route as ExecutorHomeRouteImport } from './routes/executor.home'
 import { Route as ExecutorBrowseRouteImport } from './routes/executor.browse'
@@ -76,6 +77,11 @@ const OpsCampaignsRoute = OpsCampaignsRouteImport.update({
   id: '/campaigns',
   path: '/campaigns',
   getParentRoute: () => OpsRoute,
+} as any)
+const ExecutorTasksRoute = ExecutorTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => ExecutorRoute,
 } as any)
 const ExecutorProfileRoute = ExecutorProfileRouteImport.update({
   id: '/profile',
@@ -186,6 +192,7 @@ export interface FileRoutesByFullPath {
   '/executor/browse': typeof ExecutorBrowseRoute
   '/executor/home': typeof ExecutorHomeRoute
   '/executor/profile': typeof ExecutorProfileRouteWithChildren
+  '/executor/tasks': typeof ExecutorTasksRoute
   '/ops/campaigns': typeof OpsCampaignsRoute
   '/ops/dashboard': typeof OpsDashboardRoute
   '/ops/executors': typeof OpsExecutorsRouteWithChildren
@@ -214,6 +221,7 @@ export interface FileRoutesByTo {
   '/executor/academy': typeof ExecutorAcademyRouteWithChildren
   '/executor/browse': typeof ExecutorBrowseRoute
   '/executor/home': typeof ExecutorHomeRoute
+  '/executor/tasks': typeof ExecutorTasksRoute
   '/ops/campaigns': typeof OpsCampaignsRoute
   '/ops/dashboard': typeof OpsDashboardRoute
   '/executor/academy/complete': typeof ExecutorAcademyCompleteRoute
@@ -241,6 +249,7 @@ export interface FileRoutesById {
   '/executor/browse': typeof ExecutorBrowseRoute
   '/executor/home': typeof ExecutorHomeRoute
   '/executor/profile': typeof ExecutorProfileRouteWithChildren
+  '/executor/tasks': typeof ExecutorTasksRoute
   '/ops/campaigns': typeof OpsCampaignsRoute
   '/ops/dashboard': typeof OpsDashboardRoute
   '/ops/executors': typeof OpsExecutorsRouteWithChildren
@@ -272,6 +281,7 @@ export interface FileRouteTypes {
     | '/executor/browse'
     | '/executor/home'
     | '/executor/profile'
+    | '/executor/tasks'
     | '/ops/campaigns'
     | '/ops/dashboard'
     | '/ops/executors'
@@ -300,6 +310,7 @@ export interface FileRouteTypes {
     | '/executor/academy'
     | '/executor/browse'
     | '/executor/home'
+    | '/executor/tasks'
     | '/ops/campaigns'
     | '/ops/dashboard'
     | '/executor/academy/complete'
@@ -326,6 +337,7 @@ export interface FileRouteTypes {
     | '/executor/browse'
     | '/executor/home'
     | '/executor/profile'
+    | '/executor/tasks'
     | '/ops/campaigns'
     | '/ops/dashboard'
     | '/ops/executors'
@@ -411,6 +423,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/ops/campaigns'
       preLoaderRoute: typeof OpsCampaignsRouteImport
       parentRoute: typeof OpsRoute
+    }
+    '/executor/tasks': {
+      id: '/executor/tasks'
+      path: '/tasks'
+      fullPath: '/executor/tasks'
+      preLoaderRoute: typeof ExecutorTasksRouteImport
+      parentRoute: typeof ExecutorRoute
     }
     '/executor/profile': {
       id: '/executor/profile'
@@ -603,6 +622,7 @@ interface ExecutorRouteChildren {
   ExecutorBrowseRoute: typeof ExecutorBrowseRoute
   ExecutorHomeRoute: typeof ExecutorHomeRoute
   ExecutorProfileRoute: typeof ExecutorProfileRouteWithChildren
+  ExecutorTasksRoute: typeof ExecutorTasksRoute
   ExecutorTaskIdRoute: typeof ExecutorTaskIdRouteWithChildren
 }
 
@@ -611,6 +631,7 @@ const ExecutorRouteChildren: ExecutorRouteChildren = {
   ExecutorBrowseRoute: ExecutorBrowseRoute,
   ExecutorHomeRoute: ExecutorHomeRoute,
   ExecutorProfileRoute: ExecutorProfileRouteWithChildren,
+  ExecutorTasksRoute: ExecutorTasksRoute,
   ExecutorTaskIdRoute: ExecutorTaskIdRouteWithChildren,
 }
 

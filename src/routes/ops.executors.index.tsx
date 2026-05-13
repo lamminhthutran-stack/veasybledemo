@@ -7,10 +7,12 @@ export const Route = createFileRoute("/ops/executors/")({
   component: Network,
 });
 
-const statusBadge = (s: string) =>
-  s === "Active" ? "badge badge-success" :
-  s === "Warning" ? "badge badge-warning" :
-  s === "Suspended" ? "badge badge-danger" : "badge badge-gray";
+function getRatingStatus(rating: number) {
+  if (rating >= 4.0) return { label: "Healthy", color: "bg-green-50 text-green-700" };
+  if (rating >= 3.5) return { label: "Warning", color: "bg-yellow-50 text-yellow-700" };
+  if (rating >= 3.0) return { label: "At Risk", color: "bg-orange-50 text-orange-700" };
+  return { label: "Suspended", color: "bg-red-50 text-red-700" };
+}
 
 function Network() {
   return (
@@ -55,7 +57,15 @@ function Network() {
             <div>{u.city}</div>
             <div>{u.rating} ★</div>
             <div>{u.tasks}</div>
-            <div><span className={statusBadge(u.status)}>{u.status}</span></div>
+            <div>
+                {u.status === "Dormant" ? (
+                  <span className="text-[10px] font-semibold px-2 py-1 rounded-full bg-gray-100 text-gray-500">Dormant</span>
+                ) : (
+                  <span className={`text-[10px] font-semibold px-2 py-1 rounded-full ${getRatingStatus(u.rating).color}`}>
+                    {getRatingStatus(u.rating).label}
+                  </span>
+                )}
+              </div>
           </Link>
         ))}
       </div>
