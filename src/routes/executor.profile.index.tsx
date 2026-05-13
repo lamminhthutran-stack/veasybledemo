@@ -1,6 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { executor, tasks } from "@/lib/mock-data";
-import { getDeclinedTaskIds, restoreTask } from "@/lib/task-state";
+import {
+  findTask,
+  getDeclinedTaskIds,
+  getTaskHistory,
+  isTaskExpired,
+  restoreTask,
+  type TaskHistoryEntry,
+} from "@/lib/task-state";
 import { Clock, MapPin, RotateCcw, Star } from "lucide-react";
 import { Fragment, useState } from "react";
 
@@ -13,9 +20,10 @@ const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 function ExecutorProfile() {
   const [declinedTaskIds, setDeclinedTaskIds] = useState(() => getDeclinedTaskIds());
+  const [history] = useState(() => getTaskHistory());
   const declinedTasks = tasks.filter((task) => declinedTaskIds.includes(task.id));
 
-  const restoreDeclinedTask = (taskId: string) => {
+  const unhideDeclinedTask = (taskId: string) => {
     restoreTask(taskId);
     setDeclinedTaskIds(getDeclinedTaskIds());
   };
@@ -72,49 +80,51 @@ function ExecutorProfile() {
       </section>
 
       <section>
-        <h2 className="font-semibold mb-2">Đã từ chối</h2>
-        <div className="bg-card border border-border rounded-xl divide-y divide-border overflow-hidden">
-          {declinedTasks.length ? (
-            declinedTasks.map((task) => (
-              <div key={task.id} className="p-4 text-sm">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <div className="font-semibold leading-tight">{task.campaign}</div>
-                    <div className="mt-1 space-y-1 text-xs text-muted-foreground">
-                      <div className="flex items-center gap-1.5"><MapPin className="w-3 h-3" />{task.store}</div>
-                      <div className="flex items-center gap-1.5"><Clock className="w-3 h-3" />{task.date} · {task.time}</div>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => restoreDeclinedTask(task.id)}
-                    className="inline-flex shrink-0 items-center gap-1 rounded-md border border-border px-2.5 py-1.5 text-xs font-medium text-muted-foreground"
-                  >
-                    <RotateCcw className="w-3 h-3" />
-                    Restore
-                  </button>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="px-4 py-5 text-center text-sm text-muted-foreground">No declined tasks.</div>
+        <h2 className="font-semibold mb-2">Lịch sử</h2>
+        <div className="space-y-3">
+          {history.map((entry) => (
+            <HistoryCard key={`${entry.taskId}-${entry.completedAt}`} entry={entry} />
+          ))}
+          {!history.length && (
+            <div className="rounded-xl border border-dashed border-border bg-surface px-4 py-6 text-center text-sm text-muted-foreground">
+              No completed task history yet.
+            </div>
           )}
         </div>
       </section>
 
       <section>
-        <h2 className="font-semibold mb-2">Task History</h2>
-        <div className="bg-card border border-border rounded-xl divide-y divide-border">
-          {[
-            { name: "Pepsi Tết Push", status: "Completed", color: "badge-success" },
-            { name: "Vinamilk Demo", status: "Completed", color: "badge-success" },
-            { name: "TH True Milk POSM", status: "Cancelled", color: "badge-gray" },
-          ].map((h) => (
-            <div key={h.name} className="flex items-center justify-between px-4 py-3 text-sm">
-              <span>{h.name}</span>
-              <span className={`badge ${h.color}`}>{h.status}</span>
-            </div>
-          ))}
+        <h2 className="font-semibold mb-2">Đã từ chối</h2>
+        <div className="bg-card border border-border rounded-xl divide-y divide-border overflow-hidden">
+          {declinedTasks.length ? (
+            declinedTasks.map((task) => {
+              const expired = isTaskExpired(task);
+              return (
+                <div key={task.id} className="p-4 text-sm">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="font-semibold leading-tight">{task.campaign}</div>
+                      <div className="mt-1 space-y-1 text-xs text-muted-foreground">
+                        <div className="flex items-center gap-1.5"><MapPin className="w-3 h-3" />{task.store}</div>
+                        <div className="flex items-center gap-1.5"><Clock className="w-3 h-3" />{task.date} · {task.time}</div>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      disabled={expired}
+                      onClick={() => unhideDeclinedTask(task.id)}
+                      className="inline-flex shrink-0 items-center gap-1 rounded-md border border-border px-2.5 py-1.5 text-xs font-medium text-muted-foreground disabled:opacity-40"
+                    >
+                      <RotateCcw className="w-3 h-3" />
+                      {expired ? "Expired" : "Unhide"}
+                    </button>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div className="px-4 py-5 text-center text-sm text-muted-foreground">No declined tasks.</div>
+          )}
         </div>
       </section>
 
@@ -129,4 +139,51 @@ function ExecutorProfile() {
       </section>
     </div>
   );
+}
+
+function HistoryCard({ entry }: { entry: TaskHistoryEntry }) {
+  const task = findTask(entry.taskId);
+  const status = getStatusDisplay(entry.status);
+
+  if (!task) return null;
+
+  return (
+    <div className="bg-card border border-border rounded-xl p-4 shadow-sm">
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <div className="font-semibold text-sm leading-tight">{task.campaign}</div>
+          <div className="text-xs text-muted-foreground mt-0.5">{task.brand}</div>
+        </div>
+        <span className={status.className}>{status.label}</span>
+      </div>
+      <div className="mt-3 space-y-1 text-xs text-muted-foreground">
+        <div className="flex items-center gap-1.5"><MapPin className="w-3 h-3" />{task.store}</div>
+        <div className="flex items-center gap-1.5"><Clock className="w-3 h-3" />Completed {formatDate(entry.completedAt)}</div>
+      </div>
+      <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
+        <div className="rounded-lg bg-surface px-3 py-2">
+          <div className="text-muted-foreground">Pay received</div>
+          <div className="font-semibold text-orange">{entry.payReceived}</div>
+        </div>
+        <div className="rounded-lg bg-surface px-3 py-2">
+          <div className="text-muted-foreground">Rating</div>
+          <div className="font-semibold">{entry.rating > 0 ? "★".repeat(entry.rating) : "No rating"}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function getStatusDisplay(status: TaskHistoryEntry["status"]) {
+  if (status === "completed") return { label: "Completed ✓", className: "badge badge-success" };
+  if (status === "rejected") return { label: "Rejected ✗", className: "badge badge-danger" };
+  return { label: "Cancelled", className: "badge badge-gray" };
+}
+
+function formatDate(value: string) {
+  return new Date(value).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
 }
