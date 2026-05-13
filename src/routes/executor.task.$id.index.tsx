@@ -26,12 +26,21 @@ function TaskDetail() {
             <MapPin className="w-4 h-4 mr-1" /> Map preview
           </div>
         </div>
-        <button
-          onClick={() => nav({ to: "/executor/home" })}
-          className="bg-orange text-orange-foreground font-semibold rounded-md py-3 mt-auto"
-        >
-          Got it
-        </button>
+        <div className="mt-auto space-y-2">
+          <Link
+            to="/executor/task/$id/pre-execute"
+            params={{ id: t.id }}
+            className="block text-center bg-orange text-orange-foreground font-semibold rounded-md py-3"
+          >
+            Start Day-of Flow
+          </Link>
+          <button
+            onClick={() => nav({ to: "/executor/home" })}
+            className="w-full border border-border rounded-md py-3 text-sm"
+          >
+            Back to Home
+          </button>
+        </div>
       </div>
     );
   }

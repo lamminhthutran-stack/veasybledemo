@@ -9,38 +9,289 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as OpsRouteImport } from './routes/ops'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as ExecutorRouteImport } from './routes/executor'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as OpsQueueRouteImport } from './routes/ops.queue'
+import { Route as OpsExecutorsRouteImport } from './routes/ops.executors'
+import { Route as OpsDashboardRouteImport } from './routes/ops.dashboard'
+import { Route as OpsCampaignsRouteImport } from './routes/ops.campaigns'
+import { Route as ExecutorProfileRouteImport } from './routes/executor.profile'
+import { Route as ExecutorHomeRouteImport } from './routes/executor.home'
+import { Route as ExecutorBrowseRouteImport } from './routes/executor.browse'
+import { Route as OpsQueueIndexRouteImport } from './routes/ops.queue.index'
+import { Route as OpsExecutorsIndexRouteImport } from './routes/ops.executors.index'
+import { Route as OpsExecutorsIdRouteImport } from './routes/ops.executors.$id'
+import { Route as ExecutorTaskIdRouteImport } from './routes/executor.task.$id'
+import { Route as ExecutorTaskIdIndexRouteImport } from './routes/executor.task.$id.index'
+import { Route as OpsQueueApplicationIdRouteImport } from './routes/ops.queue.application.$id'
+import { Route as ExecutorTaskIdSubmittedRouteImport } from './routes/executor.task.$id.submitted'
+import { Route as ExecutorTaskIdPreExecuteRouteImport } from './routes/executor.task.$id.pre-execute'
+import { Route as ExecutorTaskIdOnsiteRouteImport } from './routes/executor.task.$id.onsite'
 
+const OpsRoute = OpsRouteImport.update({
+  id: '/ops',
+  path: '/ops',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExecutorRoute = ExecutorRouteImport.update({
+  id: '/executor',
+  path: '/executor',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OpsQueueRoute = OpsQueueRouteImport.update({
+  id: '/queue',
+  path: '/queue',
+  getParentRoute: () => OpsRoute,
+} as any)
+const OpsExecutorsRoute = OpsExecutorsRouteImport.update({
+  id: '/executors',
+  path: '/executors',
+  getParentRoute: () => OpsRoute,
+} as any)
+const OpsDashboardRoute = OpsDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => OpsRoute,
+} as any)
+const OpsCampaignsRoute = OpsCampaignsRouteImport.update({
+  id: '/campaigns',
+  path: '/campaigns',
+  getParentRoute: () => OpsRoute,
+} as any)
+const ExecutorProfileRoute = ExecutorProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => ExecutorRoute,
+} as any)
+const ExecutorHomeRoute = ExecutorHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => ExecutorRoute,
+} as any)
+const ExecutorBrowseRoute = ExecutorBrowseRouteImport.update({
+  id: '/browse',
+  path: '/browse',
+  getParentRoute: () => ExecutorRoute,
+} as any)
+const OpsQueueIndexRoute = OpsQueueIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => OpsQueueRoute,
+} as any)
+const OpsExecutorsIndexRoute = OpsExecutorsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => OpsExecutorsRoute,
+} as any)
+const OpsExecutorsIdRoute = OpsExecutorsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => OpsExecutorsRoute,
+} as any)
+const ExecutorTaskIdRoute = ExecutorTaskIdRouteImport.update({
+  id: '/task/$id',
+  path: '/task/$id',
+  getParentRoute: () => ExecutorRoute,
+} as any)
+const ExecutorTaskIdIndexRoute = ExecutorTaskIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ExecutorTaskIdRoute,
+} as any)
+const OpsQueueApplicationIdRoute = OpsQueueApplicationIdRouteImport.update({
+  id: '/application/$id',
+  path: '/application/$id',
+  getParentRoute: () => OpsQueueRoute,
+} as any)
+const ExecutorTaskIdSubmittedRoute = ExecutorTaskIdSubmittedRouteImport.update({
+  id: '/submitted',
+  path: '/submitted',
+  getParentRoute: () => ExecutorTaskIdRoute,
+} as any)
+const ExecutorTaskIdPreExecuteRoute =
+  ExecutorTaskIdPreExecuteRouteImport.update({
+    id: '/pre-execute',
+    path: '/pre-execute',
+    getParentRoute: () => ExecutorTaskIdRoute,
+  } as any)
+const ExecutorTaskIdOnsiteRoute = ExecutorTaskIdOnsiteRouteImport.update({
+  id: '/onsite',
+  path: '/onsite',
+  getParentRoute: () => ExecutorTaskIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/executor': typeof ExecutorRouteWithChildren
+  '/login': typeof LoginRoute
+  '/ops': typeof OpsRouteWithChildren
+  '/executor/browse': typeof ExecutorBrowseRoute
+  '/executor/home': typeof ExecutorHomeRoute
+  '/executor/profile': typeof ExecutorProfileRoute
+  '/ops/campaigns': typeof OpsCampaignsRoute
+  '/ops/dashboard': typeof OpsDashboardRoute
+  '/ops/executors': typeof OpsExecutorsRouteWithChildren
+  '/ops/queue': typeof OpsQueueRouteWithChildren
+  '/executor/task/$id': typeof ExecutorTaskIdRouteWithChildren
+  '/ops/executors/$id': typeof OpsExecutorsIdRoute
+  '/ops/executors/': typeof OpsExecutorsIndexRoute
+  '/ops/queue/': typeof OpsQueueIndexRoute
+  '/executor/task/$id/onsite': typeof ExecutorTaskIdOnsiteRoute
+  '/executor/task/$id/pre-execute': typeof ExecutorTaskIdPreExecuteRoute
+  '/executor/task/$id/submitted': typeof ExecutorTaskIdSubmittedRoute
+  '/ops/queue/application/$id': typeof OpsQueueApplicationIdRoute
+  '/executor/task/$id/': typeof ExecutorTaskIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/executor': typeof ExecutorRouteWithChildren
+  '/login': typeof LoginRoute
+  '/ops': typeof OpsRouteWithChildren
+  '/executor/browse': typeof ExecutorBrowseRoute
+  '/executor/home': typeof ExecutorHomeRoute
+  '/executor/profile': typeof ExecutorProfileRoute
+  '/ops/campaigns': typeof OpsCampaignsRoute
+  '/ops/dashboard': typeof OpsDashboardRoute
+  '/ops/executors/$id': typeof OpsExecutorsIdRoute
+  '/ops/executors': typeof OpsExecutorsIndexRoute
+  '/ops/queue': typeof OpsQueueIndexRoute
+  '/executor/task/$id/onsite': typeof ExecutorTaskIdOnsiteRoute
+  '/executor/task/$id/pre-execute': typeof ExecutorTaskIdPreExecuteRoute
+  '/executor/task/$id/submitted': typeof ExecutorTaskIdSubmittedRoute
+  '/ops/queue/application/$id': typeof OpsQueueApplicationIdRoute
+  '/executor/task/$id': typeof ExecutorTaskIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/executor': typeof ExecutorRouteWithChildren
+  '/login': typeof LoginRoute
+  '/ops': typeof OpsRouteWithChildren
+  '/executor/browse': typeof ExecutorBrowseRoute
+  '/executor/home': typeof ExecutorHomeRoute
+  '/executor/profile': typeof ExecutorProfileRoute
+  '/ops/campaigns': typeof OpsCampaignsRoute
+  '/ops/dashboard': typeof OpsDashboardRoute
+  '/ops/executors': typeof OpsExecutorsRouteWithChildren
+  '/ops/queue': typeof OpsQueueRouteWithChildren
+  '/executor/task/$id': typeof ExecutorTaskIdRouteWithChildren
+  '/ops/executors/$id': typeof OpsExecutorsIdRoute
+  '/ops/executors/': typeof OpsExecutorsIndexRoute
+  '/ops/queue/': typeof OpsQueueIndexRoute
+  '/executor/task/$id/onsite': typeof ExecutorTaskIdOnsiteRoute
+  '/executor/task/$id/pre-execute': typeof ExecutorTaskIdPreExecuteRoute
+  '/executor/task/$id/submitted': typeof ExecutorTaskIdSubmittedRoute
+  '/ops/queue/application/$id': typeof OpsQueueApplicationIdRoute
+  '/executor/task/$id/': typeof ExecutorTaskIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/executor'
+    | '/login'
+    | '/ops'
+    | '/executor/browse'
+    | '/executor/home'
+    | '/executor/profile'
+    | '/ops/campaigns'
+    | '/ops/dashboard'
+    | '/ops/executors'
+    | '/ops/queue'
+    | '/executor/task/$id'
+    | '/ops/executors/$id'
+    | '/ops/executors/'
+    | '/ops/queue/'
+    | '/executor/task/$id/onsite'
+    | '/executor/task/$id/pre-execute'
+    | '/executor/task/$id/submitted'
+    | '/ops/queue/application/$id'
+    | '/executor/task/$id/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/executor'
+    | '/login'
+    | '/ops'
+    | '/executor/browse'
+    | '/executor/home'
+    | '/executor/profile'
+    | '/ops/campaigns'
+    | '/ops/dashboard'
+    | '/ops/executors/$id'
+    | '/ops/executors'
+    | '/ops/queue'
+    | '/executor/task/$id/onsite'
+    | '/executor/task/$id/pre-execute'
+    | '/executor/task/$id/submitted'
+    | '/ops/queue/application/$id'
+    | '/executor/task/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/executor'
+    | '/login'
+    | '/ops'
+    | '/executor/browse'
+    | '/executor/home'
+    | '/executor/profile'
+    | '/ops/campaigns'
+    | '/ops/dashboard'
+    | '/ops/executors'
+    | '/ops/queue'
+    | '/executor/task/$id'
+    | '/ops/executors/$id'
+    | '/ops/executors/'
+    | '/ops/queue/'
+    | '/executor/task/$id/onsite'
+    | '/executor/task/$id/pre-execute'
+    | '/executor/task/$id/submitted'
+    | '/ops/queue/application/$id'
+    | '/executor/task/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ExecutorRoute: typeof ExecutorRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  OpsRoute: typeof OpsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/ops': {
+      id: '/ops'
+      path: '/ops'
+      fullPath: '/ops'
+      preLoaderRoute: typeof OpsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/executor': {
+      id: '/executor'
+      path: '/executor'
+      fullPath: '/executor'
+      preLoaderRoute: typeof ExecutorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +299,206 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ops/queue': {
+      id: '/ops/queue'
+      path: '/queue'
+      fullPath: '/ops/queue'
+      preLoaderRoute: typeof OpsQueueRouteImport
+      parentRoute: typeof OpsRoute
+    }
+    '/ops/executors': {
+      id: '/ops/executors'
+      path: '/executors'
+      fullPath: '/ops/executors'
+      preLoaderRoute: typeof OpsExecutorsRouteImport
+      parentRoute: typeof OpsRoute
+    }
+    '/ops/dashboard': {
+      id: '/ops/dashboard'
+      path: '/dashboard'
+      fullPath: '/ops/dashboard'
+      preLoaderRoute: typeof OpsDashboardRouteImport
+      parentRoute: typeof OpsRoute
+    }
+    '/ops/campaigns': {
+      id: '/ops/campaigns'
+      path: '/campaigns'
+      fullPath: '/ops/campaigns'
+      preLoaderRoute: typeof OpsCampaignsRouteImport
+      parentRoute: typeof OpsRoute
+    }
+    '/executor/profile': {
+      id: '/executor/profile'
+      path: '/profile'
+      fullPath: '/executor/profile'
+      preLoaderRoute: typeof ExecutorProfileRouteImport
+      parentRoute: typeof ExecutorRoute
+    }
+    '/executor/home': {
+      id: '/executor/home'
+      path: '/home'
+      fullPath: '/executor/home'
+      preLoaderRoute: typeof ExecutorHomeRouteImport
+      parentRoute: typeof ExecutorRoute
+    }
+    '/executor/browse': {
+      id: '/executor/browse'
+      path: '/browse'
+      fullPath: '/executor/browse'
+      preLoaderRoute: typeof ExecutorBrowseRouteImport
+      parentRoute: typeof ExecutorRoute
+    }
+    '/ops/queue/': {
+      id: '/ops/queue/'
+      path: '/'
+      fullPath: '/ops/queue/'
+      preLoaderRoute: typeof OpsQueueIndexRouteImport
+      parentRoute: typeof OpsQueueRoute
+    }
+    '/ops/executors/': {
+      id: '/ops/executors/'
+      path: '/'
+      fullPath: '/ops/executors/'
+      preLoaderRoute: typeof OpsExecutorsIndexRouteImport
+      parentRoute: typeof OpsExecutorsRoute
+    }
+    '/ops/executors/$id': {
+      id: '/ops/executors/$id'
+      path: '/$id'
+      fullPath: '/ops/executors/$id'
+      preLoaderRoute: typeof OpsExecutorsIdRouteImport
+      parentRoute: typeof OpsExecutorsRoute
+    }
+    '/executor/task/$id': {
+      id: '/executor/task/$id'
+      path: '/task/$id'
+      fullPath: '/executor/task/$id'
+      preLoaderRoute: typeof ExecutorTaskIdRouteImport
+      parentRoute: typeof ExecutorRoute
+    }
+    '/executor/task/$id/': {
+      id: '/executor/task/$id/'
+      path: '/'
+      fullPath: '/executor/task/$id/'
+      preLoaderRoute: typeof ExecutorTaskIdIndexRouteImport
+      parentRoute: typeof ExecutorTaskIdRoute
+    }
+    '/ops/queue/application/$id': {
+      id: '/ops/queue/application/$id'
+      path: '/application/$id'
+      fullPath: '/ops/queue/application/$id'
+      preLoaderRoute: typeof OpsQueueApplicationIdRouteImport
+      parentRoute: typeof OpsQueueRoute
+    }
+    '/executor/task/$id/submitted': {
+      id: '/executor/task/$id/submitted'
+      path: '/submitted'
+      fullPath: '/executor/task/$id/submitted'
+      preLoaderRoute: typeof ExecutorTaskIdSubmittedRouteImport
+      parentRoute: typeof ExecutorTaskIdRoute
+    }
+    '/executor/task/$id/pre-execute': {
+      id: '/executor/task/$id/pre-execute'
+      path: '/pre-execute'
+      fullPath: '/executor/task/$id/pre-execute'
+      preLoaderRoute: typeof ExecutorTaskIdPreExecuteRouteImport
+      parentRoute: typeof ExecutorTaskIdRoute
+    }
+    '/executor/task/$id/onsite': {
+      id: '/executor/task/$id/onsite'
+      path: '/onsite'
+      fullPath: '/executor/task/$id/onsite'
+      preLoaderRoute: typeof ExecutorTaskIdOnsiteRouteImport
+      parentRoute: typeof ExecutorTaskIdRoute
+    }
   }
 }
 
+interface ExecutorTaskIdRouteChildren {
+  ExecutorTaskIdOnsiteRoute: typeof ExecutorTaskIdOnsiteRoute
+  ExecutorTaskIdPreExecuteRoute: typeof ExecutorTaskIdPreExecuteRoute
+  ExecutorTaskIdSubmittedRoute: typeof ExecutorTaskIdSubmittedRoute
+  ExecutorTaskIdIndexRoute: typeof ExecutorTaskIdIndexRoute
+}
+
+const ExecutorTaskIdRouteChildren: ExecutorTaskIdRouteChildren = {
+  ExecutorTaskIdOnsiteRoute: ExecutorTaskIdOnsiteRoute,
+  ExecutorTaskIdPreExecuteRoute: ExecutorTaskIdPreExecuteRoute,
+  ExecutorTaskIdSubmittedRoute: ExecutorTaskIdSubmittedRoute,
+  ExecutorTaskIdIndexRoute: ExecutorTaskIdIndexRoute,
+}
+
+const ExecutorTaskIdRouteWithChildren = ExecutorTaskIdRoute._addFileChildren(
+  ExecutorTaskIdRouteChildren,
+)
+
+interface ExecutorRouteChildren {
+  ExecutorBrowseRoute: typeof ExecutorBrowseRoute
+  ExecutorHomeRoute: typeof ExecutorHomeRoute
+  ExecutorProfileRoute: typeof ExecutorProfileRoute
+  ExecutorTaskIdRoute: typeof ExecutorTaskIdRouteWithChildren
+}
+
+const ExecutorRouteChildren: ExecutorRouteChildren = {
+  ExecutorBrowseRoute: ExecutorBrowseRoute,
+  ExecutorHomeRoute: ExecutorHomeRoute,
+  ExecutorProfileRoute: ExecutorProfileRoute,
+  ExecutorTaskIdRoute: ExecutorTaskIdRouteWithChildren,
+}
+
+const ExecutorRouteWithChildren = ExecutorRoute._addFileChildren(
+  ExecutorRouteChildren,
+)
+
+interface OpsExecutorsRouteChildren {
+  OpsExecutorsIdRoute: typeof OpsExecutorsIdRoute
+  OpsExecutorsIndexRoute: typeof OpsExecutorsIndexRoute
+}
+
+const OpsExecutorsRouteChildren: OpsExecutorsRouteChildren = {
+  OpsExecutorsIdRoute: OpsExecutorsIdRoute,
+  OpsExecutorsIndexRoute: OpsExecutorsIndexRoute,
+}
+
+const OpsExecutorsRouteWithChildren = OpsExecutorsRoute._addFileChildren(
+  OpsExecutorsRouteChildren,
+)
+
+interface OpsQueueRouteChildren {
+  OpsQueueIndexRoute: typeof OpsQueueIndexRoute
+  OpsQueueApplicationIdRoute: typeof OpsQueueApplicationIdRoute
+}
+
+const OpsQueueRouteChildren: OpsQueueRouteChildren = {
+  OpsQueueIndexRoute: OpsQueueIndexRoute,
+  OpsQueueApplicationIdRoute: OpsQueueApplicationIdRoute,
+}
+
+const OpsQueueRouteWithChildren = OpsQueueRoute._addFileChildren(
+  OpsQueueRouteChildren,
+)
+
+interface OpsRouteChildren {
+  OpsCampaignsRoute: typeof OpsCampaignsRoute
+  OpsDashboardRoute: typeof OpsDashboardRoute
+  OpsExecutorsRoute: typeof OpsExecutorsRouteWithChildren
+  OpsQueueRoute: typeof OpsQueueRouteWithChildren
+}
+
+const OpsRouteChildren: OpsRouteChildren = {
+  OpsCampaignsRoute: OpsCampaignsRoute,
+  OpsDashboardRoute: OpsDashboardRoute,
+  OpsExecutorsRoute: OpsExecutorsRouteWithChildren,
+  OpsQueueRoute: OpsQueueRouteWithChildren,
+}
+
+const OpsRouteWithChildren = OpsRoute._addFileChildren(OpsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ExecutorRoute: ExecutorRouteWithChildren,
+  LoginRoute: LoginRoute,
+  OpsRoute: OpsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

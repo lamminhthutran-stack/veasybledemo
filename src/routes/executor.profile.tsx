@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { executor } from "@/lib/mock-data";
 import { Star } from "lucide-react";
+import { Fragment } from "react";
 
 export const Route = createFileRoute("/executor/profile")({
   component: ExecutorProfile,
@@ -44,8 +45,8 @@ function ExecutorProfile() {
             <div></div>
             {days.map((d) => <div key={d} className="text-center font-semibold">{d}</div>)}
             {slots.map((slot) => (
-              <>
-                <div key={slot} className="text-muted-foreground py-1">{slot}</div>
+              <Fragment key={slot}>
+                <div className="text-muted-foreground py-1">{slot}</div>
                 {days.map((d) => {
                   const on = (d.length + slot.length) % 2 === 0;
                   return (
@@ -55,7 +56,7 @@ function ExecutorProfile() {
                     />
                   );
                 })}
-              </>
+              </Fragment>
             ))}
           </div>
         </div>
