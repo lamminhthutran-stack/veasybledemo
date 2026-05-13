@@ -9,13 +9,13 @@ export const Route = createFileRoute("/executor/home")({
 });
 
 type HomeTab = "my" | "browse";
-type TaskStatus = "Upcoming" | "In Progress" | "Completed";
+type TaskStatus = "Upcoming" | "In Progress";
 type AcceptedTask = Task & { status: TaskStatus };
 
-const acceptedTaskIds = ["t-001", "t-002", "t-003"];
+const acceptedTaskIds = ["t-001", "t-002"];
 const acceptedTasks: AcceptedTask[] = acceptedTaskIds.map((id, index) => ({
   ...(tasks.find((task) => task.id === id) ?? tasks[index]),
-  status: (["Upcoming", "In Progress", "Completed"] as TaskStatus[])[index],
+  status: (["Upcoming", "In Progress"] as TaskStatus[])[index],
 }));
 
 function ExecutorHome() {
@@ -128,12 +128,7 @@ function FilterSelect({ icon, label, options }: { icon: React.ReactNode; label: 
 }
 
 function MyTaskCard({ task }: { task: AcceptedTask }) {
-  const statusClass =
-    task.status === "Completed"
-      ? "badge badge-success"
-      : task.status === "In Progress"
-        ? "badge badge-orange"
-        : "badge";
+  const statusClass = task.status === "In Progress" ? "badge badge-orange" : "badge";
 
   return (
     <Link
