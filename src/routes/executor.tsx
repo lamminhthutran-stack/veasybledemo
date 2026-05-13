@@ -8,6 +8,7 @@ export const Route = createFileRoute("/executor")({
     const requiresAcademy =
       location.pathname === "/executor/home" ||
       location.pathname === "/executor/browse" ||
+      location.pathname === "/executor/tasks" ||
       location.pathname.startsWith("/executor/task");
 
     if (requiresAcademy && !isAcademyComplete()) {
@@ -46,7 +47,7 @@ function ExecutorLayout() {
         {!hideChrome && (
           <nav className="fixed bottom-0 left-0 right-0 mx-auto max-w-[390px] bg-background border-t border-border flex">
             <NavItem to="/executor/home" icon={<Home className="w-5 h-5" />} label="Home" />
-            <NavItem to="/executor/browse" icon={<ListChecks className="w-5 h-5" />} label="Tasks" />
+            <NavItem to="/executor/tasks" icon={<ListChecks className="w-5 h-5" />} label="Tasks" />
             <NavItem to="/executor/profile" icon={<User className="w-5 h-5" />} label="Profile" />
           </nav>
         )}
