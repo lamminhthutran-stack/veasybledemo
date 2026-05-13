@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { executor } from "@/lib/mock-data";
-import { Star } from "lucide-react";
-import { Fragment } from "react";
+import { executor, tasks } from "@/lib/mock-data";
+import { getDeclinedTaskIds, restoreTask } from "@/lib/task-state";
+import { Clock, MapPin, RotateCcw, Star } from "lucide-react";
+import { Fragment, useState } from "react";
 
 export const Route = createFileRoute("/executor/profile/")({
   component: ExecutorProfile,
@@ -11,6 +12,14 @@ const slots = ["Morning", "Afternoon", "Evening"];
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 function ExecutorProfile() {
+  const [declinedTaskIds, setDeclinedTaskIds] = useState(() => getDeclinedTaskIds());
+  const declinedTasks = tasks.filter((task) => declinedTaskIds.includes(task.id));
+
+  const restoreDeclinedTask = (taskId: string) => {
+    restoreTask(taskId);
+    setDeclinedTaskIds(getDeclinedTaskIds());
+  };
+
   return (
     <div className="px-4 py-5 space-y-5">
       <div className="flex items-center gap-3">
@@ -59,6 +68,37 @@ function ExecutorProfile() {
               </Fragment>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 className="font-semibold mb-2">Đã từ chối</h2>
+        <div className="bg-card border border-border rounded-xl divide-y divide-border overflow-hidden">
+          {declinedTasks.length ? (
+            declinedTasks.map((task) => (
+              <div key={task.id} className="p-4 text-sm">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="font-semibold leading-tight">{task.campaign}</div>
+                    <div className="mt-1 space-y-1 text-xs text-muted-foreground">
+                      <div className="flex items-center gap-1.5"><MapPin className="w-3 h-3" />{task.store}</div>
+                      <div className="flex items-center gap-1.5"><Clock className="w-3 h-3" />{task.date} · {task.time}</div>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => restoreDeclinedTask(task.id)}
+                    className="inline-flex shrink-0 items-center gap-1 rounded-md border border-border px-2.5 py-1.5 text-xs font-medium text-muted-foreground"
+                  >
+                    <RotateCcw className="w-3 h-3" />
+                    Restore
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="px-4 py-5 text-center text-sm text-muted-foreground">No declined tasks.</div>
+          )}
         </div>
       </section>
 
