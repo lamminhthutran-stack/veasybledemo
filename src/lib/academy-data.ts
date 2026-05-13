@@ -1,4 +1,6 @@
-import { Megaphone, MapPin, Camera, Shield, type LucideIcon } from "lucide-react";
+import { Megaphone, MapPin, Camera, Shield } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
 
 export type QuizQuestion = {
   q: string;

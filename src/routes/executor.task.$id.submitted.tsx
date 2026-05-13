@@ -1,8 +1,9 @@
+import { CheckCircle2 } from "lucide-react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { tasks } from "@/lib/mock-data";
 import { completeTask } from "@/lib/task-state";
-import { CheckCircle2 } from "lucide-react";
 import { useEffect } from "react";
+
 
 export const Route = createFileRoute("/executor/task/$id/submitted")({
   component: Submitted,

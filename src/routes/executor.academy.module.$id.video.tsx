@@ -1,6 +1,7 @@
+import { Play } from "lucide-react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { getModule } from "@/lib/academy-data";
-import { Play } from "lucide-react";
+
 
 export const Route = createFileRoute("/executor/academy/module/$id/video")({
   component: VideoLesson,

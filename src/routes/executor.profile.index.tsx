@@ -1,3 +1,4 @@
+import { Clock, MapPin, RotateCcw, Star } from "lucide-react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { executor, tasks } from "@/lib/mock-data";
 import {
@@ -8,7 +9,7 @@ import {
   restoreTask,
   type TaskHistoryEntry,
 } from "@/lib/task-state";
-import { Clock, MapPin, RotateCcw, Star } from "lucide-react";
+
 import { Fragment, useState } from "react";
 
 export const Route = createFileRoute("/executor/profile/")({

@@ -1,6 +1,7 @@
+import { GraduationCap } from "lucide-react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { avgScore, completedCount, modules } from "@/lib/academy-data";
-import { GraduationCap } from "lucide-react";
+
 
 export const Route = createFileRoute("/executor/academy/complete")({
   component: Complete,

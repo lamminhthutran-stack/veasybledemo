@@ -1,7 +1,8 @@
+import { Gear, X } from "lucide-react";
 import { createFileRoute } from "@tanstack/react-router";
 import { escalations, ops } from "@/lib/mock-data";
-import { Gear, X } from "lucide-react";
 import { useState } from "react";
+
 
 export const Route = createFileRoute("/ops/dashboard")({
   component: OpsDashboard,
@@ -51,7 +52,7 @@ const metrics = {
 function OpsDashboard() {
   const [thresholds, setThresholds] = useState(defaults);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const canEditThresholds = ops.role === "Ops Lead";
+  const canEditThresholds = ops?.role === "Ops Lead";
 
   const setThreshold = (key: ThresholdKey, value: number) => {
     setThresholds((current) => ({ ...current, [key]: value }));
@@ -152,7 +153,7 @@ function OpsDashboard() {
         <div className="bg-card border border-border rounded-xl p-5">
           <h3 className="font-semibold mb-3">Recent Escalations</h3>
           <div className="space-y-3">
-            {escalations.slice(0, 5).map((e) => (
+            {escalations && escalations.slice(0, 5).map((e) => (
               <div key={e.id} className="text-sm">
                 <div className="flex items-center justify-between gap-2">
                   <div className="font-medium truncate">{e.type}</div>

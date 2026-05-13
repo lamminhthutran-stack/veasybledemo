@@ -1,6 +1,7 @@
-import { createFileRoute, Outlet, Link } from "@tanstack/react-router";
 import { LayoutDashboard, Inbox, Users, Megaphone, Settings, Bell } from "lucide-react";
+import { createFileRoute, Outlet, Link } from "@tanstack/react-router";
 import { ops } from "@/lib/mock-data";
+
 
 export const Route = createFileRoute("/ops")({
   component: OpsLayout,
@@ -45,7 +46,7 @@ function OpsLayout() {
       <div className="flex-1 flex flex-col min-w-0">
         <header className="bg-background border-b border-border px-6 py-3 flex items-center justify-between">
           <div>
-            <div className="font-semibold text-sm">Good morning, {ops.name}</div>
+            <div className="font-semibold text-sm">Good morning, {ops?.name || "Team"}</div>
             <div className="text-xs text-muted-foreground">{new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}</div>
           </div>
           <div className="flex items-center gap-4">

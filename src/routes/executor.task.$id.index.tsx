@@ -1,8 +1,9 @@
+import { ArrowLeft, MapPin, Clock, DollarSign, Package, Phone, MessageCircle } from "lucide-react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { tasks } from "@/lib/mock-data";
 import { declineTask } from "@/lib/task-state";
-import { ArrowLeft, MapPin, Clock, DollarSign, Package, Phone, MessageCircle } from "lucide-react";
 import { useState } from "react";
+
 
 export const Route = createFileRoute("/executor/task/$id/")({
   component: TaskDetail,

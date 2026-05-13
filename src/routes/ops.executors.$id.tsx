@@ -1,6 +1,7 @@
+import { ArrowLeft } from "lucide-react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { executorsList } from "@/lib/mock-data";
-import { ArrowLeft } from "lucide-react";
+
 
 export const Route = createFileRoute("/ops/executors/$id")({
   component: ExecutorOpsView,

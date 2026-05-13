@@ -1,6 +1,7 @@
+import { Check, X } from "lucide-react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { getModule, modules, completedCount } from "@/lib/academy-data";
-import { Check, X } from "lucide-react";
+
 
 export const Route = createFileRoute("/executor/academy/module/$id/results")({
   component: Results,

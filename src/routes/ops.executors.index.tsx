@@ -1,6 +1,7 @@
+import { Download, Search } from "lucide-react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { executorsList } from "@/lib/mock-data";
-import { Download, Search } from "lucide-react";
+
 
 export const Route = createFileRoute("/ops/executors/")({
   component: Network,

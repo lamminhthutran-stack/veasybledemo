@@ -1,7 +1,8 @@
+import { ArrowLeft } from "lucide-react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { applications } from "@/lib/mock-data";
-import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
+
 
 export const Route = createFileRoute("/ops/queue/application/$id")({
   component: AppReview,

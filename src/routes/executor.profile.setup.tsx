@@ -1,6 +1,7 @@
+import { Camera, Check } from "lucide-react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Fragment, useState } from "react";
-import { Camera, Check } from "lucide-react";
+
 
 export const Route = createFileRoute("/executor/profile/setup")({
   component: ProfileSetup,

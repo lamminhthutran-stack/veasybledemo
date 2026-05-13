@@ -1,6 +1,7 @@
-import { createFileRoute, Outlet, Link, useLocation, redirect } from "@tanstack/react-router";
 import { Home, ListChecks, User, Bell } from "lucide-react";
+import { createFileRoute, Outlet, Link, useLocation, redirect } from "@tanstack/react-router";
 import { isAcademyComplete } from "@/lib/academy-data";
+
 
 export const Route = createFileRoute("/executor")({
   beforeLoad: ({ location }) => {

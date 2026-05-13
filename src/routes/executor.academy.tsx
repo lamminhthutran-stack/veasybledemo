@@ -1,6 +1,7 @@
+import { Lock, CheckCircle2, ArrowLeft } from "lucide-react";
 import { createFileRoute, Link, Outlet, useLocation } from "@tanstack/react-router";
 import { modules, getProgress, isUnlocked, completedCount } from "@/lib/academy-data";
-import { Lock, CheckCircle2, ArrowLeft } from "lucide-react";
+
 
 export const Route = createFileRoute("/executor/academy")({
   component: AcademyLayout,
