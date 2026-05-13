@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { executor, tasks, type Task } from "@/lib/mock-data";
+import { getDeclinedTaskIds } from "@/lib/task-state";
 import { MapPin, Clock, CalendarDays, Store, ChevronDown } from "lucide-react";
 import { useState } from "react";
 
@@ -11,54 +12,19 @@ type HomeTab = "my" | "browse";
 type TaskStatus = "Upcoming" | "In Progress" | "Completed";
 type AcceptedTask = Task & { status: TaskStatus };
 
-const acceptedTasks: AcceptedTask[] = [
-  { ...tasks[0], status: "Upcoming" },
-  { ...tasks[1], status: "In Progress" },
-  {
-    ...tasks[2],
-    id: "t-003-complete",
-    status: "Completed",
-    badge: "available",
-  },
-];
-
-const declinedTaskIds = ["t-002"];
-
-const browseTasks: Task[] = [
-  ...tasks,
-  {
-    id: "t-004",
-    campaign: "Unilever Perfect Store",
-    brand: "Unilever",
-    store: "WinMart Nguyen Van Linh",
-    district: "Quan 7, HCMC",
-    date: "20/05/2026",
-    time: "1:00-3:00 PM",
-    pay: "190,000 VND",
-    printStation: "Station #2",
-    printAddress: "88 Nguyen Hue, Quan 1",
-    badge: "available",
-    brief: "Install shelf talkers and verify product block visibility for personal care display.",
-  },
-  {
-    id: "t-005",
-    campaign: "Masan Pantry Reset",
-    brand: "Masan",
-    store: "Bach Hoa Xanh Go Vap",
-    district: "Go Vap, HCMC",
-    date: "22/05/2026",
-    time: "9:30-11:30 AM",
-    pay: "170,000 VND",
-    printStation: "Station #4",
-    printAddress: "19 Phan Van Tri, Go Vap",
-    badge: "outside",
-    brief: "Refresh noodle bay POSM, capture before and after photos, and submit shelf compliance proof.",
-  },
-];
+const acceptedTaskIds = ["t-001", "t-002", "t-003"];
+const acceptedTasks: AcceptedTask[] = acceptedTaskIds.map((id, index) => ({
+  ...(tasks.find((task) => task.id === id) ?? tasks[index]),
+  status: (["Upcoming", "In Progress", "Completed"] as TaskStatus[])[index],
+}));
 
 function ExecutorHome() {
   const [activeTab, setActiveTab] = useState<HomeTab>("my");
-  const availableTasks = browseTasks.filter((task) => !declinedTaskIds.includes(task.id));
+  const [declinedTaskIds] = useState(() => getDeclinedTaskIds());
+  const myTasks = acceptedTasks.filter((task) => !declinedTaskIds.includes(task.id));
+  const availableTasks = tasks.filter(
+    (task) => !acceptedTaskIds.includes(task.id) && !declinedTaskIds.includes(task.id),
+  );
 
   return (
     <div className="px-4 py-5 space-y-5">
@@ -92,9 +58,10 @@ function ExecutorHome() {
 
       {activeTab === "my" ? (
         <section className="space-y-3">
-          {acceptedTasks.map((task) => (
+          {myTasks.map((task) => (
             <MyTaskCard key={task.id} task={task} />
           ))}
+          {!myTasks.length && <EmptyState text="No committed tasks right now." />}
         </section>
       ) : (
         <section className="space-y-3">
@@ -102,6 +69,7 @@ function ExecutorHome() {
           {availableTasks.map((task) => (
             <TaskCard key={task.id} t={task} />
           ))}
+          {!availableTasks.length && <EmptyState text="No available tasks match your list." />}
         </section>
       )}
     </div>
@@ -114,6 +82,14 @@ function Stat({ label, value, sub }: { label: string; value: string; sub: string
       <div className="text-[10px] uppercase tracking-wide text-muted-foreground leading-tight">{label}</div>
       <div className="text-lg font-bold mt-0.5">{value}</div>
       <div className="text-[10px] text-muted-foreground">{sub}</div>
+    </div>
+  );
+}
+
+function EmptyState({ text }: { text: string }) {
+  return (
+    <div className="rounded-xl border border-dashed border-border bg-surface px-4 py-6 text-center text-sm text-muted-foreground">
+      {text}
     </div>
   );
 }
@@ -160,7 +136,7 @@ function MyTaskCard({ task }: { task: AcceptedTask }) {
   return (
     <Link
       to="/executor/task/$id"
-      params={{ id: task.id.replace("-complete", "") }}
+      params={{ id: task.id }}
       className="block bg-card border border-border rounded-xl p-4 shadow-sm transition hover:border-orange/50"
     >
       <div className="mb-2 flex items-start justify-between gap-2">
