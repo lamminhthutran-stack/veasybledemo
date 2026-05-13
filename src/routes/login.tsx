@@ -1,13 +1,14 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ClipboardCheck, LayoutDashboard, ArrowLeft } from "lucide-react";
+import { ClipboardCheck, LayoutDashboard, ArrowLeft, Sparkles } from "lucide-react";
+import { resetProgress } from "@/lib/academy-data";
 
 export const Route = createFileRoute("/login")({
   head: () => ({ meta: [{ title: "Login — Veasyble" }] }),
   component: LoginPage,
 });
 
-type Role = "executor" | "ops" | null;
+type Role = "new" | "executor" | "ops" | null;
 
 function LoginPage() {
   const [role, setRole] = useState<Role>(null);
@@ -16,7 +17,10 @@ function LoginPage() {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (role === "executor") nav({ to: "/executor/home" });
+    if (role === "new") {
+      resetProgress();
+      nav({ to: "/executor/academy" });
+    } else if (role === "executor") nav({ to: "/executor/home" });
     else if (role === "ops") nav({ to: "/ops/dashboard" });
   };
 
@@ -45,8 +49,14 @@ function LoginPage() {
             <div className="space-y-3">
               <p className="text-center text-white/80 text-sm mb-2">Choose your role to continue</p>
               <RoleCard
+                icon={<Sparkles className="w-7 h-7" />}
+                title="New Executor"
+                desc="Vừa được approve — bắt đầu Veasyble Academy"
+                onClick={() => setRole("new")}
+              />
+              <RoleCard
                 icon={<ClipboardCheck className="w-7 h-7" />}
-                title="Execution Team"
+                title="Returning Executor"
                 desc="Gig workers running campaigns on the ground"
                 onClick={() => setRole("executor")}
               />
@@ -67,13 +77,13 @@ function LoginPage() {
                 <ArrowLeft className="w-3 h-3" /> Change role
               </button>
               <h2 className="font-semibold text-lg mb-4">
-                Sign in as {role === "executor" ? "Executor" : "Ops"}
+                Sign in as {role === "ops" ? "Ops" : role === "new" ? "New Executor" : "Executor"}
               </h2>
               <label className="block text-xs font-medium mb-1">Email</label>
               <input
                 type="email"
                 required
-                defaultValue={role === "executor" ? "khoa@veasyble.vn" : "linh@veasyble.vn"}
+                defaultValue={role === "ops" ? "linh@veasyble.vn" : role === "new" ? "bao@veasyble.vn" : "khoa@veasyble.vn"}
                 className="w-full border border-border rounded-md px-3 py-2 mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange/40"
               />
               <label className="block text-xs font-medium mb-1">Password</label>

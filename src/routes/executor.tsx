@@ -8,11 +8,14 @@ export const Route = createFileRoute("/executor")({
 function ExecutorLayout() {
   const loc = useLocation();
   const onTask = loc.pathname.startsWith("/executor/task");
+  const onAcademy = loc.pathname.startsWith("/executor/academy");
+  const onSetup = loc.pathname.startsWith("/executor/profile/setup");
+  const hideChrome = onTask || onAcademy || onSetup;
 
   return (
     <div className="min-h-screen bg-surface flex justify-center">
       <div className="w-full max-w-[390px] bg-background min-h-screen flex flex-col relative shadow-xl">
-        {!onTask && (
+        {!hideChrome && (
           <header className="sticky top-0 z-10 bg-navy text-navy-foreground px-4 py-3 flex items-center justify-between">
             <Link to="/executor/home" className="font-bold tracking-tight">Veasyble</Link>
             <div className="flex items-center gap-3">
@@ -24,11 +27,11 @@ function ExecutorLayout() {
           </header>
         )}
 
-        <main className="flex-1 pb-20">
+        <main className={`flex-1 ${hideChrome ? "" : "pb-20"}`}>
           <Outlet />
         </main>
 
-        {!onTask && (
+        {!hideChrome && (
           <nav className="fixed bottom-0 left-0 right-0 mx-auto max-w-[390px] bg-background border-t border-border flex">
             <NavItem to="/executor/home" icon={<Home className="w-5 h-5" />} label="Home" />
             <NavItem to="/executor/browse" icon={<ListChecks className="w-5 h-5" />} label="Tasks" />
