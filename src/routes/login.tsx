@@ -1,27 +1,33 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ClipboardCheck, LayoutDashboard, ArrowLeft, Sparkles } from "lucide-react";
-import { resetProgress } from "@/lib/academy-data";
+import { ClipboardCheck, LayoutDashboard, ArrowLeft } from "lucide-react";
+import { completeAcademyForDemo, resetProgress } from "@/lib/academy-data";
 
 export const Route = createFileRoute("/login")({
   head: () => ({ meta: [{ title: "Login — Veasyble" }] }),
   component: LoginPage,
 });
 
-type Role = "new" | "executor" | "ops" | null;
+type Role = "executor" | "ops" | null;
 
 function LoginPage() {
   const [role, setRole] = useState<Role>(null);
   const [lang, setLang] = useState<"VI" | "EN">("EN");
+  const [isNewAccount, setIsNewAccount] = useState(false);
   const nav = useNavigate();
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (role === "new") {
-      resetProgress();
-      nav({ to: "/executor/academy" });
-    } else if (role === "executor") nav({ to: "/executor/home" });
-    else if (role === "ops") nav({ to: "/ops/dashboard" });
+
+    if (role === "executor") {
+      if (isNewAccount) {
+        resetProgress();
+        nav({ to: "/executor/academy" });
+      } else {
+        completeAcademyForDemo();
+        nav({ to: "/executor/home" });
+      }
+    } else if (role === "ops") nav({ to: "/ops/dashboard" });
   };
 
   return (
@@ -49,14 +55,8 @@ function LoginPage() {
             <div className="space-y-3">
               <p className="text-center text-white/80 text-sm mb-2">Choose your role to continue</p>
               <RoleCard
-                icon={<Sparkles className="w-7 h-7" />}
-                title="New Executor"
-                desc="Vừa được approve — bắt đầu Veasyble Academy"
-                onClick={() => setRole("new")}
-              />
-              <RoleCard
                 icon={<ClipboardCheck className="w-7 h-7" />}
-                title="Returning Executor"
+                title="Execution Team"
                 desc="Gig workers running campaigns on the ground"
                 onClick={() => setRole("executor")}
               />
@@ -77,13 +77,13 @@ function LoginPage() {
                 <ArrowLeft className="w-3 h-3" /> Change role
               </button>
               <h2 className="font-semibold text-lg mb-4">
-                Sign in as {role === "ops" ? "Ops" : role === "new" ? "New Executor" : "Executor"}
+                Sign in as {role === "ops" ? "Veasyble Ops" : "Execution Team"}
               </h2>
               <label className="block text-xs font-medium mb-1">Email</label>
               <input
                 type="email"
                 required
-                defaultValue={role === "ops" ? "linh@veasyble.vn" : role === "new" ? "bao@veasyble.vn" : "khoa@veasyble.vn"}
+                defaultValue={role === "ops" ? "linh@veasyble.vn" : "khoa@veasyble.vn"}
                 className="w-full border border-border rounded-md px-3 py-2 mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange/40"
               />
               <label className="block text-xs font-medium mb-1">Password</label>
@@ -93,6 +93,17 @@ function LoginPage() {
                 defaultValue="demo1234"
                 className="w-full border border-border rounded-md px-3 py-2 mb-4 text-sm focus:outline-none focus:ring-2 focus:ring-orange/40"
               />
+              {role === "executor" && (
+                <label className="mb-4 flex items-start gap-2 rounded-lg border border-border bg-surface px-3 py-2 text-xs text-muted-foreground">
+                  <input
+                    type="checkbox"
+                    checked={isNewAccount}
+                    onChange={(e) => setIsNewAccount(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 accent-orange"
+                  />
+                  <span>New account (hasn't completed Academy)</span>
+                </label>
+              )}
               <button
                 type="submit"
                 className="w-full bg-orange text-orange-foreground font-semibold rounded-md py-2.5 hover:opacity-90 transition"
