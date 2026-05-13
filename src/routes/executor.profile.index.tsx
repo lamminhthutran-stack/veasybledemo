@@ -3,7 +3,7 @@ import { executor } from "@/lib/mock-data";
 import { Star } from "lucide-react";
 import { Fragment } from "react";
 
-export const Route = createFileRoute("/executor/profile")({
+export const Route = createFileRoute("/executor/profile/")({
   component: ExecutorProfile,
 });
 
