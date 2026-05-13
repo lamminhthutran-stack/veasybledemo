@@ -1,12 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { tasks } from "@/lib/mock-data";
+import { getDeclinedTaskIds } from "@/lib/task-state";
 import { TaskCard } from "./executor.home";
+import { useState } from "react";
 
 export const Route = createFileRoute("/executor/browse")({
   component: BrowsePool,
 });
 
 function BrowsePool() {
+  const [declinedTaskIds] = useState(() => getDeclinedTaskIds());
+  const visibleTasks = tasks.filter((task) => !declinedTaskIds.includes(task.id));
+
   return (
     <div className="px-4 py-5 space-y-4">
       <div>
@@ -23,7 +28,12 @@ function BrowsePool() {
       </div>
 
       <div className="space-y-3">
-        {tasks.map((t) => <TaskCard key={t.id} t={{ ...t, badge: "outside" }} />)}
+        {visibleTasks.map((t) => <TaskCard key={t.id} t={{ ...t, badge: t.badge === "outside" ? "outside" : "available" }} />)}
+        {!visibleTasks.length && (
+          <div className="rounded-xl border border-dashed border-border bg-surface px-4 py-6 text-center text-sm text-muted-foreground">
+            No available tasks right now.
+          </div>
+        )}
       </div>
     </div>
   );
