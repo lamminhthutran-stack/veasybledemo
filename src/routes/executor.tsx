@@ -1,7 +1,18 @@
-import { createFileRoute, Outlet, Link, useLocation } from "@tanstack/react-router";
+import { createFileRoute, Outlet, Link, useLocation, redirect } from "@tanstack/react-router";
 import { Home, ListChecks, User, Bell } from "lucide-react";
+import { isAcademyComplete } from "@/lib/academy-data";
 
 export const Route = createFileRoute("/executor")({
+  beforeLoad: ({ location }) => {
+    const requiresAcademy =
+      location.pathname === "/executor/home" ||
+      location.pathname === "/executor/browse" ||
+      location.pathname.startsWith("/executor/task");
+
+    if (requiresAcademy && !isAcademyComplete()) {
+      throw redirect({ to: "/executor/academy" });
+    }
+  },
   component: ExecutorLayout,
 });
 
