@@ -14,14 +14,14 @@ export type TaskHistoryEntry = {
 
 const seededHistory: TaskHistoryEntry[] = [
   {
-    taskId: "t-001",
+    taskId: "t-004",
     status: "completed",
     completedAt: "2026-05-12T10:30:00.000Z",
-    payReceived: "180,000 VND",
+    payReceived: "190,000 VND",
     rating: 5,
   },
   {
-    taskId: "t-002",
+    taskId: "t-005",
     status: "rejected",
     completedAt: "2026-05-10T08:15:00.000Z",
     payReceived: "0 VND",
