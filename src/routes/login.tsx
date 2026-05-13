@@ -77,13 +77,13 @@ function LoginPage() {
                 <ArrowLeft className="w-3 h-3" /> Change role
               </button>
               <h2 className="font-semibold text-lg mb-4">
-                Sign in as {role === "executor" ? "Executor" : "Ops"}
+                Sign in as {role === "ops" ? "Ops" : role === "new" ? "New Executor" : "Executor"}
               </h2>
               <label className="block text-xs font-medium mb-1">Email</label>
               <input
                 type="email"
                 required
-                defaultValue={role === "executor" ? "khoa@veasyble.vn" : "linh@veasyble.vn"}
+                defaultValue={role === "ops" ? "linh@veasyble.vn" : role === "new" ? "bao@veasyble.vn" : "khoa@veasyble.vn"}
                 className="w-full border border-border rounded-md px-3 py-2 mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange/40"
               />
               <label className="block text-xs font-medium mb-1">Password</label>
