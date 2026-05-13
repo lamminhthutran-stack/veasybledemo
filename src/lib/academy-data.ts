@@ -50,14 +50,14 @@ export const modules: Module[] = [
       "GPS check-in xác nhận bạn có mặt tại đúng địa điểm và đúng thời gian",
       "Selfie cần có bảng hiệu store rõ ràng phía sau",
       "SOP checklist hướng dẫn từng bước setup campaign",
-      "Nếu gặp vấn đề tại store, raise dispute trong app — không tự ý xử lý",
+      "Nếu gặp vấn đề tại store, raise dispute trong app - không tự ý xử lý",
     ],
     questions: [
       { q: "GPS check-in xác nhận điều gì?", options: ["Executor đã in materials", "Executor có mặt tại đúng địa điểm", "Task đã hoàn thành", "Materials đã được nhận"], answer: 1 },
       { q: "Selfie cần có gì trong ảnh?", options: ["Chỉ khuôn mặt", "Bảng hiệu store rõ ràng", "Planogram", "Hóa đơn"], answer: 1 },
       { q: "Nếu trễ hơn 15 phút so với giờ check-in?", options: ["Không sao", "Bị trừ một phần pay", "Task bị hủy và surge ngay", "Bị suspend"], answer: 2 },
       { q: "SOP checklist dùng để làm gì?", options: ["Xác nhận danh tính", "Hướng dẫn từng bước setup campaign", "Tính lương", "Liên hệ brand"], answer: 1 },
-      { q: "Khi store từ chối cho vào, Executor nên?", options: ["Bỏ về", "Tự xử lý", "Raise dispute trong app — không bị trừ pay", "Gọi cho brand"], answer: 2 },
+      { q: "Khi store từ chối cho vào, Executor nên?", options: ["Bỏ về", "Tự xử lý", "Raise dispute trong app - không bị trừ pay", "Gọi cho brand"], answer: 2 },
     ],
   },
   {
@@ -90,15 +90,15 @@ export const modules: Module[] = [
     duration: "5:10",
     summary: [
       "Rating được tính từ trung bình của Brand + Retailer đã rate bạn",
-      "Rating ≥ 4.0 được coi là Healthy",
+      "Rating >= 4.0 được coi là Healthy",
       "Dưới 3.5 sẽ nhận auto-reminder và Veasyble review",
       "Huỷ task sau khi đã in materials sẽ bị trừ rating nặng và flag tài khoản",
     ],
     questions: [
       { q: "Rating của Executor được tính từ đâu?", options: ["Chỉ Veasyble", "Chỉ Brand", "Brand + Retailer (trung bình)", "Executor tự chọn"], answer: 2 },
-      { q: "Rating nào được coi là Healthy?", options: ["≥ 3.0", "≥ 3.5", "≥ 4.0", "≥ 4.5"], answer: 2 },
+      { q: "Rating nào được coi là Healthy?", options: [">= 3.0", ">= 3.5", ">= 4.0", ">= 4.5"], answer: 2 },
       { q: "Khi rating xuống dưới 3.5?", options: ["Bị xóa tài khoản ngay", "Nhận auto-reminder và Veasyble review", "Không có gì xảy ra", "Tự động tăng lương"], answer: 1 },
-      { q: "Nếu 3 tháng không nhận task?", options: ["Bị xóa tài khoản", "Bị phạt", "Nhận email nhắc nhở — tài khoản vẫn còn", "Phải onboard lại"], answer: 2 },
+      { q: "Nếu 3 tháng không nhận task?", options: ["Bị xóa tài khoản", "Bị phạt", "Nhận email nhắc nhở - tài khoản vẫn còn", "Phải onboard lại"], answer: 2 },
       { q: "Huỷ task sau khi đã in materials sẽ dẫn đến?", options: ["Không sao", "Trừ rating nặng + flag tài khoản", "Bị suspend ngay", "Mất tài khoản vĩnh viễn"], answer: 1 },
     ],
   },
@@ -129,6 +129,15 @@ export const isUnlocked = (num: number) => {
 export const completedCount = () => {
   const p = getProgress();
   return modules.filter((m) => p[m.id]?.passed).length;
+};
+export const isAcademyComplete = () => completedCount() === modules.length;
+export const completeAcademyForDemo = () => {
+  if (typeof window === "undefined") return;
+  const p: Progress = {};
+  modules.forEach((m) => {
+    p[m.id] = { passed: true, score: 100 };
+  });
+  localStorage.setItem(KEY, JSON.stringify(p));
 };
 export const avgScore = () => {
   const p = getProgress();
