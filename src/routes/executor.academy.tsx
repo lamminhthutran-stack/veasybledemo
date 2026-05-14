@@ -44,7 +44,7 @@ function AcademyHome() {
         </p>
       </div>
 
-      <div className="bg-card border border-border rounded-xl p-4">
+      <div className="bg-card border border-border rounded-[5px] p-4">
         <div className="flex items-center justify-between text-sm mb-2">
           <span className="font-semibold">Tiến độ</span>
           <span className="text-muted-foreground">{done} / 4 Modules</span>
@@ -62,10 +62,10 @@ function AcademyHome() {
           return (
             <div
               key={m.id}
-              className={`bg-card border rounded-xl p-4 ${unlocked ? "border-border" : "border-border/60 opacity-70"}`}
+              className={`bg-card border rounded-[5px] p-4 ${unlocked ? "border-border" : "border-border/60 opacity-70"}`}
             >
               <div className="flex items-start gap-3">
-                <div className={`w-11 h-11 rounded-lg flex items-center justify-center shrink-0 ${unlocked ? "bg-navy text-navy-foreground" : "bg-surface text-muted-foreground"}`}>
+                <div className={`w-11 h-11 rounded-[5px] flex items-center justify-center shrink-0 ${unlocked ? "bg-navy text-navy-foreground" : "bg-surface text-muted-foreground"}`}>
                   {unlocked ? <Icon className="w-5 h-5" /> : <Lock className="w-5 h-5" />}
                 </div>
                 <div className="flex-1 min-w-0">

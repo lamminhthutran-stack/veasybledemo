@@ -1,186 +1,112 @@
-import { ArrowLeft, MapPin, Clock, DollarSign, Package, Phone, MessageCircle } from "lucide-react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { tasks } from "@/lib/mock-data";
-import { declineTask } from "@/lib/task-state";
-import { useState } from "react";
-
+import { availableTasks } from "@/lib/mock-data";
+import { useTranslation } from "react-i18next";
+import { useLang } from "@/lib/i18n-context";
+import { BackButton } from "@/components/BackButton";
 
 export const Route = createFileRoute("/executor/task/$id/")({
   component: TaskDetail,
 });
 
-const contactPoints = [
-  {
-    label: "Brand Contact",
-    name: "Nguyễn Thị Lan",
-    role: "Trade Marketing Manager, Pepsi Vietnam",
-    phone: "0901 234 567",
-    zalo: "https://zalo.me/0901234567",
-  },
-  {
-    label: "Retailer Contact",
-    name: "Trần Văn Hùng",
-    role: "Store Manager, FamilyMart Nguyễn Trãi",
-    phone: "0912 345 678",
-    zalo: "https://zalo.me/0912345678",
-  },
-];
-
 function TaskDetail() {
   const { id } = Route.useParams();
-  const nav = useNavigate();
-  const t = tasks.find((x) => x.id === id) ?? tasks[0];
-  const [accepted, setAccepted] = useState(false);
-  const [showDeclineConfirm, setShowDeclineConfirm] = useState(false);
-
-  const confirmDecline = () => {
-    declineTask(t.id);
-    setShowDeclineConfirm(false);
-    nav({ to: "/executor/home" });
-  };
-
-  if (accepted) {
-    return (
-      <div className="min-h-screen p-6 flex flex-col">
-        <h1 className="text-xl font-bold mb-2">Task Accepted ✓</h1>
-        <p className="text-sm text-muted-foreground mb-4">Pick up materials before heading to the store.</p>
-        <div className="bg-card border border-border rounded-xl p-4 mb-4">
-          <div className="text-xs uppercase tracking-wide text-muted-foreground mb-1">Print Station</div>
-          <div className="font-semibold">{t.printStation}</div>
-          <div className="text-sm text-muted-foreground">{t.printAddress}</div>
-          <div className="mt-3 h-32 rounded-lg bg-surface border border-border flex items-center justify-center text-xs text-muted-foreground">
-            <MapPin className="w-4 h-4 mr-1" /> Map preview
-          </div>
-        </div>
-        <div className="mt-auto space-y-2">
-          <Link
-            to="/executor/task/$id/pre-execute"
-            params={{ id: t.id }}
-            className="block text-center bg-orange text-orange-foreground font-semibold rounded-md py-3"
-          >
-            Start Day-of Flow
-          </Link>
-          <button
-            onClick={() => nav({ to: "/executor/home" })}
-            className="w-full border border-border rounded-md py-3 text-sm"
-          >
-            Back to Home
-          </button>
-        </div>
-      </div>
-    );
-  }
+  const { lang } = useLang();
+  const { t } = useTranslation();
+  
+  // Find task or fallback to first one
+  const task = availableTasks.find((x) => x.id === id) ?? availableTasks[0];
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="bg-navy text-navy-foreground px-4 py-3 flex items-center gap-3 sticky top-0 z-10">
-        <Link to="/executor/home"><ArrowLeft className="w-5 h-5" /></Link>
-        <div className="font-semibold truncate">{t.campaign}</div>
-      </header>
-
-      <div className="p-4 space-y-3 flex-1">
-        <InfoRow icon={<MapPin className="w-4 h-4" />} title={t.store} sub={t.district} />
-        <InfoRow icon={<Clock className="w-4 h-4" />} title={t.date} sub={t.time} />
-        <InfoRow icon={<DollarSign className="w-4 h-4" />} title={t.pay} sub="Paid on approval" />
-        <InfoRow icon={<Package className="w-4 h-4" />} title="Materials Pickup" sub={`${t.printStation} — ${t.printAddress}`} />
-
-        <div className="bg-card border border-border rounded-xl p-4">
-          <h3 className="font-semibold text-sm mb-1">Campaign Brief</h3>
-          <p className="text-sm text-muted-foreground">{t.brief}</p>
-        </div>
-
-        <section className="space-y-2">
-          <h3 className="font-semibold text-sm">Contact Points</h3>
-          {contactPoints.map((contact) => (
-            <ContactCard key={contact.label} contact={contact} />
-          ))}
-        </section>
-
-        <div className="bg-card border border-border rounded-xl p-4">
-          <h3 className="font-semibold text-sm mb-2">SOP Preview</h3>
-          <ol className="text-sm text-muted-foreground space-y-1.5 list-decimal list-inside">
-            <li>Check in via GPS at the store location</li>
-            <li>Take a selfie with the store signage</li>
-            <li>Set up display per planogram</li>
-            <li>Submit final photos as Proof of Placement</li>
-          </ol>
-        </div>
+    <div className="min-h-screen bg-[#F7F8FA] pb-24">
+      <div className="bg-white px-4 pt-12 pb-4">
+        <BackButton />
+        <h1 className="text-xl font-bold text-gray-900 mt-2">{task.brand}</h1>
+        <p className="text-gray-400 text-sm">{task.campaignName}</p>
       </div>
 
-      <div className="sticky bottom-0 bg-background border-t border-border p-4 flex gap-2">
-        <button
-          onClick={() => setShowDeclineConfirm(true)}
-          className="flex-1 border border-border text-muted-foreground rounded-md py-3 text-sm font-medium"
-        >
-          Decline
-        </button>
-        <button
-          onClick={() => setAccepted(true)}
-          className="flex-[2] bg-orange text-orange-foreground rounded-md py-3 text-sm font-semibold"
-        >
-          Accept Task
-        </button>
-      </div>
+      <div className="px-4 py-4 space-y-4">
+        {/* Campaign info */}
+        <InfoSection title={t("campaign_info")}>
+          <InfoRow label={t("brand")} value={task.brand} />
+          <InfoRow label={t("date")} value={task.date} />
+          <InfoRow label={t("start_time")} value={task.scheduledTime} />
+          <InfoRow label={t("pay")} value={`${task.pay.toLocaleString()}đ`} />
+        </InfoSection>
 
-      {showDeclineConfirm && (
-        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 px-4 pb-4">
-          <div className="w-full max-w-[360px] rounded-xl bg-background p-4 shadow-xl">
-            <h2 className="font-semibold text-base">Ẩn task này?</h2>
-            <p className="mt-1 text-sm text-muted-foreground">Task sẽ được chuyển vào mục Đã từ chối.</p>
-            <div className="mt-4 grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => setShowDeclineConfirm(false)}
-                className="rounded-md border border-border py-3 text-sm font-medium"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={confirmDecline}
-                className="rounded-md bg-orange py-3 text-sm font-semibold text-orange-foreground"
-              >
-                Confirm
-              </button>
+        {/* Location info */}
+        <InfoSection title={t("location")}>
+          <InfoRow label={t("store")} value={task.storeName} />
+          <InfoRow label={t("address")} value={task.address ?? "245 Nguyễn Trãi, Quận 5"} />
+          <InfoRow label={t("district")} value={task.district} />
+        </InfoSection>
+
+        {/* Print Station info */}
+        <InfoSection title={t("print_station")}>
+          <InfoRow
+            label={t("pickup_date")}
+            value={task.printStation?.pickupDate ?? (lang === "vi" ? "Chưa xác định" : "TBD")}
+          />
+          <InfoRow
+            label={t("print_address")}
+            value={task.printStation?.address ?? "—"}
+          />
+          <InfoRow
+            label={t("materials")}
+            value={task.printStation?.materials ?? "—"}
+          />
+          {task.printStation?.note && (
+            <div className="bg-orange-50 rounded-[5px] p-3 mt-2 border border-orange-100">
+              <p className="text-xs text-orange-700">{task.printStation.note}</p>
             </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+          )}
+        </InfoSection>
 
-function InfoRow({ icon, title, sub }: { icon: React.ReactNode; title: string; sub: string }) {
-  return (
-    <div className="bg-card border border-border rounded-xl p-3 flex items-center gap-3">
-      <div className="w-9 h-9 rounded-lg bg-surface flex items-center justify-center text-navy">{icon}</div>
-      <div>
-        <div className="text-sm font-semibold">{title}</div>
-        <div className="text-xs text-muted-foreground">{sub}</div>
+        {/* SOP summary */}
+        <InfoSection title={t("execution_req")}>
+          {(task.sopItems ?? []).map((item, i) => (
+            <div key={i} className="flex gap-2 py-2 border-b border-gray-50 last:border-0">
+              <span className="text-[#F97316] text-sm">→</span>
+              <p className="text-sm text-gray-700">{item}</p>
+            </div>
+          ))}
+          {(!task.sopItems || task.sopItems.length === 0) && (
+             <p className="text-sm text-gray-400 py-2">
+               {lang === "vi" ? "Không có yêu cầu cụ thể." : "No specific requirements."}
+             </p>
+          )}
+        </InfoSection>
       </div>
-    </div>
-  );
-}
 
-function ContactCard({ contact }: { contact: { label: string; name: string; role: string; phone: string; zalo: string } }) {
-  return (
-    <div className="bg-card border border-border rounded-xl p-4">
-      <div className="text-[10px] uppercase tracking-wide text-muted-foreground font-semibold">{contact.label}</div>
-      <div className="mt-1 font-semibold text-sm">{contact.name}</div>
-      <div className="text-xs text-muted-foreground">{contact.role}</div>
-      <div className="mt-3 flex items-center justify-between gap-3">
-        <a href={`tel:${contact.phone.replaceAll(" ", "")}`} className="flex items-center gap-1.5 text-xs font-medium text-navy">
-          <Phone className="w-3.5 h-3.5" />
-          {contact.phone}
-        </a>
-        <a
-          href={contact.zalo}
-          className="inline-flex items-center gap-1.5 rounded-md bg-orange px-3 py-1.5 text-xs font-semibold text-orange-foreground"
+      {/* CTA */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-4 max-w-[390px] mx-auto z-50">
+        <Link
+          to="/executor/task/$id/onsite"
+          params={{ id: task.id }}
+          className="block w-full bg-[#1A3557] text-white text-sm font-semibold py-3.5 rounded-[5px] text-center"
         >
-          <MessageCircle className="w-3.5 h-3.5" />
-          Zalo
-        </a>
+          {t("start_day_of")}
+        </Link>
       </div>
+    </div>
+  );
+}
+
+function InfoSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="bg-white rounded-[5px] p-4 shadow-sm border border-gray-100">
+      <h3 className="font-semibold text-sm mb-3 text-gray-900">{title}</h3>
+      <div className="space-y-0">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function InfoRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex justify-between items-start py-2 border-b border-gray-50 last:border-0">
+      <span className="text-xs text-gray-500 font-medium">{label}</span>
+      <span className="text-xs text-gray-900 font-medium text-right max-w-[60%]">{value}</span>
     </div>
   );
 }

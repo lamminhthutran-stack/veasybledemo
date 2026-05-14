@@ -26,7 +26,7 @@ function CampaignMonitor() {
         ))}
       </div>
 
-      <div className="bg-card border border-border rounded-xl overflow-hidden">
+      <div className="bg-card border border-border rounded-[5px] overflow-hidden">
         <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr_auto] gap-4 px-4 py-3 text-[11px] uppercase tracking-wider text-muted-foreground font-semibold border-b border-border">
           <div>Campaign</div><div>Brand</div><div>City</div><div>Date</div><div>Filled</div><div>Status</div><div></div>
         </div>

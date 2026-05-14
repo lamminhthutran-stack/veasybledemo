@@ -11,6 +11,7 @@ import {
 } from "@/lib/task-state";
 
 import { Fragment, useState } from "react";
+import { LogoutButton } from "@/components/LogoutButton";
 
 export const Route = createFileRoute("/executor/profile/")({
   component: ExecutorProfile,
@@ -39,7 +40,7 @@ function ExecutorProfile() {
         </div>
       </div>
 
-      <div className="bg-card border border-border rounded-xl p-4">
+      <div className="bg-card border border-border rounded-[5px] p-4">
         <div className="flex items-end gap-2">
           <div className="text-3xl font-bold">{executor.rating}</div>
           <Star className="w-6 h-6 fill-orange text-orange mb-1" />
@@ -58,7 +59,7 @@ function ExecutorProfile() {
       <section>
         <h2 className="font-semibold mb-1">Availability Settings</h2>
         <p className="text-xs text-muted-foreground mb-3">More availability = higher task priority</p>
-        <div className="bg-card border border-border rounded-xl p-3">
+        <div className="bg-card border border-border rounded-[5px] p-3">
           <div className="grid grid-cols-8 gap-1 text-[10px]">
             <div></div>
             {days.map((d) => <div key={d} className="text-center font-semibold">{d}</div>)}
@@ -87,7 +88,7 @@ function ExecutorProfile() {
             <HistoryCard key={`${entry.taskId}-${entry.completedAt}`} entry={entry} />
           ))}
           {!history.length && (
-            <div className="rounded-xl border border-dashed border-border bg-surface px-4 py-6 text-center text-sm text-muted-foreground">
+            <div className="rounded-[5px] border border-dashed border-border bg-surface px-4 py-6 text-center text-sm text-muted-foreground">
               No completed task history yet.
             </div>
           )}
@@ -96,7 +97,7 @@ function ExecutorProfile() {
 
       <section>
         <h2 className="font-semibold mb-2">Đã từ chối</h2>
-        <div className="bg-card border border-border rounded-xl divide-y divide-border overflow-hidden">
+        <div className="bg-card border border-border rounded-[5px] divide-y divide-border overflow-hidden">
           {declinedTasks.length ? (
             declinedTasks.map((task) => {
               const expired = isTaskExpired(task);
@@ -131,10 +132,13 @@ function ExecutorProfile() {
 
       <section className="text-sm">
         <h2 className="font-semibold mb-2">Account</h2>
-        <div className="bg-card border border-border rounded-xl divide-y divide-border">
-          {["Edit profile", "Change password", "Logout"].map((i) => (
+        <div className="bg-card border border-border rounded-[5px] divide-y divide-border">
+          {["Edit profile", "Change password"].map((i) => (
             <button key={i} className="w-full text-left px-4 py-3">{i}</button>
           ))}
+          <div className="px-1 py-1">
+            <LogoutButton />
+          </div>
         </div>
         <Link to="/login" className="block text-center text-xs text-danger mt-4">Request Deactivation</Link>
       </section>
@@ -149,7 +153,7 @@ function HistoryCard({ entry }: { entry: TaskHistoryEntry }) {
   if (!task) return null;
 
   return (
-    <div className="bg-card border border-border rounded-xl p-4 shadow-sm">
+    <div className="bg-card border border-border rounded-[5px] p-4 shadow-sm">
       <div className="flex items-start justify-between gap-2">
         <div>
           <div className="font-semibold text-sm leading-tight">{task.campaign}</div>
@@ -162,11 +166,11 @@ function HistoryCard({ entry }: { entry: TaskHistoryEntry }) {
         <div className="flex items-center gap-1.5"><Clock className="w-3 h-3" />Completed {formatDate(entry.completedAt)}</div>
       </div>
       <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
-        <div className="rounded-lg bg-surface px-3 py-2">
+        <div className="rounded-[5px] bg-surface px-3 py-2">
           <div className="text-muted-foreground">Pay received</div>
           <div className="font-semibold text-orange">{entry.payReceived}</div>
         </div>
-        <div className="rounded-lg bg-surface px-3 py-2">
+        <div className="rounded-[5px] bg-surface px-3 py-2">
           <div className="text-muted-foreground">Rating</div>
           <div className="font-semibold">{entry.rating > 0 ? "★".repeat(entry.rating) : "No rating"}</div>
         </div>

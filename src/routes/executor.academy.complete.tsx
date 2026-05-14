@@ -38,7 +38,7 @@ function Complete() {
         <p className="text-sm text-muted-foreground">Bạn đã hoàn thành Veasyble Academy</p>
       </div>
 
-      <div className="relative bg-card border-4 border-double border-navy rounded-xl p-5 text-center shadow-lg">
+      <div className="relative bg-card border-4 border-double border-navy rounded-[5px] p-5 text-center shadow-lg">
         <div className="text-xs font-bold tracking-widest text-orange">VEASYBLE</div>
         <div className="text-[10px] text-muted-foreground mb-4">Making Retail Visibility Easy</div>
         <div className="text-[11px] uppercase tracking-widest text-navy font-semibold">Chứng nhận hoàn thành</div>
@@ -67,7 +67,7 @@ function Complete() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="bg-card border border-border rounded-lg p-3">
+    <div className="bg-card border border-border rounded-[5px] p-3">
       <div className="text-base font-bold">{value}</div>
       <div className="text-[10px] text-muted-foreground uppercase tracking-wide">{label}</div>
     </div>

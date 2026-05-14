@@ -29,8 +29,8 @@ function Queue() {
 
       <div className="space-y-3">
         {escalations.map((e) => (
-          <div key={e.id} className={`bg-card border border-border rounded-xl p-4 flex items-center gap-4 ${e.status === "Resolved" ? "opacity-60" : ""}`}>
-            <div className="w-10 h-10 rounded-lg bg-surface flex items-center justify-center text-xs font-bold text-navy shrink-0">
+          <div key={e.id} className={`bg-card border border-border rounded-[5px] p-4 flex items-center gap-4 ${e.status === "Resolved" ? "opacity-60" : ""}`}>
+            <div className="w-10 h-10 rounded-[5px] bg-surface flex items-center justify-center text-xs font-bold text-navy shrink-0">
               {e.type[0]}
             </div>
             <div className="flex-1 min-w-0">

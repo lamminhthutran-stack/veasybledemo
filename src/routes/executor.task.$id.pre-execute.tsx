@@ -25,16 +25,16 @@ function PreExecute() {
       </header>
 
       <div className="p-4 space-y-4 flex-1">
-        <div className="bg-card border border-border rounded-xl p-4">
+        <div className="bg-card border border-border rounded-[5px] p-4">
           <div className="font-semibold text-sm">{t.campaign}</div>
           <div className="text-xs text-muted-foreground mt-1">{t.store} · {t.time}</div>
         </div>
 
-        <div className="bg-card border border-border rounded-xl p-4">
+        <div className="bg-card border border-border rounded-[5px] p-4">
           <div className="text-xs uppercase tracking-wide text-muted-foreground mb-1">Print Station</div>
           <div className="font-semibold">{t.printStation}</div>
           <div className="text-sm text-muted-foreground">{t.printAddress}</div>
-          <div className="mt-3 h-36 rounded-lg bg-surface border border-border flex items-center justify-center text-xs text-muted-foreground">
+          <div className="mt-3 h-36 rounded-[5px] bg-surface border border-border flex items-center justify-center text-xs text-muted-foreground">
             <MapPin className="w-4 h-4 mr-1" /> Map preview
           </div>
           <button className="mt-3 w-full border border-border rounded-md py-2 text-sm font-medium flex items-center justify-center gap-1">
@@ -42,7 +42,7 @@ function PreExecute() {
           </button>
         </div>
 
-        <div className="bg-card border border-border rounded-xl p-4 space-y-2">
+        <div className="bg-card border border-border rounded-[5px] p-4 space-y-2">
           <div className="font-semibold text-sm mb-1">Before you leave</div>
           {items.map((it, i) => (
             <label key={it} className="flex items-start gap-3 text-sm py-1.5 cursor-pointer">

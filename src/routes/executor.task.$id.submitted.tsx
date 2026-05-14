@@ -29,7 +29,7 @@ function Submitted() {
         This task has been marked complete and moved to your Lịch sử.
       </p>
 
-      <div className="bg-card border border-border rounded-xl p-4 mt-6 w-full text-left">
+      <div className="bg-card border border-border rounded-[5px] p-4 mt-6 w-full text-left">
         <div className="text-xs uppercase tracking-wide text-muted-foreground mb-1">Task Summary</div>
         <div className="font-semibold text-sm">{t.campaign}</div>
         <div className="text-xs text-muted-foreground">{t.store}</div>

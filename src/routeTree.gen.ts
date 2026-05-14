@@ -15,12 +15,13 @@ import { Route as ExecutorRouteImport } from './routes/executor'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as OpsQueueRouteImport } from './routes/ops.queue'
 import { Route as OpsExecutorsRouteImport } from './routes/ops.executors'
+import { Route as OpsEscalationsRouteImport } from './routes/ops.escalations'
 import { Route as OpsDashboardRouteImport } from './routes/ops.dashboard'
 import { Route as OpsCampaignsRouteImport } from './routes/ops.campaigns'
 import { Route as ExecutorTasksRouteImport } from './routes/executor.tasks'
 import { Route as ExecutorProfileRouteImport } from './routes/executor.profile'
+import { Route as ExecutorKnowledgeRouteImport } from './routes/executor.knowledge'
 import { Route as ExecutorHomeRouteImport } from './routes/executor.home'
-import { Route as ExecutorBrowseRouteImport } from './routes/executor.browse'
 import { Route as ExecutorAcademyRouteImport } from './routes/executor.academy'
 import { Route as OpsQueueIndexRouteImport } from './routes/ops.queue.index'
 import { Route as OpsExecutorsIndexRouteImport } from './routes/ops.executors.index'
@@ -68,6 +69,11 @@ const OpsExecutorsRoute = OpsExecutorsRouteImport.update({
   path: '/executors',
   getParentRoute: () => OpsRoute,
 } as any)
+const OpsEscalationsRoute = OpsEscalationsRouteImport.update({
+  id: '/escalations',
+  path: '/escalations',
+  getParentRoute: () => OpsRoute,
+} as any)
 const OpsDashboardRoute = OpsDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -88,14 +94,14 @@ const ExecutorProfileRoute = ExecutorProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => ExecutorRoute,
 } as any)
+const ExecutorKnowledgeRoute = ExecutorKnowledgeRouteImport.update({
+  id: '/knowledge',
+  path: '/knowledge',
+  getParentRoute: () => ExecutorRoute,
+} as any)
 const ExecutorHomeRoute = ExecutorHomeRouteImport.update({
   id: '/home',
   path: '/home',
-  getParentRoute: () => ExecutorRoute,
-} as any)
-const ExecutorBrowseRoute = ExecutorBrowseRouteImport.update({
-  id: '/browse',
-  path: '/browse',
   getParentRoute: () => ExecutorRoute,
 } as any)
 const ExecutorAcademyRoute = ExecutorAcademyRouteImport.update({
@@ -189,12 +195,13 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/ops': typeof OpsRouteWithChildren
   '/executor/academy': typeof ExecutorAcademyRouteWithChildren
-  '/executor/browse': typeof ExecutorBrowseRoute
   '/executor/home': typeof ExecutorHomeRoute
+  '/executor/knowledge': typeof ExecutorKnowledgeRoute
   '/executor/profile': typeof ExecutorProfileRouteWithChildren
   '/executor/tasks': typeof ExecutorTasksRoute
   '/ops/campaigns': typeof OpsCampaignsRoute
   '/ops/dashboard': typeof OpsDashboardRoute
+  '/ops/escalations': typeof OpsEscalationsRoute
   '/ops/executors': typeof OpsExecutorsRouteWithChildren
   '/ops/queue': typeof OpsQueueRouteWithChildren
   '/executor/academy/complete': typeof ExecutorAcademyCompleteRoute
@@ -219,11 +226,12 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/ops': typeof OpsRouteWithChildren
   '/executor/academy': typeof ExecutorAcademyRouteWithChildren
-  '/executor/browse': typeof ExecutorBrowseRoute
   '/executor/home': typeof ExecutorHomeRoute
+  '/executor/knowledge': typeof ExecutorKnowledgeRoute
   '/executor/tasks': typeof ExecutorTasksRoute
   '/ops/campaigns': typeof OpsCampaignsRoute
   '/ops/dashboard': typeof OpsDashboardRoute
+  '/ops/escalations': typeof OpsEscalationsRoute
   '/executor/academy/complete': typeof ExecutorAcademyCompleteRoute
   '/executor/profile/setup': typeof ExecutorProfileSetupRoute
   '/ops/executors/$id': typeof OpsExecutorsIdRoute
@@ -246,12 +254,13 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/ops': typeof OpsRouteWithChildren
   '/executor/academy': typeof ExecutorAcademyRouteWithChildren
-  '/executor/browse': typeof ExecutorBrowseRoute
   '/executor/home': typeof ExecutorHomeRoute
+  '/executor/knowledge': typeof ExecutorKnowledgeRoute
   '/executor/profile': typeof ExecutorProfileRouteWithChildren
   '/executor/tasks': typeof ExecutorTasksRoute
   '/ops/campaigns': typeof OpsCampaignsRoute
   '/ops/dashboard': typeof OpsDashboardRoute
+  '/ops/escalations': typeof OpsEscalationsRoute
   '/ops/executors': typeof OpsExecutorsRouteWithChildren
   '/ops/queue': typeof OpsQueueRouteWithChildren
   '/executor/academy/complete': typeof ExecutorAcademyCompleteRoute
@@ -278,12 +287,13 @@ export interface FileRouteTypes {
     | '/login'
     | '/ops'
     | '/executor/academy'
-    | '/executor/browse'
     | '/executor/home'
+    | '/executor/knowledge'
     | '/executor/profile'
     | '/executor/tasks'
     | '/ops/campaigns'
     | '/ops/dashboard'
+    | '/ops/escalations'
     | '/ops/executors'
     | '/ops/queue'
     | '/executor/academy/complete'
@@ -308,11 +318,12 @@ export interface FileRouteTypes {
     | '/login'
     | '/ops'
     | '/executor/academy'
-    | '/executor/browse'
     | '/executor/home'
+    | '/executor/knowledge'
     | '/executor/tasks'
     | '/ops/campaigns'
     | '/ops/dashboard'
+    | '/ops/escalations'
     | '/executor/academy/complete'
     | '/executor/profile/setup'
     | '/ops/executors/$id'
@@ -334,12 +345,13 @@ export interface FileRouteTypes {
     | '/login'
     | '/ops'
     | '/executor/academy'
-    | '/executor/browse'
     | '/executor/home'
+    | '/executor/knowledge'
     | '/executor/profile'
     | '/executor/tasks'
     | '/ops/campaigns'
     | '/ops/dashboard'
+    | '/ops/escalations'
     | '/ops/executors'
     | '/ops/queue'
     | '/executor/academy/complete'
@@ -410,6 +422,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OpsExecutorsRouteImport
       parentRoute: typeof OpsRoute
     }
+    '/ops/escalations': {
+      id: '/ops/escalations'
+      path: '/escalations'
+      fullPath: '/ops/escalations'
+      preLoaderRoute: typeof OpsEscalationsRouteImport
+      parentRoute: typeof OpsRoute
+    }
     '/ops/dashboard': {
       id: '/ops/dashboard'
       path: '/dashboard'
@@ -438,18 +457,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExecutorProfileRouteImport
       parentRoute: typeof ExecutorRoute
     }
+    '/executor/knowledge': {
+      id: '/executor/knowledge'
+      path: '/knowledge'
+      fullPath: '/executor/knowledge'
+      preLoaderRoute: typeof ExecutorKnowledgeRouteImport
+      parentRoute: typeof ExecutorRoute
+    }
     '/executor/home': {
       id: '/executor/home'
       path: '/home'
       fullPath: '/executor/home'
       preLoaderRoute: typeof ExecutorHomeRouteImport
-      parentRoute: typeof ExecutorRoute
-    }
-    '/executor/browse': {
-      id: '/executor/browse'
-      path: '/browse'
-      fullPath: '/executor/browse'
-      preLoaderRoute: typeof ExecutorBrowseRouteImport
       parentRoute: typeof ExecutorRoute
     }
     '/executor/academy': {
@@ -619,8 +638,8 @@ const ExecutorTaskIdRouteWithChildren = ExecutorTaskIdRoute._addFileChildren(
 
 interface ExecutorRouteChildren {
   ExecutorAcademyRoute: typeof ExecutorAcademyRouteWithChildren
-  ExecutorBrowseRoute: typeof ExecutorBrowseRoute
   ExecutorHomeRoute: typeof ExecutorHomeRoute
+  ExecutorKnowledgeRoute: typeof ExecutorKnowledgeRoute
   ExecutorProfileRoute: typeof ExecutorProfileRouteWithChildren
   ExecutorTasksRoute: typeof ExecutorTasksRoute
   ExecutorTaskIdRoute: typeof ExecutorTaskIdRouteWithChildren
@@ -628,8 +647,8 @@ interface ExecutorRouteChildren {
 
 const ExecutorRouteChildren: ExecutorRouteChildren = {
   ExecutorAcademyRoute: ExecutorAcademyRouteWithChildren,
-  ExecutorBrowseRoute: ExecutorBrowseRoute,
   ExecutorHomeRoute: ExecutorHomeRoute,
+  ExecutorKnowledgeRoute: ExecutorKnowledgeRoute,
   ExecutorProfileRoute: ExecutorProfileRouteWithChildren,
   ExecutorTasksRoute: ExecutorTasksRoute,
   ExecutorTaskIdRoute: ExecutorTaskIdRouteWithChildren,
@@ -670,6 +689,7 @@ const OpsQueueRouteWithChildren = OpsQueueRoute._addFileChildren(
 interface OpsRouteChildren {
   OpsCampaignsRoute: typeof OpsCampaignsRoute
   OpsDashboardRoute: typeof OpsDashboardRoute
+  OpsEscalationsRoute: typeof OpsEscalationsRoute
   OpsExecutorsRoute: typeof OpsExecutorsRouteWithChildren
   OpsQueueRoute: typeof OpsQueueRouteWithChildren
 }
@@ -677,6 +697,7 @@ interface OpsRouteChildren {
 const OpsRouteChildren: OpsRouteChildren = {
   OpsCampaignsRoute: OpsCampaignsRoute,
   OpsDashboardRoute: OpsDashboardRoute,
+  OpsEscalationsRoute: OpsEscalationsRoute,
   OpsExecutorsRoute: OpsExecutorsRouteWithChildren,
   OpsQueueRoute: OpsQueueRouteWithChildren,
 }

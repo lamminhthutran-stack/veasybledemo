@@ -49,7 +49,7 @@ function OnSite() {
       <div className="p-4 space-y-3 flex-1">
         {/* Step 1 */}
         <Card title="Step 1 — GPS Check-In" done={checkedIn}>
-          <div className="h-32 rounded-lg bg-surface border border-border flex items-center justify-center text-xs text-muted-foreground">
+          <div className="h-32 rounded-[5px] bg-surface border border-border flex items-center justify-center text-xs text-muted-foreground">
             <MapPin className="w-4 h-4 mr-1" /> Map: current location vs store
           </div>
           {!checkedIn ? (
@@ -70,7 +70,7 @@ function OnSite() {
             </button>
           ) : (
             <>
-              <div className="h-28 rounded-lg bg-surface border border-border flex items-center justify-center text-xs text-muted-foreground mb-2">Photo preview</div>
+              <div className="h-28 rounded-[5px] bg-surface border border-border flex items-center justify-center text-xs text-muted-foreground mb-2">Photo preview</div>
               <div className="badge badge-success">Uploaded ✓</div>
             </>
           )}
@@ -104,7 +104,7 @@ function OnSite() {
           {photos > 0 && (
             <div className="grid grid-cols-3 gap-2">
               {Array.from({ length: photos }).map((_, i) => (
-                <div key={i} className="aspect-square rounded-lg bg-surface border border-border flex items-center justify-center text-[10px] text-muted-foreground">
+                <div key={i} className="aspect-square rounded-[5px] bg-surface border border-border flex items-center justify-center text-[10px] text-muted-foreground">
                   Photo {i + 1}
                 </div>
               ))}
@@ -128,7 +128,7 @@ function OnSite() {
 
 function Card({ title, done, children }: { title: string; done: boolean; children: React.ReactNode }) {
   return (
-    <div className="bg-card border border-border rounded-xl p-4">
+    <div className="bg-card border border-border rounded-[5px] p-4">
       <div className="flex items-center justify-between mb-2">
         <div className="font-semibold text-sm">{title}</div>
         {done && <Check className="w-4 h-4 text-success" />}

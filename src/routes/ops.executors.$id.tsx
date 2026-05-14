@@ -36,7 +36,7 @@ function ExecutorOpsView() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div className="bg-card border border-border rounded-xl p-5">
+        <div className="bg-card border border-border rounded-[5px] p-5">
           <div className="text-xs uppercase tracking-wider text-muted-foreground">Current Rating</div>
           <div className="text-4xl font-bold mt-1">{u.rating} ★</div>
           <div className="mt-3 space-y-1.5 text-sm">
@@ -46,13 +46,13 @@ function ExecutorOpsView() {
           </div>
         </div>
 
-        <div className="bg-card border border-border rounded-xl p-5">
+        <div className="bg-card border border-border rounded-[5px] p-5">
           <div className="text-xs uppercase tracking-wider text-muted-foreground">Status</div>
           <div className="mt-2"><span className={`badge ${status.cls} text-base px-3 py-1`}>{status.label}</span></div>
           <div className="text-xs text-muted-foreground mt-3">Threshold: 4.0 minimum across last 10 jobs.</div>
         </div>
 
-        <div className="bg-card border border-border rounded-xl p-5">
+        <div className="bg-card border border-border rounded-[5px] p-5">
           <div className="text-xs uppercase tracking-wider text-muted-foreground">Rating Trend</div>
           <svg viewBox="0 0 200 60" className="w-full h-20 mt-2">
             <polyline
@@ -68,7 +68,7 @@ function ExecutorOpsView() {
         </div>
       </div>
 
-      <div className="bg-card border border-border rounded-xl p-5">
+      <div className="bg-card border border-border rounded-[5px] p-5">
         <h3 className="font-semibold mb-3">Recent Tasks</h3>
         <div className="text-sm">
           <div className="grid grid-cols-5 gap-3 text-[11px] uppercase tracking-wider text-muted-foreground font-semibold pb-2 border-b border-border">
@@ -85,6 +85,39 @@ function ExecutorOpsView() {
           ))}
         </div>
       </div>
+
+      {u.partnerFeedback && u.partnerFeedback.length > 0 && (
+        <div className="bg-card border border-border rounded-[5px] p-5">
+          <h3 className="font-semibold mb-4">Brand & Retailer Feedback</h3>
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-xs font-semibold text-muted-foreground">Sentiment:</span>
+            <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden flex">
+              <div className="bg-green-500 h-full" style={{ width: "60%" }} />
+              <div className="bg-yellow-400 h-full" style={{ width: "30%" }} />
+              <div className="bg-red-500 h-full" style={{ width: "10%" }} />
+            </div>
+          </div>
+          <div className="space-y-3">
+            {u.partnerFeedback.map((fb, idx) => (
+              <div key={idx} className="bg-surface rounded-[5px] p-3 border border-border">
+                <div className="flex justify-between items-start mb-1">
+                  <div className="flex items-center gap-2">
+                    <span className={`w-2 h-2 rounded-full ${
+                      fb.sentiment === "positive" ? "bg-green-500" :
+                      fb.sentiment === "neutral" ? "bg-yellow-400" :
+                      "bg-red-500"
+                    }`} />
+                    <span className="text-xs font-semibold text-gray-900">{fb.from}</span>
+                  </div>
+                  <span className="text-[10px] text-muted-foreground">{fb.submittedAt}</span>
+                </div>
+                <p className="text-[10px] text-muted-foreground mb-2">{fb.campaignName}</p>
+                <p className="text-xs text-gray-700">{fb.comment}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="flex flex-wrap gap-3">
         <button className="bg-orange text-orange-foreground font-semibold rounded-md px-4 py-2 text-sm">Send Improvement Reminder</button>

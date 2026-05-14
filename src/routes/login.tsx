@@ -1,139 +1,102 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { ClipboardCheck, LayoutDashboard, ArrowLeft } from "lucide-react";
-import { completeAcademyForDemo, resetProgress } from "@/lib/academy-data";
+import { useAuth } from "@/lib/auth";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/login")({
-  head: () => ({ meta: [{ title: "Login — Veasyble" }] }),
   component: LoginPage,
 });
 
-type Role = "executor" | "ops" | null;
-
 function LoginPage() {
-  const [role, setRole] = useState<Role>(null);
-  const [lang, setLang] = useState<"VI" | "EN">("EN");
-  const [isNewAccount, setIsNewAccount] = useState(false);
-  const nav = useNavigate();
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const [phone, setPhone] = useState("");
+  const [pass, setPass] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
+  function handleLoginSubmit() {
+    if (!phone.trim()) return;
+    // Mock verification
+    setLoggedIn(true);
+  }
 
-    if (role === "executor") {
-      if (isNewAccount) {
-        resetProgress();
-        nav({ to: "/executor/academy" });
-      } else {
-        completeAcademyForDemo();
-        nav({ to: "/executor/home" });
-      }
-    } else if (role === "ops") nav({ to: "/ops/dashboard" });
-  };
+  function handlePortalSelect(portal: "executor" | "ops") {
+    login("Nguyễn Minh Tuấn"); // demo: hardcode name
+    navigate({ to: portal === "executor" ? "/executor/home" : "/ops/dashboard" });
+  }
 
   return (
-    <div className="min-h-screen bg-navy text-navy-foreground flex flex-col">
-      <div className="flex justify-end p-4 gap-1 text-xs">
-        {(["VI", "EN"] as const).map((l) => (
-          <button
-            key={l}
-            onClick={() => setLang(l)}
-            className={`px-2 py-1 rounded ${lang === l ? "bg-white/20" : "opacity-70 hover:opacity-100"}`}
-          >
-            {l}
-          </button>
-        ))}
-      </div>
+    <div className="min-h-screen bg-[#F7F8FA] flex flex-col items-center justify-center px-6">
+      <div className="w-full max-w-sm">
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <p className="text-3xl font-bold text-[#1A3557]">Veasyble</p>
+          <p className="text-gray-400 text-sm mt-1">Executor Portal</p>
+        </div>
 
-      <div className="flex-1 flex items-center justify-center px-6 pb-16">
-        <div className="w-full max-w-md">
-          <div className="text-center mb-10">
-            <h1 className="text-4xl font-extrabold tracking-tight">Veasyble</h1>
-            <p className="text-sm text-white/70 mt-1">Making Retail Visibility Easy</p>
-          </div>
-
-          {!role ? (
-            <div className="space-y-3">
-              <p className="text-center text-white/80 text-sm mb-2">Choose your role to continue</p>
-              <RoleCard
-                icon={<ClipboardCheck className="w-7 h-7" />}
-                title="Execution Team"
-                desc="Gig workers running campaigns on the ground"
-                onClick={() => setRole("executor")}
-              />
-              <RoleCard
-                icon={<LayoutDashboard className="w-7 h-7" />}
-                title="Veasyble Ops"
-                desc="Internal team monitoring the network"
-                onClick={() => setRole("ops")}
+        {loggedIn ? (
+          <PortalSelect onSelect={handlePortalSelect} />
+        ) : (
+          <div className="bg-white rounded-[5px] p-6 shadow-sm border border-gray-100 space-y-4">
+            <div>
+              <p className="text-xs font-semibold text-gray-600 mb-1.5">
+                {t("phone_label") ?? "Số điện thoại"}
+              </p>
+              <input
+                type="tel"
+                value={phone}
+                onChange={e => setPhone(e.target.value)}
+                placeholder="0901 234 567"
+                className="w-full bg-gray-50 border border-gray-200 rounded-[5px] px-3 py-2.5 text-sm outline-none"
               />
             </div>
-          ) : (
-            <form onSubmit={submit} className="bg-white text-foreground rounded-2xl p-6 shadow-xl">
-              <button
-                type="button"
-                onClick={() => setRole(null)}
-                className="text-xs text-muted-foreground flex items-center gap-1 mb-4 hover:text-foreground"
-              >
-                <ArrowLeft className="w-3 h-3" /> Change role
-              </button>
-              <h2 className="font-semibold text-lg mb-4">
-                Sign in as {role === "ops" ? "Veasyble Ops" : "Execution Team"}
-              </h2>
-              <label className="block text-xs font-medium mb-1">Email</label>
-              <input
-                type="email"
-                required
-                defaultValue={role === "ops" ? "linh@veasyble.vn" : "khoa@veasyble.vn"}
-                className="w-full border border-border rounded-md px-3 py-2 mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange/40"
-              />
-              <label className="block text-xs font-medium mb-1">Password</label>
+            <div>
+              <p className="text-xs font-semibold text-gray-600 mb-1.5">
+                {t("password_label") ?? "Mật khẩu"}
+              </p>
               <input
                 type="password"
-                required
-                defaultValue="demo1234"
-                className="w-full border border-border rounded-md px-3 py-2 mb-4 text-sm focus:outline-none focus:ring-2 focus:ring-orange/40"
+                value={pass}
+                onChange={e => setPass(e.target.value)}
+                placeholder="••••••••"
+                onKeyDown={e => e.key === "Enter" && handleLoginSubmit()}
+                className="w-full bg-gray-50 border border-gray-200 rounded-[5px] px-3 py-2.5 text-sm outline-none"
               />
-              {role === "executor" && (
-                <label className="mb-4 flex items-start gap-2 rounded-lg border border-border bg-surface px-3 py-2 text-xs text-muted-foreground">
-                  <input
-                    type="checkbox"
-                    checked={isNewAccount}
-                    onChange={(e) => setIsNewAccount(e.target.checked)}
-                    className="mt-0.5 h-4 w-4 accent-orange"
-                  />
-                  <span>New account (hasn't completed Academy)</span>
-                </label>
-              )}
-              <button
-                type="submit"
-                className="w-full bg-orange text-orange-foreground font-semibold rounded-md py-2.5 hover:opacity-90 transition"
-              >
-                Login
-              </button>
-              <Link to="/login" className="block text-center text-xs text-muted-foreground mt-3 hover:text-foreground">
-                Forgot password?
-              </Link>
-            </form>
-          )}
-        </div>
+            </div>
+            <button
+              onClick={handleLoginSubmit}
+              className="w-full bg-[#1A3557] text-white text-sm font-semibold py-3 rounded-[5px]"
+            >
+              {t("login_btn") ?? "Đăng nhập"}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
-function RoleCard({ icon, title, desc, onClick }: { icon: React.ReactNode; title: string; desc: string; onClick: () => void }) {
+function PortalSelect({ onSelect }: { onSelect: (portal: "executor" | "ops") => void }) {
   return (
-    <button
-      onClick={onClick}
-      className="w-full bg-white/10 hover:bg-white/15 border border-white/15 rounded-xl p-4 flex items-center gap-4 text-left transition"
-    >
-      <div className="w-12 h-12 rounded-lg bg-orange text-orange-foreground flex items-center justify-center shrink-0">
-        {icon}
-      </div>
-      <div>
-        <div className="font-semibold">{title}</div>
-        <div className="text-xs text-white/70">{desc}</div>
-      </div>
-    </button>
+    <div className="space-y-3 mt-4">
+      <p className="text-xs text-center text-gray-400 font-medium">Chọn portal</p>
+      <button onClick={() => onSelect("executor")}
+        className="w-full flex items-center gap-3 bg-white border border-gray-200 rounded-[5px] px-4 py-3 hover:border-[#1A3557] transition-colors">
+        <span className="text-xl">📱</span>
+        <div className="text-left">
+          <p className="text-sm font-semibold text-gray-900">Executor Portal</p>
+          <p className="text-[10px] text-gray-400">App & Web</p>
+        </div>
+      </button>
+      <button onClick={() => onSelect("ops")}
+        className="w-full flex items-center gap-3 bg-[#1A3557] rounded-[5px] px-4 py-3 hover:bg-[#162d47] transition-colors">
+        <span className="text-xl">💻</span>
+        <div className="text-left">
+          <p className="text-sm font-semibold text-white">Veasyble Ops</p>
+          <p className="text-[10px] text-white/50">Web only</p>
+        </div>
+      </button>
+    </div>
   );
 }

@@ -22,7 +22,7 @@ function AppReview() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2 space-y-4">
-          <div className="bg-card border border-border rounded-xl p-5">
+          <div className="bg-card border border-border rounded-[5px] p-5">
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 rounded-full bg-navy text-navy-foreground flex items-center justify-center font-bold">
                 {a.name.split(" ").map((n: string) => n[0]).slice(0, 2).join("")}
@@ -45,12 +45,12 @@ function AppReview() {
             </div>
           </div>
 
-          <div className="border border-orange/40 bg-orange/5 rounded-xl p-4">
+          <div className="border border-orange/40 bg-orange/5 rounded-[5px] p-4">
             <div className="text-xs font-semibold text-orange uppercase tracking-wide mb-1">Flag Reason</div>
             <div className="text-sm">{a.flag}</div>
           </div>
 
-          <div className="bg-card border border-border rounded-xl p-5">
+          <div className="bg-card border border-border rounded-[5px] p-5">
             <label className="text-xs uppercase tracking-wider text-muted-foreground mb-2 block">Internal Notes</label>
             <textarea
               value={notes}
@@ -84,7 +84,7 @@ function Field({ label, value }: { label: string; value: string }) {
 
 function Doc({ label }: { label: string }) {
   return (
-    <div className="border border-border rounded-lg overflow-hidden">
+    <div className="border border-border rounded-[5px] overflow-hidden">
       <div className="h-28 bg-surface flex items-center justify-center text-xs text-muted-foreground">Preview</div>
       <div className="px-3 py-2 text-xs">{label}</div>
     </div>

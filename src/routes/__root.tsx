@@ -112,12 +112,41 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+import { LangProvider } from "@/lib/i18n-context";
+import { DeviceProvider, DeviceToggle } from "@/lib/device";
+import { AuthProvider, useAuth } from "@/lib/auth";
+import { useLocation } from "@tanstack/react-router";
+import { useEffect } from "react";
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <AuthProvider>
+        <LangProvider>
+          <DeviceProvider>
+            <RouteGuard>
+              <Outlet />
+            </RouteGuard>
+            {/* DeviceToggle and LangToggle are handled in ExecutorSidebar/BottomNav, but for Login or Ops we might need them, though Ops is web-only. Let's not render global DeviceToggle since it's already inside Sidebar and BottomNav */}
+          </DeviceProvider>
+        </LangProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
+}
+
+function RouteGuard({ children }: { children: React.ReactNode }) {
+  const { auth } = useAuth();
+  const navigate = useRouter();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (!auth.isLoggedIn && pathname !== "/login") {
+      navigate.navigate({ to: "/login" });
+    }
+  }, [auth.isLoggedIn, pathname, navigate]);
+
+  return <>{children}</>;
 }

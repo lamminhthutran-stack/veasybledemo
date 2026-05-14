@@ -97,11 +97,11 @@ export const modules: Module[] = [
       "Huỷ task sau khi đã in materials sẽ bị trừ rating nặng và flag tài khoản",
     ],
     questions: [
-      { q: "Rating của Executor được tính từ đâu?", options: ["Chỉ Veasyble", "Chỉ Brand", "Brand + Retailer (trung bình)", "Executor tự chọn"], answer: 2 },
-      { q: "Rating nào được coi là Healthy?", options: [">= 3.0", ">= 3.5", ">= 4.0", ">= 4.5"], answer: 2 },
-      { q: "Khi rating xuống dưới 3.5?", options: ["Bị xóa tài khoản ngay", "Nhận auto-reminder và Veasyble review", "Không có gì xảy ra", "Tự động tăng lương"], answer: 1 },
-      { q: "Nếu 3 tháng không nhận task?", options: ["Bị xóa tài khoản", "Bị phạt", "Nhận email nhắc nhở - tài khoản vẫn còn", "Phải onboard lại"], answer: 2 },
-      { q: "Huỷ task sau khi đã in materials sẽ dẫn đến?", options: ["Không sao", "Trừ rating nặng + flag tài khoản", "Bị suspend ngay", "Mất tài khoản vĩnh viễn"], answer: 1 },
+      { q: "Nếu trễ check-in 10 phút, bạn sẽ bị xử lý như thế nào?", options: ["Không sao cả", "Trừ một phần thu nhập tương ứng", "Task bị huỷ ngay lập tức", "Bị khóa tài khoản"], answer: 1 },
+      { q: "Nếu trễ check-in 20 phút?", options: ["Vẫn được làm bình thường", "Trừ 50% lương", "Task tự động bị huỷ, nhường cho executor khác (surge)", "Chỉ bị nhắc nhở"], answer: 2 },
+      { q: "Rating của Executor được tính dựa trên?", options: ["Điểm do Veasyble quyết định mãi mãi", "Chỉ Brand đánh giá", "Điểm đánh giá từ Brand và Retailer (sau job đầu tiên)", "Executor tự chấm điểm"], answer: 2 },
+      { q: "Mức rating nào được coi là Healthy?", options: ["3.0 trở lên", "3.5 trở lên", "4.0 trở lên", "5.0 tuyệt đối"], answer: 2 },
+      { q: "Khi đến cửa hàng nhưng bị từ chối cho vào setup, bạn nên?", options: ["Tự đi về và chịu mất task", "Chọn 'Cửa hàng từ chối' trong app, giữ nguyên thu nhập", "Cãi nhau với bảo vệ", "Gọi ngay cho Brand để phàn nàn"], answer: 1 },
     ],
   },
 ];

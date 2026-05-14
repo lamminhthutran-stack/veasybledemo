@@ -110,7 +110,7 @@ function ProfileSetup() {
             </div>
           </Section>
 
-          <div className="bg-orange/10 border border-orange/30 rounded-lg p-3 text-xs">
+          <div className="bg-orange/10 border border-orange/30 rounded-[5px] p-3 text-xs">
             💡 Chọn càng nhiều khung giờ, bạn càng được ưu tiên nhận task tốt hơn!
           </div>
 
@@ -127,7 +127,7 @@ function ProfileSetup() {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-card border border-border rounded-xl p-4">
+    <div className="bg-card border border-border rounded-[5px] p-4">
       <div className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mb-3">{title}</div>
       {children}
     </div>

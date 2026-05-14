@@ -41,7 +41,7 @@ function Network() {
         ))}
       </div>
 
-      <div className="bg-card border border-border rounded-xl overflow-hidden">
+      <div className="bg-card border border-border rounded-[5px] overflow-hidden">
         <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr] gap-4 px-4 py-3 text-[11px] uppercase tracking-wider text-muted-foreground font-semibold border-b border-border">
           <div>Name</div><div>Tier</div><div>City</div><div>Rating</div><div>Tasks</div><div>Status</div>
         </div>
@@ -75,7 +75,7 @@ function Network() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="bg-card border border-border rounded-xl p-4">
+    <div className="bg-card border border-border rounded-[5px] p-4">
       <div className="text-xs text-muted-foreground">{label}</div>
       <div className="text-2xl font-bold mt-1">{value}</div>
     </div>

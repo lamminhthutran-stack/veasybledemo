@@ -78,7 +78,7 @@ function Results() {
         )}
       </div>
 
-      <div className="bg-card border border-border rounded-xl p-4">
+      <div className="bg-card border border-border rounded-[5px] p-4">
         <div className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mb-3">Đáp án chi tiết</div>
         <div className="space-y-3">
           {m.questions.map((q, i) => {

@@ -1,0 +1,52 @@
+import { Link, useLocation } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
+import { LangToggle } from "@/lib/i18n-context";
+import { DeviceToggle } from "@/lib/device";
+import { LogoutButton } from "./LogoutButton";
+
+export function ExecutorSidebar() {
+  const { pathname } = useLocation();
+  const { t } = useTranslation();
+
+  const navItems = [
+    { to: "/executor/home",      label: t("nav_home"),    icon: "🏠" },
+    { to: "/executor/tasks",     label: t("nav_tasks"),   icon: "📋" },
+    { to: "/executor/knowledge", label: t("nav_sml"),     icon: "💬" },
+    { to: "/executor/profile",   label: t("nav_profile"), icon: "👤" },
+  ];
+
+  return (
+    <aside className="fixed left-0 top-0 h-full w-56 bg-white border-r border-gray-100 flex flex-col py-8 px-4 z-30">
+      {/* Logo */}
+      <div className="mb-8 px-2">
+        <p className="text-lg font-bold text-[#1A3557]">Veasyble</p>
+        <p className="text-[10px] text-gray-400">Executor Portal</p>
+      </div>
+
+      {/* Nav items */}
+      <nav className="flex-1 space-y-1">
+        {navItems.map(item => {
+          const isActive = pathname === item.to;
+          return (
+            <Link key={item.to} to={item.to}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-[5px] text-sm font-medium transition-colors ${
+                isActive ? "bg-[#1A3557] text-white" : "text-gray-600 hover:bg-gray-50"
+              }`}>
+              <span>{item.icon}</span>
+              <span>{item.label}</span>
+            </Link>
+          );
+        })}
+      </nav>
+
+      {/* Bottom: toggles + logout */}
+      <div className="space-y-3 pt-4 border-t border-gray-100">
+        <div className="flex items-center justify-between px-2">
+          <LangToggle />
+          <DeviceToggle />
+        </div>
+        <LogoutButton />
+      </div>
+    </aside>
+  );
+}

@@ -48,14 +48,14 @@ function Quiz() {
         </div>
       </div>
 
-      <div className="bg-card border border-border rounded-xl p-5 shadow-sm">
+      <div className="bg-card border border-border rounded-[5px] p-5 shadow-sm">
         <div className="font-semibold text-base leading-snug mb-4">{q.q}</div>
         <div className="space-y-2">
           {q.options.map((opt, i) => (
             <button
               key={i}
               onClick={() => setSelected(i)}
-              className={`w-full text-left px-4 py-3 rounded-lg border text-sm transition ${
+              className={`w-full text-left px-4 py-3 rounded-[5px] border text-sm transition ${
                 selected === i
                   ? "border-orange bg-orange/10 font-semibold"
                   : "border-border hover:border-muted-foreground/40"

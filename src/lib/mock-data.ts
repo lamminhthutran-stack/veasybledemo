@@ -101,11 +101,76 @@ export const tasks: Task[] = [
 ];
 
 export const escalations = [
-  { id: "e-1", type: "Application", phase: "Onboard", desc: "Flagged application — unusual background, strong experience", time: "12m ago", priority: "High", status: "Open" },
-  { id: "e-2", type: "Task", phase: "Execute", desc: "Late check-in — Quận 7, Lotte Mart", time: "38m ago", priority: "Medium", status: "In Progress", assignee: "Linh T." },
-  { id: "e-3", type: "Verification", phase: "Verification", desc: "PoP photos missing planogram angle", time: "1h ago", priority: "Medium", status: "Open" },
-  { id: "e-4", type: "Quality", phase: "Quality", desc: "Executor rating dropped below 4.0 (3 brands)", time: "2h ago", priority: "High", status: "Open" },
-  { id: "e-5", type: "Network", phase: "Dispatch", desc: "Coverage gap — Đà Nẵng District 2", time: "3h ago", priority: "Low", status: "Resolved" },
+  {
+    id: "e-1",
+    phase: "Onboard",
+    severity: "High",
+    status: "Open",
+    title: "Flagged application — unusual background, strong experience",
+    executorId: "exec-001",
+    createdAt: "2026-05-14T08:30:00Z",
+    resolvedAt: null,
+    resolvedNote: null,
+  },
+  {
+    id: "e-2",
+    phase: "Execute",
+    severity: "Medium",
+    status: "In Progress",
+    title: "Late check-in — Quận 7, Lotte Mart",
+    executorId: "exec-002",
+    createdAt: "2026-05-14T07:15:00Z",
+    resolvedAt: null,
+    resolvedNote: null,
+  },
+  {
+    id: "e-3",
+    phase: "Verification",
+    severity: "Medium",
+    status: "Open",
+    title: "PoP photos missing planogram angle",
+    executorId: "exec-003",
+    createdAt: "2026-05-14T06:00:00Z",
+    resolvedAt: null,
+    resolvedNote: null,
+  },
+  {
+    id: "e-4",
+    phase: "Quality",
+    severity: "High",
+    status: "Open",
+    title: "Executor rating dropped below 4.0 (3 brands)",
+    executorId: "exec-004",
+    createdAt: "2026-05-14T05:00:00Z",
+    resolvedAt: null,
+    resolvedNote: null,
+  },
+  {
+    id: "e-5",
+    phase: "Dispatch",
+    severity: "Low",
+    status: "Resolved",
+    title: "Coverage gap — Đà Nẵng District 2",
+    executorId: "exec-005",
+    createdAt: "2026-05-14T04:00:00Z",
+    resolvedAt: "2026-05-14T05:30:00Z",
+    resolvedNote: "Assigned 2 backup executors.",
+  },
+];
+
+export type CoverageZone = {
+  district: string;
+  executorCount: number;
+  demandForecast: number;
+  matchRate: number;
+};
+
+export const coverageZones: CoverageZone[] = [
+  { district: "Quận 1", executorCount: 12, demandForecast: 10, matchRate: 120 },
+  { district: "Quận 7", executorCount: 8, demandForecast: 10, matchRate: 80 },
+  { district: "Bình Thạnh", executorCount: 3, demandForecast: 8, matchRate: 38 },
+  { district: "Thủ Đức", executorCount: 5, demandForecast: 6, matchRate: 83 },
+  { district: "Gò Vấp", executorCount: 1, demandForecast: 5, matchRate: 20 },
 ];
 
 export const applications = {
@@ -165,12 +230,19 @@ export const executorProfile = {
 };
 
 export const executorsList = [
-  { id: "u-1", name: "Nguyễn Minh Khoa", tier: "Standard", city: "HCMC", rating: 4.6, tasks: 23, status: "Active" },
-  { id: "u-2", name: "Phạm Thị Hương", tier: "Senior", city: "HCMC", rating: 4.8, tasks: 91, status: "Active" },
-  { id: "u-3", name: "Lê Quang Huy", tier: "Standard", city: "Hà Nội", rating: 3.9, tasks: 14, status: "Warning" },
-  { id: "u-4", name: "Trần Mỹ Linh", tier: "Senior", city: "Đà Nẵng", rating: 4.5, tasks: 67, status: "Active" },
-  { id: "u-5", name: "Đỗ Văn Sơn", tier: "Standard", city: "HCMC", rating: 2.8, tasks: 9, status: "Suspended" },
-  { id: "u-6", name: "Bùi Thanh Hà", tier: "Standard", city: "HCMC", rating: 4.2, tasks: 31, status: "Dormant" },
+  { 
+    id: "u-1", name: "Nguyễn Minh Khoa", tier: "Standard", city: "HCMC", rating: 4.6, tasks: 23, status: "Active",
+    partnerFeedback: [
+      { from: "Milo Brand Team", campaignName: "Summer Activation Q2", submittedAt: "2026-05-13", sentiment: "positive", comment: "Executor thực hiện đúng planogram, ảnh chất lượng tốt. Rất đáng tin cậy." },
+      { from: "Big C Quận 7 — Store Manager", campaignName: "Summer Activation Q2", submittedAt: "2026-05-13", sentiment: "neutral", comment: "Đến đúng giờ nhưng cần hỏi thêm về vị trí đặt hàng. Không có vấn đề lớn." },
+      { from: "Pepsi Campaign Team", campaignName: "Back to School Launch", submittedAt: "2026-04-29", sentiment: "negative", comment: "Thiếu 1 góc chụp trong bộ PoP, phải nhắc lại. Cần cải thiện độ chủ động." }
+    ]
+  },
+  { id: "u-2", name: "Phạm Thị Hương", tier: "Senior", city: "HCMC", rating: 4.8, tasks: 91, status: "Active", partnerFeedback: [] },
+  { id: "u-3", name: "Lê Quang Huy", tier: "Standard", city: "Hà Nội", rating: 3.9, tasks: 14, status: "Warning", partnerFeedback: [] },
+  { id: "u-4", name: "Trần Mỹ Linh", tier: "Senior", city: "Đà Nẵng", rating: 4.5, tasks: 67, status: "Active", partnerFeedback: [] },
+  { id: "u-5", name: "Đỗ Văn Sơn", tier: "Standard", city: "HCMC", rating: 2.8, tasks: 9, status: "Suspended", partnerFeedback: [] },
+  { id: "u-6", name: "Bùi Thanh Hà", tier: "Standard", city: "HCMC", rating: 4.2, tasks: 31, status: "Dormant", partnerFeedback: [] },
 ];
 
 export interface AvailableTask {
@@ -180,10 +252,18 @@ export interface AvailableTask {
   campaignName: string;
   storeName: string;
   district: string;
+  address?: string;
   scheduledTime: string;
   pay: number;
   date: string;
   status: string;
+  printStation?: {
+    pickupDate: string;
+    address: string;
+    materials: string;
+    note?: string;
+  };
+  sopItems?: string[];
 }
 
 export const availableTasks: AvailableTask[] = [
@@ -194,10 +274,23 @@ export const availableTasks: AvailableTask[] = [
     campaignName: "Pepsi Summer 2026",
     storeName: "FamilyMart Nguyễn Trãi",
     district: "Quận 5",
+    address: "245 Nguyễn Trãi, Quận 5",
     scheduledTime: "9:00–11:00 AM",
     pay: 180000,
     date: "2026-05-14",
     status: "accepted",
+    printStation: {
+      pickupDate: "2026-05-13",
+      address: "123 Lê Lai, Q1",
+      materials: "Banner A1, Shelf talker x5, Wobbler x2",
+      note: "Nhận trước ngày thực hiện ít nhất 1 ngày.",
+    },
+    sopItems: [
+      "Chụp ảnh kệ TRƯỚC khi setup",
+      "Setup theo planogram đính kèm",
+      "Chụp ảnh kệ SAU khi setup — đủ 4 góc",
+      "Selfie tại store với đồng phục",
+    ],
   },
   {
     id: "t-002",
