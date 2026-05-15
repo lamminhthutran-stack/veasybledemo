@@ -11,10 +11,10 @@ import { ReviewModal } from "@/components/ReviewModal";
 import { Clock, AlertTriangle, AlertCircle } from "lucide-react";
 
 export const Route = createFileRoute("/ops/execution")({
-  component: SubmissionsCheck,
+  component: Submissions,
 });
 
-function SubmissionsCheck() {
+function Submissions() {
   const [now, setNow] = useState(Date.now());
   const [selectedTask, setSelectedTask] = useState<{ taskId: string } | null>(null);
 
@@ -69,7 +69,7 @@ function SubmissionsCheck() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Submissions Check</h1>
+      <h1 className="text-2xl font-bold">Submissions</h1>
 
       {/* Summary Bar */}
       <div className="grid grid-cols-4 gap-4">
@@ -175,8 +175,6 @@ function SubmissionsCheck() {
           entry={{ taskId: selectedTask.taskId } as TaskHistoryEntry}
           onClose={() => setSelectedTask(null)}
           onApprove={() => {
-            // Live execution view shouldn't really approve tasks (since they haven't submitted),
-            // but the modal requires this handler. For demonstration, we just close.
             setSelectedTask(null);
           }}
           onReject={() => {
