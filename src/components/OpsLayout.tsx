@@ -21,9 +21,8 @@ function OpsSidebar() {
   const navItems = [
     { to: "/ops/dashboard", label: "Dashboard", icon: "" },
     { to: "/ops/escalations", label: "Escalation Queue", icon: "" },
-    { to: "/ops/submissions", label: "Submissions", icon: "" },
     { to: "/ops/campaigns", label: "Campaign Monitor", icon: "" },
-    { to: "/ops/execution", label: "Execution Live", icon: "" },
+    { to: "/ops/execution", label: "Submissions Check", icon: "" },
     { to: "/ops/executors", label: "Executor Network", icon: "" },
   ];
 
@@ -37,7 +36,7 @@ function OpsSidebar() {
       {/* Logo */}
       <div className="mb-8 px-2">
         <p className="text-lg font-bold text-white">Veasyble</p>
-        <p className="text-[10px] text-white/50">{"Ops Portal"}</p>
+        <p className="text-[10px] text-white/50">Ops Portal</p>
       </div>
 
       {/* Nav */}
@@ -75,7 +74,7 @@ function OpsSidebar() {
               d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
             />
           </svg>
-          {"Logout"}
+          Logout
         </button>
       </div>
     </aside>
