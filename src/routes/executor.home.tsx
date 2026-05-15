@@ -26,7 +26,7 @@ function ExecutorHome() {
       <div className="bg-white px-4 pt-12 pb-4 shadow-sm">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs text-gray-400 font-medium">{"Hello 👋"}</p>
+            <p className="text-xs text-gray-400 font-medium">Hello</p>
             <h1 className="text-xl font-bold text-gray-900">{profile.name}</h1>
           </div>
           <div className="w-10 h-10 rounded-full bg-[#1A3557] flex items-center justify-center text-white font-bold text-sm">
@@ -43,7 +43,7 @@ function ExecutorHome() {
             onClick={() => setShowRatingSheet(true)}
             className="bg-white rounded-[5px] p-3 shadow-sm border border-gray-100 text-left flex flex-col gap-1 w-full h-full active:scale-95 transition-transform"
           >
-            <p className="text-[10px] text-gray-400 font-medium">{"Rating"}</p>
+            <p className="text-[10px] text-gray-400 font-medium">Rating</p>
             <p className="text-2xl font-bold text-gray-900 leading-none">{profile.rating}</p>
             <span
               className={`text-[9px] font-semibold px-1.5 py-0.5 rounded-full w-fit ${
@@ -64,12 +64,12 @@ function ExecutorHome() {
                     ? "At Risk"
                     : "Suspended"}
             </span>
-            <p className="text-[9px] text-gray-300 mt-auto pt-1">{"View details →"}</p>
+            <p className="text-[9px] text-gray-300 mt-auto pt-1">View details</p>
           </button>
 
           {/* Earnings Card */}
           <div className="bg-white rounded-[5px] p-3 shadow-sm border border-gray-100 flex flex-col gap-1">
-            <p className="text-[10px] text-gray-400 font-medium">{"Earnings"}</p>
+            <p className="text-[10px] text-gray-400 font-medium">Earnings</p>
             <p className="text-xl font-bold text-[#F97316] leading-none">
               {formatEarnings(profile.monthlyEarnings)}
             </p>
@@ -79,27 +79,27 @@ function ExecutorHome() {
 
           {/* Card Campaigns */}
           <div className="bg-white rounded-[5px] p-3 shadow-sm border border-gray-100 flex flex-col gap-1">
-            <p className="text-[10px] text-gray-400 font-medium">{"Campaigns"}</p>
+            <p className="text-[10px] text-gray-400 font-medium">Campaigns</p>
             <p className="text-2xl font-bold text-gray-900 leading-none">
               {profile.campaignsThisMonth}
             </p>
-            <p className="text-[9px] text-gray-400 mt-auto pt-1">{"This Month"}</p>
+            <p className="text-[9px] text-gray-400 mt-auto pt-1">This Month</p>
           </div>
         </div>
 
         {/* Current Tasks */}
         <div>
-          <p className="text-sm font-bold text-gray-800 mb-3">{"Current Tasks"}</p>
+          <p className="text-sm font-bold text-gray-800 mb-3">Current Tasks</p>
           {myTasks.length === 0 ? (
             <div className="bg-white rounded-[5px] p-6 text-center border border-gray-100">
               <div className="text-3xl mb-2"></div>
-              <p className="text-gray-500 text-sm font-medium">{"No tasks yet"}</p>
-              <p className="text-gray-400 text-xs mt-1">{"Go to Browse Tasks to find tasks"}</p>
+              <p className="text-gray-500 text-sm font-medium">No tasks yet</p>
+              <p className="text-gray-400 text-xs mt-1">Go to Browse Tasks to find tasks</p>
               <Link
                 to="/executor/tasks"
                 className="inline-block mt-3 bg-[#F97316] text-white px-4 py-2 rounded-[5px] text-xs font-semibold"
               >
-                {"Browse now"}
+                Browse now
               </Link>
             </div>
           ) : (
@@ -119,8 +119,6 @@ function ExecutorHome() {
     </div>
   );
 }
-
-// ─── My Task Card ─────────────────────────────────────────────────────────────
 
 function MyTaskCard({ task, onCancel }: { task: AvailableTask; onCancel: (id: string) => void }) {
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
@@ -142,8 +140,8 @@ function MyTaskCard({ task, onCancel }: { task: AvailableTask; onCancel: (id: st
         <StatusBadge status={task.status} />
       </div>
       <div className="flex items-center gap-3 text-xs text-gray-400 mb-3">
-        <span> {task.scheduledTime}</span>
-        <span> {displayDate}</span>
+        <span>{task.scheduledTime}</span>
+        <span>{displayDate}</span>
         <span className="ml-auto font-semibold text-[#F97316]">
           {task.pay.toLocaleString()} VND
         </span>
@@ -156,20 +154,20 @@ function MyTaskCard({ task, onCancel }: { task: AvailableTask; onCancel: (id: st
             params={{ id: task.id }}
             className="flex-1 bg-[#1A3557] text-white text-xs font-semibold py-2.5 rounded-[5px] text-center"
           >
-            "View Task"
+            View Task
           </Link>
           <button
             onClick={() => setShowCancelConfirm(true)}
             className="px-4 text-xs font-semibold text-gray-400 border border-gray-200 rounded-[5px]"
           >
-            {"Cancel"}
+            Cancel
           </button>
         </div>
       ) : (
         <div className="pt-3 border-t border-red-50 bg-red-50 rounded-[5px] p-3 -mx-1 mt-3">
-          <p className="text-xs font-semibold text-red-700 mb-0.5">{"Cancel this task?"}</p>
+          <p className="text-xs font-semibold text-red-700 mb-0.5">Cancel this task?</p>
           <p className="text-[10px] text-red-500 mb-2">
-            {"⚠️ Cancelling will be recorded as a penalty and may affect your rating."}
+            Cancelling will be recorded as a penalty and may affect your rating.
           </p>
           <div className="flex gap-2">
             <button
@@ -179,13 +177,13 @@ function MyTaskCard({ task, onCancel }: { task: AvailableTask; onCancel: (id: st
               }}
               className="flex-1 bg-red-600 text-white text-xs font-semibold py-2 rounded-[5px]"
             >
-              {"Confirm cancel"}
+              Confirm cancel
             </button>
             <button
               onClick={() => setShowCancelConfirm(false)}
               className="flex-1 bg-white text-gray-600 text-xs font-semibold py-2 rounded-[5px] border border-gray-200"
             >
-              {"Keep task"}
+              Keep task
             </button>
           </div>
         </div>
@@ -193,8 +191,6 @@ function MyTaskCard({ task, onCancel }: { task: AvailableTask; onCancel: (id: st
     </div>
   );
 }
-
-// ─── Rating Bottom Sheet ──────────────────────────────────────────────────────
 
 function RatingBottomSheet({
   profile,
@@ -210,7 +206,7 @@ function RatingBottomSheet({
         <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5" />
 
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg font-bold text-gray-900">{"Your Rating"}</h2>
+          <h2 className="text-lg font-bold text-gray-900">Your Rating</h2>
           <div className="flex items-center gap-2">
             <span className="text-3xl font-bold text-gray-900">{profile.rating}</span>
             <span className="text-gray-400 text-sm">/5</span>
@@ -218,7 +214,7 @@ function RatingBottomSheet({
         </div>
 
         <p className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wide">
-          {"By dimension"}
+          By dimension
         </p>
         <div className="space-y-3 mb-6">
           {profile.ratingBreakdown.map((dim) => (
@@ -246,7 +242,7 @@ function RatingBottomSheet({
         {profile.feedback.length > 0 && (
           <>
             <p className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wide">
-              {"Recent feedback"}
+              Recent feedback
             </p>
             <div className="space-y-2">
               {profile.feedback.map((fb, i) => (
@@ -266,8 +262,6 @@ function RatingBottomSheet({
     </>
   );
 }
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function StatusBadge({ status }: { status: string }) {
   const map: Record<string, { label: string; color: string }> = {
