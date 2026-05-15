@@ -8,6 +8,7 @@ import {
 } from "@/lib/mock-data";
 import { acceptTask, declineTask, getDeclinedTaskIds, getCancelledTaskIds } from "@/lib/task-state";
 import { isTaskMatchingAvailability } from "@/lib/availability-utils";
+import { ContextGuide } from "@/components/ContextGuide";
 
 export const Route = createFileRoute("/executor/tasks")({
   component: ExecutorTasks,
@@ -60,9 +61,20 @@ function ExecutorTasks() {
     <div className="min-h-screen bg-[#F7F8FA] flex flex-col pb-20">
       {/* Header */}
       <div className="bg-white px-4 pt-12 pb-4 shadow-sm border-b border-gray-100">
-        <h1 className="text-xl font-bold text-gray-900 mb-3">{"Browse Tasks"}</h1>
+        <h1 className="text-xl font-bold text-gray-900 mb-3">Browse Tasks</h1>
 
-        <label className="flex items-center justify-between bg-gray-50 p-3 rounded-[5px] border border-gray-100 cursor-pointer">
+        <ContextGuide
+          title="How Browse Tasks works"
+          steps={[
+            "Use this screen to find available jobs you have not accepted or declined yet.",
+            "Keep availability matching on to see only jobs that fit the schedule saved in Profile.",
+            "Open Filter to narrow tasks by area or minimum pay.",
+            "Tap a task card to review details first, or Accept to commit it into My Tasks.",
+            "Decline hides the task from Browse and moves it to Profile where it can be restored if not expired.",
+          ]}
+        />
+
+        <label className="mt-3 flex items-center justify-between bg-gray-50 p-3 rounded-[5px] border border-gray-100 cursor-pointer">
           <span className="text-sm font-medium text-gray-700">
             Show only tasks matching my availability
           </span>
@@ -101,7 +113,7 @@ function ExecutorTasks() {
               d="M3 4h18M7 12h10M11 20h2"
             />
           </svg>
-          {"Filter"} {hasActiveFilter && "•"}
+          Filter {hasActiveFilter && "•"}
         </button>
       </div>
 
@@ -109,7 +121,7 @@ function ExecutorTasks() {
       {showFilter && (
         <div className="mx-4 mt-3 bg-white rounded-[5px] p-4 border border-gray-100 shadow-sm space-y-4">
           <div>
-            <p className="text-xs font-semibold text-gray-500 mb-2">{"Area"}</p>
+            <p className="text-xs font-semibold text-gray-500 mb-2">Area</p>
             <div className="flex flex-wrap gap-2">
               {districts.map((d) => (
                 <button
@@ -128,7 +140,7 @@ function ExecutorTasks() {
           </div>
           <div>
             <p className="text-xs font-semibold text-gray-500 mb-2">
-              {"Minimum pay"}:
+              Minimum pay:
               <span className="text-[#F97316]">
                 {filters.minPay === 0 ? "All" : `${filters.minPay.toLocaleString()} VND`}
               </span>
@@ -151,7 +163,7 @@ function ExecutorTasks() {
             onClick={() => setFilters({ district: "all", minPay: 0 })}
             className="text-xs text-gray-400 underline"
           >
-            {"Clear filters"}
+            Clear filters
           </button>
         </div>
       )}
@@ -171,9 +183,9 @@ function ExecutorTasks() {
         </div>
       ) : displayedTasks.length === 0 ? (
         <div className="mx-4 mt-4 bg-blue-50 rounded-[5px] p-4 border border-blue-100">
-          <p className="text-xs font-semibold text-blue-700 mb-1">{"No matching tasks"}</p>
+          <p className="text-xs font-semibold text-blue-700 mb-1">No matching tasks</p>
           <p className="text-xs text-blue-600">
-            {"Matching tasks must fit both your available dates AND districts set in Profile."}
+            Matching tasks must fit both your available dates AND districts set in Profile.
           </p>
         </div>
       ) : (
@@ -217,7 +229,7 @@ function BrowseTaskCard({
         <div className="flex justify-between items-start mb-1">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-[5px] bg-orange-50 flex items-center justify-center text-sm">
-              {task.brandLogo ?? "️"}
+              {task.brandLogo ?? ""}
             </div>
             <div>
               <p className="font-semibold text-gray-900 text-sm">{task.brand}</p>
@@ -228,7 +240,6 @@ function BrowseTaskCard({
         </div>
         <div className="mt-3 pt-3 border-t border-gray-50 flex items-center gap-4 text-xs text-gray-400">
           <span>
-            {" "}
             {task.storeName} · {task.district}
           </span>
           <span> {task.scheduledTime}</span>
@@ -241,13 +252,13 @@ function BrowseTaskCard({
             onClick={onAccept}
             className="flex-1 bg-[#1A3557] text-white text-xs font-semibold py-2.5 rounded-[5px] text-center"
           >
-            {"Accept"}
+            Accept
           </button>
           <button
             onClick={onDecline}
             className="px-4 text-xs font-semibold text-gray-400 border border-gray-200 rounded-[5px]"
           >
-            {"Decline"}
+            Decline
           </button>
         </div>
       )}
@@ -267,7 +278,7 @@ function DeclinedSection({ declinedIds }: { declinedIds: string[] }) {
         onClick={() => setOpen(!open)}
         className="text-xs text-gray-400 underline font-medium"
       >
-        {"Declined"} ({declinedTasks.length})
+        Declined ({declinedTasks.length})
       </button>
       {open && (
         <div className="mt-3 space-y-3">
