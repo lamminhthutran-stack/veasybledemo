@@ -9,6 +9,7 @@ import {
 } from "@/lib/task-state";
 import { ReviewModal } from "@/components/ReviewModal";
 import { Clock, AlertTriangle, AlertCircle } from "lucide-react";
+import { ContextGuide } from "@/components/ContextGuide";
 
 export const Route = createFileRoute("/ops/execution")({
   component: Submissions,
@@ -69,7 +70,20 @@ function Submissions() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Submissions</h1>
+      <div>
+        <h1 className="text-2xl font-bold">Submissions</h1>
+        <div className="mt-3">
+          <ContextGuide
+            title="How Submissions works"
+            steps={[
+              "Use the summary cards to see how many executions are active, on time, overdue, or critical.",
+              "Rows turn orange when work is overdue and red when it is critical so Ops can prioritize follow-up.",
+              "Click a task row to inspect campaign requirements, proof placeholders, checklist evidence, and executor notes.",
+              "If proof needs correction, request a revision in the review modal so the executor can resubmit.",
+            ]}
+          />
+        </div>
+      </div>
 
       {/* Summary Bar */}
       <div className="grid grid-cols-4 gap-4">
