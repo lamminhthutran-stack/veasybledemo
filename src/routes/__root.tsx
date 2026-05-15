@@ -72,27 +72,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
+      { title: "Veasyble Demo" },
       {
         name: "description",
         content:
-          "Exact Match UI replicates a given screenshot precisely, offering a file-based routing system.",
+          "Veasyble Demo showcases executor task flows and operations dashboards for retail visibility campaigns.",
       },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
+      { name: "author", content: "Veasyble" },
+      { property: "og:title", content: "Veasyble Demo" },
       {
         property: "og:description",
         content:
-          "Exact Match UI replicates a given screenshot precisely, offering a file-based routing system.",
+          "Veasyble Demo showcases executor task flows and operations dashboards for retail visibility campaigns.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Lovable App" },
+      { name: "twitter:title", content: "Veasyble Demo" },
       {
         name: "twitter:description",
         content:
-          "Exact Match UI replicates a given screenshot precisely, offering a file-based routing system.",
+          "Veasyble Demo showcases executor task flows and operations dashboards for retail visibility campaigns.",
       },
       {
         property: "og:image",
