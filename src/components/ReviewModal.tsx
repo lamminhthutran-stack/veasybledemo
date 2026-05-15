@@ -6,7 +6,6 @@ import { availableTasks } from "@/lib/mock-data";
 export function ReviewModal({
   entry,
   onClose,
-  onApprove,
   onReject,
 }: {
   entry: TaskHistoryEntry;
@@ -154,12 +153,6 @@ export function ReviewModal({
                 className="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-[5px] text-sm font-semibold hover:bg-white bg-gray-100 transition-colors"
               >
                 Request Revision
-              </button>
-              <button
-                onClick={onApprove}
-                className="px-6 py-2.5 bg-green-600 text-white rounded-[5px] text-sm font-semibold hover:bg-green-700 transition-colors"
-              >
-                Approve Submission
               </button>
             </div>
           ) : (
