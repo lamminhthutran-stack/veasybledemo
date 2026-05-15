@@ -4,12 +4,12 @@ import { LogoutButton } from "./LogoutButton";
 
 export function ExecutorSidebar() {
   const { pathname } = useLocation();
-  
+
   const navItems = [
-    { to: "/executor/home",      label: "Home",    icon: "" },
-    { to: "/executor/tasks",     label: "Browse",   icon: "" },
-    { to: "/executor/knowledge", label: "FAQ",     icon: "" },
-    { to: "/executor/profile",   label: "Profile", icon: "" },
+    { to: "/executor/home", label: "Home", icon: "" },
+    { to: "/executor/tasks", label: "Browse", icon: "" },
+    { to: "/executor/knowledge", label: "FAQ", icon: "" },
+    { to: "/executor/profile", label: "Profile", icon: "" },
   ];
 
   return (
@@ -22,13 +22,16 @@ export function ExecutorSidebar() {
 
       {/* Nav items */}
       <nav className="flex-1 space-y-1">
-        {navItems.map(item => {
+        {navItems.map((item) => {
           const isActive = pathname === item.to;
           return (
-            <Link key={item.to} to={item.to}
+            <Link
+              key={item.to}
+              to={item.to}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-[5px] text-sm font-medium transition-colors ${
                 isActive ? "bg-[#1A3557] text-white" : "text-gray-600 hover:bg-gray-50"
-              }`}>
+              }`}
+            >
               <span>{item.icon}</span>
               <span>{item.label}</span>
             </Link>

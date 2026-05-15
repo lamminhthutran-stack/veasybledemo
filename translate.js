@@ -6,7 +6,7 @@ const files = [
   "src/routes/ops.dashboard.tsx",
   "src/routes/ops.escalations.tsx",
   "src/routes/ops.executors.index.tsx",
-  "src/routes/ops.executors.$id.tsx"
+  "src/routes/ops.executors.$id.tsx",
 ];
 
 // Instead of mapping every single string, we can do targeted string replacements using regex or specific replace() calls.
@@ -16,8 +16,11 @@ for (const file of files) {
   let content = fs.readFileSync(file, "utf-8");
 
   // Add import if missing
-  if (!content.includes('useTranslation')) {
-    content = content.replace(/import \{ useLang .*;/g, 'import { useTranslation } from "react-i18next";\n$&');
+  if (!content.includes("useTranslation")) {
+    content = content.replace(
+      /import \{ useLang .*;/g,
+      'import { useTranslation } from "react-i18next";\n$&',
+    );
   }
 
   // replace const { lang } = useLang() with const { t } = useTranslation() if needed, but we might need both if LangToggle is used

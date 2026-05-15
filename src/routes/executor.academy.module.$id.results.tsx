@@ -9,7 +9,7 @@ export const Route = createFileRoute("/executor/academy/module/$id/results")({
 function Results() {
   const { id } = Route.useParams();
   const m = getModule(id);
-  
+
   let answers: number[] = [];
   let score = 0;
   if (typeof window !== "undefined") {
@@ -34,18 +34,24 @@ function Results() {
         >
           {score}%
         </div>
-        <div className="text-sm text-muted-foreground mt-2">{correct}/{m.questions.length} {"correct"}</div>
+        <div className="text-sm text-muted-foreground mt-2">
+          {correct}/{m.questions.length} {"correct"}
+        </div>
 
         {passed ? (
           <div className="mt-4">
             <div className="text-success text-2xl">✓</div>
-            <div className="font-semibold mt-1">{"Excellent! You completed"} Module {m.num}</div>
+            <div className="font-semibold mt-1">
+              {"Excellent! You completed"} Module {m.num}
+            </div>
           </div>
         ) : (
           <div className="mt-4">
             <div className="text-danger text-2xl">✗</div>
             <div className="font-semibold mt-1">{"Not passed"}</div>
-            <div className="text-sm text-muted-foreground">{"You need at least 70% to pass this module."}</div>
+            <div className="text-sm text-muted-foreground">
+              {"You need at least 70% to pass this module."}
+            </div>
           </div>
         )}
       </div>
@@ -53,24 +59,42 @@ function Results() {
       <div className="space-y-2">
         {passed ? (
           allDone ? (
-            <Link to="/executor/academy/complete" className="flex items-center justify-center w-full bg-orange text-orange-foreground font-semibold rounded-md py-3 min-h-[44px] text-sm">
+            <Link
+              to="/executor/academy/complete"
+              className="flex items-center justify-center w-full bg-orange text-orange-foreground font-semibold rounded-md py-3 min-h-[44px] text-sm"
+            >
               {"View Academy Results →"}
             </Link>
           ) : nextModule ? (
-            <Link to="/executor/academy/module/$id/video" params={{ id: nextModule.id }} className="flex items-center justify-center w-full bg-orange text-orange-foreground font-semibold rounded-md py-3 min-h-[44px] text-sm">
+            <Link
+              to="/executor/academy/module/$id/video"
+              params={{ id: nextModule.id }}
+              className="flex items-center justify-center w-full bg-orange text-orange-foreground font-semibold rounded-md py-3 min-h-[44px] text-sm"
+            >
               {"Continue Module"} {nextModule.num} →
             </Link>
           ) : (
-            <Link to="/executor/academy" className="flex items-center justify-center w-full bg-orange text-orange-foreground font-semibold rounded-md py-3 min-h-[44px] text-sm">
+            <Link
+              to="/executor/academy"
+              className="flex items-center justify-center w-full bg-orange text-orange-foreground font-semibold rounded-md py-3 min-h-[44px] text-sm"
+            >
               {"Back to Academy"}
             </Link>
           )
         ) : (
           <div className="grid grid-cols-2 gap-2">
-            <Link to="/executor/academy/module/$id/video" params={{ id }} className="flex items-center justify-center text-center border border-navy text-navy font-semibold rounded-md py-3 min-h-[44px] text-sm">
+            <Link
+              to="/executor/academy/module/$id/video"
+              params={{ id }}
+              className="flex items-center justify-center text-center border border-navy text-navy font-semibold rounded-md py-3 min-h-[44px] text-sm"
+            >
               {"Review video"}
             </Link>
-            <Link to="/executor/academy/module/$id/quiz" params={{ id }} className="flex items-center justify-center text-center bg-orange text-orange-foreground font-semibold rounded-md py-3 min-h-[44px] text-sm">
+            <Link
+              to="/executor/academy/module/$id/quiz"
+              params={{ id }}
+              className="flex items-center justify-center text-center bg-orange text-orange-foreground font-semibold rounded-md py-3 min-h-[44px] text-sm"
+            >
               {"Retake Quiz"}
             </Link>
           </div>
@@ -78,7 +102,9 @@ function Results() {
       </div>
 
       <div className="bg-card border border-border rounded-[5px] p-4">
-        <div className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mb-3">{"Detailed answers"}</div>
+        <div className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mb-3">
+          {"Detailed answers"}
+        </div>
         <div className="space-y-3">
           {m.questions.map((q, i) => {
             const userAns = answers[i];
@@ -86,13 +112,18 @@ function Results() {
             return (
               <div key={i} className="text-sm">
                 <div className="flex items-start gap-2">
-                  <span className={`mt-0.5 w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${ok ? "bg-success/20 text-success" : "bg-danger/20 text-danger"}`}>
+                  <span
+                    className={`mt-0.5 w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${ok ? "bg-success/20 text-success" : "bg-danger/20 text-danger"}`}
+                  >
                     {ok ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
                   </span>
                   <div className="flex-1">
-                    <div className="font-medium">{i + 1}. {q.q}</div>
+                    <div className="font-medium">
+                      {i + 1}. {q.q}
+                    </div>
                     <div className="text-xs text-muted-foreground mt-0.5">
-                      {"Correct answer:"} <span className="text-success font-semibold">{q.options[q.answer]}</span>
+                      {"Correct answer:"}{" "}
+                      <span className="text-success font-semibold">{q.options[q.answer]}</span>
                     </div>
                     {!ok && userAns !== undefined && (
                       <div className="text-xs text-muted-foreground">

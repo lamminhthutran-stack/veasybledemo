@@ -14,7 +14,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   });
 
   function login(name: string) {
-    const initials = name.split(" ").map(w => w[0]).join("").slice(0, 3).toUpperCase();
+    const initials = name
+      .split(" ")
+      .map((w) => w[0])
+      .join("")
+      .slice(0, 3)
+      .toUpperCase();
     setAuth({ isLoggedIn: true, user: { name, initials } });
   }
 
@@ -22,11 +27,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setAuth({ isLoggedIn: false, user: null });
   }
 
-  return (
-    <AuthContext.Provider value={{ auth, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ auth, login, logout }}>{children}</AuthContext.Provider>;
 }
 
 export const useAuth = () => useContext(AuthContext);

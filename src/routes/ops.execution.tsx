@@ -1,6 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { getStartedTasks, getTaskHistory, getCancelledTaskIds, findTask, type TaskHistoryEntry } from "@/lib/task-state";
+import {
+  getStartedTasks,
+  getTaskHistory,
+  getCancelledTaskIds,
+  findTask,
+  type TaskHistoryEntry,
+} from "@/lib/task-state";
 import { ReviewModal } from "@/components/ReviewModal";
 import { Clock, AlertTriangle, AlertCircle } from "lucide-react";
 
@@ -9,7 +15,7 @@ export const Route = createFileRoute("/ops/execution")({
 });
 
 function ExecutionLive() {
-    const [now, setNow] = useState(Date.now());
+  const [now, setNow] = useState(Date.now());
   const [selectedTask, setSelectedTask] = useState<{ taskId: string } | null>(null);
 
   useEffect(() => {
@@ -125,27 +131,34 @@ function ExecutionLive() {
               {activeTaskEntries.map((entry) => {
                 const isCritical = entry.status === "critical";
                 const isOverdue = entry.status === "overdue";
-                
+
                 let rowBg = "hover:bg-gray-50";
                 if (isCritical) rowBg = "bg-red-50 hover:bg-red-100 border-l-4 border-l-red-500";
-                else if (isOverdue) rowBg = "bg-orange-50 hover:bg-orange-100 border-l-4 border-l-orange-500";
+                else if (isOverdue)
+                  rowBg = "bg-orange-50 hover:bg-orange-100 border-l-4 border-l-orange-500";
                 else rowBg += " border-l-4 border-l-transparent";
 
                 return (
-                  <div 
-                    key={entry.id} 
+                  <div
+                    key={entry.id}
                     className={`px-6 py-4 cursor-pointer transition-colors ${rowBg}`}
                     onClick={() => setSelectedTask({ taskId: entry.id })}
                   >
                     <div className="grid grid-cols-[1.5fr_2fr_1fr_1.5fr_1fr] gap-4 items-center text-sm">
                       <div className="font-medium text-gray-900 truncate">Nguyen Khoa</div>
                       <div className="min-w-0">
-                        <p className="font-semibold text-gray-900 truncate">{entry.task!.campaign}</p>
+                        <p className="font-semibold text-gray-900 truncate">
+                          {entry.task!.campaign}
+                        </p>
                         <p className="text-xs text-gray-500 mt-0.5 truncate">{entry.task!.store}</p>
                       </div>
                       <div className="text-gray-600 truncate">{entry.task!.brand}</div>
-                      <div className="text-gray-500 truncate">{new Date(entry.startTime).toLocaleString()}</div>
-                      <div className={`text-right font-bold ${isCritical ? "text-red-700" : isOverdue ? "text-orange-700" : "text-gray-900"}`}>
+                      <div className="text-gray-500 truncate">
+                        {new Date(entry.startTime).toLocaleString()}
+                      </div>
+                      <div
+                        className={`text-right font-bold ${isCritical ? "text-red-700" : isOverdue ? "text-orange-700" : "text-gray-900"}`}
+                      >
                         {formatElapsed(entry.elapsedMs)}
                       </div>
                     </div>
@@ -158,17 +171,17 @@ function ExecutionLive() {
       </div>
 
       {selectedTask && (
-        <ReviewModal 
-          entry={{ taskId: selectedTask.taskId } as TaskHistoryEntry} 
-          onClose={() => setSelectedTask(null)} 
+        <ReviewModal
+          entry={{ taskId: selectedTask.taskId } as TaskHistoryEntry}
+          onClose={() => setSelectedTask(null)}
           onApprove={() => {
             // Live execution view shouldn't really approve tasks (since they haven't submitted),
             // but the modal requires this handler. For demonstration, we just close.
             setSelectedTask(null);
-          }} 
+          }}
           onReject={() => {
             setSelectedTask(null);
-          }} 
+          }}
         />
       )}
     </div>
@@ -177,7 +190,18 @@ function ExecutionLive() {
 
 function CheckCircleIcon(props: React.ComponentProps<"svg">) {
   return (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
       <path d="M22 4L12 14.01l-3-3" />
     </svg>

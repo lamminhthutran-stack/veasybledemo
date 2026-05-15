@@ -19,12 +19,12 @@ interface Props {
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export function DateFilterDropdown({ value, onChange }: Props) {
-    const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState<FilterMode>(value.mode);
-  
+
   // Month Mode State
   const [viewYear, setViewYear] = useState(value.year || new Date().getFullYear());
-  
+
   // Date Mode State
   const [calMonth, setCalMonth] = useState(new Date().getMonth());
   const [calYear, setCalYear] = useState(new Date().getFullYear());
@@ -81,7 +81,7 @@ export function DateFilterDropdown({ value, onChange }: Props) {
     const days = getDaysInMonth(calMonth, calYear);
     const firstDay = getFirstDayOfMonth(calMonth, calYear);
     const cells = [];
-    
+
     for (let i = 0; i < firstDay; i++) {
       cells.push(<div key={`empty-${i}`} className="w-8 h-8"></div>);
     }
@@ -91,7 +91,7 @@ export function DateFilterDropdown({ value, onChange }: Props) {
       const isStart = tempStart && current.getTime() === tempStart.getTime();
       const isEnd = tempEnd && current.getTime() === tempEnd.getTime();
       const inRange = tempStart && tempEnd && current > tempStart && current < tempEnd;
-      
+
       let bg = "hover:bg-gray-100";
       let text = "text-gray-700";
       let rounded = "rounded-full";
@@ -113,7 +113,7 @@ export function DateFilterDropdown({ value, onChange }: Props) {
           className={`w-8 h-8 flex items-center justify-center text-xs transition-colors ${bg} ${text} ${rounded}`}
         >
           {d}
-        </button>
+        </button>,
       );
     }
     return cells;
@@ -121,7 +121,7 @@ export function DateFilterDropdown({ value, onChange }: Props) {
 
   return (
     <div className="relative" ref={containerRef}>
-      <button 
+      <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-3 py-1.5 text-xs font-medium border border-gray-200 rounded-[5px] bg-white hover:bg-gray-50"
       >
@@ -137,8 +137,8 @@ export function DateFilterDropdown({ value, onChange }: Props) {
             {[
               { id: "all", label: "All Time" },
               { id: "month", label: "By Month" },
-              { id: "date", label: "By Date" }
-            ].map(m => (
+              { id: "date", label: "By Date" },
+            ].map((m) => (
               <button
                 key={m.id}
                 onClick={() => handleModeSwitch(m.id as FilterMode)}
@@ -151,17 +151,25 @@ export function DateFilterDropdown({ value, onChange }: Props) {
 
           <div className="p-4">
             {mode === "all" && (
-              <div className="text-center text-sm text-gray-500 py-4">
-                Showing all time.
-              </div>
+              <div className="text-center text-sm text-gray-500 py-4">Showing all time.</div>
             )}
 
             {mode === "month" && (
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <button onClick={() => setViewYear(y => y - 1)} className="p-1 hover:bg-gray-100 rounded-[5px]"><ChevronLeft className="w-4 h-4" /></button>
+                  <button
+                    onClick={() => setViewYear((y) => y - 1)}
+                    className="p-1 hover:bg-gray-100 rounded-[5px]"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
                   <span className="font-semibold text-sm">{viewYear}</span>
-                  <button onClick={() => setViewYear(y => y + 1)} className="p-1 hover:bg-gray-100 rounded-[5px]"><ChevronRight className="w-4 h-4" /></button>
+                  <button
+                    onClick={() => setViewYear((y) => y + 1)}
+                    className="p-1 hover:bg-gray-100 rounded-[5px]"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
                 </div>
                 <div className="grid grid-cols-3 gap-2">
                   {MONTHS.map((m, i) => (
@@ -180,22 +188,42 @@ export function DateFilterDropdown({ value, onChange }: Props) {
             {mode === "date" && (
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <button onClick={() => {
-                    if (calMonth === 0) { setCalMonth(11); setCalYear(y => y - 1); }
-                    else { setCalMonth(m => m - 1); }
-                  }} className="p-1 hover:bg-gray-100 rounded-[5px]"><ChevronLeft className="w-4 h-4" /></button>
-                  <span className="font-semibold text-sm">{MONTHS[calMonth]} {calYear}</span>
-                  <button onClick={() => {
-                    if (calMonth === 11) { setCalMonth(0); setCalYear(y => y + 1); }
-                    else { setCalMonth(m => m + 1); }
-                  }} className="p-1 hover:bg-gray-100 rounded-[5px]"><ChevronRight className="w-4 h-4" /></button>
+                  <button
+                    onClick={() => {
+                      if (calMonth === 0) {
+                        setCalMonth(11);
+                        setCalYear((y) => y - 1);
+                      } else {
+                        setCalMonth((m) => m - 1);
+                      }
+                    }}
+                    className="p-1 hover:bg-gray-100 rounded-[5px]"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <span className="font-semibold text-sm">
+                    {MONTHS[calMonth]} {calYear}
+                  </span>
+                  <button
+                    onClick={() => {
+                      if (calMonth === 11) {
+                        setCalMonth(0);
+                        setCalYear((y) => y + 1);
+                      } else {
+                        setCalMonth((m) => m + 1);
+                      }
+                    }}
+                    className="p-1 hover:bg-gray-100 rounded-[5px]"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
                 </div>
                 <div className="grid grid-cols-7 gap-y-2 mb-2 text-center text-[10px] font-semibold text-gray-400 uppercase">
-                  {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map(d => <div key={d}>{d}</div>)}
+                  {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((d) => (
+                    <div key={d}>{d}</div>
+                  ))}
                 </div>
-                <div className="grid grid-cols-7 gap-y-1">
-                  {renderCalendar()}
-                </div>
+                <div className="grid grid-cols-7 gap-y-1">{renderCalendar()}</div>
               </div>
             )}
           </div>

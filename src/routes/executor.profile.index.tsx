@@ -12,7 +12,13 @@ import {
 
 import { Fragment, useState } from "react";
 import { LogoutButton } from "@/components/LogoutButton";
-import { getWeeklyAvailability, setWeeklyAvailability, type DayOfWeek, type TimeSlot, type WeeklyAvailability } from "@/lib/mock-data";
+import {
+  getWeeklyAvailability,
+  setWeeklyAvailability,
+  type DayOfWeek,
+  type TimeSlot,
+  type WeeklyAvailability,
+} from "@/lib/mock-data";
 
 export const Route = createFileRoute("/executor/profile/")({
   component: ExecutorProfile,
@@ -24,10 +30,14 @@ const days: DayOfWeek[] = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 function ExecutorProfile() {
   const [declinedTaskIds, setDeclinedTaskIds] = useState(() => getDeclinedTaskIds());
   const [historyRaw] = useState(() => getTaskHistory());
-  const history = historyRaw.filter((h) => h.status !== "in_review" && h.status !== "revision_required");
+  const history = historyRaw.filter(
+    (h) => h.status !== "in_review" && h.status !== "revision_required",
+  );
   const declinedTasks = tasks.filter((task) => declinedTaskIds.includes(task.id));
-  
-  const [availability, setAvailability] = useState<WeeklyAvailability[]>(() => getWeeklyAvailability());
+
+  const [availability, setAvailability] = useState<WeeklyAvailability[]>(() =>
+    getWeeklyAvailability(),
+  );
   const [savedMessage, setSavedMessage] = useState("");
 
   const unhideDeclinedTask = (taskId: string) => {
@@ -71,7 +81,9 @@ function ExecutorProfile() {
   return (
     <div className="px-4 py-5 space-y-5">
       <div className="flex items-center gap-3">
-        <div className="w-14 h-14 rounded-full bg-orange text-orange-foreground flex items-center justify-center font-bold text-lg">NK</div>
+        <div className="w-14 h-14 rounded-full bg-orange text-orange-foreground flex items-center justify-center font-bold text-lg">
+          NK
+        </div>
         <div>
           <div className="font-semibold">{executor.name}</div>
           <span className="badge badge-navy mt-1">{executor.tier}</span>
@@ -83,11 +95,16 @@ function ExecutorProfile() {
           <div className="text-3xl font-bold">{executor.rating}</div>
           <Star className="w-6 h-6 fill-orange text-orange mb-1" />
         </div>
-        <div className="text-xs text-muted-foreground">{executor.tasksCompleted} tasks completed</div>
+        <div className="text-xs text-muted-foreground">
+          {executor.tasksCompleted} tasks completed
+        </div>
         <div className="mt-3 flex items-end gap-1 h-12">
           {[4.2, 4.4, 4.5, 4.3, 4.7, 4.6].map((v, i) => (
             <div key={i} className="flex-1 flex flex-col items-center gap-1">
-              <div className="w-full bg-orange/80 rounded-sm" style={{ height: `${(v - 3) * 30}px` }} />
+              <div
+                className="w-full bg-orange/80 rounded-sm"
+                style={{ height: `${(v - 3) * 30}px` }}
+              />
               <div className="text-[9px] text-muted-foreground">M{i + 1}</div>
             </div>
           ))}
@@ -96,21 +113,41 @@ function ExecutorProfile() {
 
       <section>
         <h2 className="font-semibold mb-1">Availability Settings</h2>
-        <p className="text-xs text-muted-foreground mb-3">More availability = higher task priority</p>
+        <p className="text-xs text-muted-foreground mb-3">
+          More availability = higher task priority
+        </p>
         <div className="bg-card border border-border rounded-[5px] p-3">
           <div className="flex justify-between items-center mb-3">
             <div className="flex gap-2">
-              <button onClick={selectAll} className="text-[10px] font-semibold px-2 py-1 bg-surface border border-border rounded">Select All</button>
-              <button onClick={clearAll} className="text-[10px] font-semibold px-2 py-1 bg-surface border border-border rounded">Clear All</button>
+              <button
+                onClick={selectAll}
+                className="text-[10px] font-semibold px-2 py-1 bg-surface border border-border rounded"
+              >
+                Select All
+              </button>
+              <button
+                onClick={clearAll}
+                className="text-[10px] font-semibold px-2 py-1 bg-surface border border-border rounded"
+              >
+                Clear All
+              </button>
             </div>
-            {savedMessage && <span className="text-[10px] font-bold text-success">{savedMessage}</span>}
+            {savedMessage && (
+              <span className="text-[10px] font-bold text-success">{savedMessage}</span>
+            )}
           </div>
           <div className="grid grid-cols-8 gap-1 text-[10px]">
             <div></div>
-            {days.map((d) => <div key={d} className="text-center font-semibold">{d}</div>)}
+            {days.map((d) => (
+              <div key={d} className="text-center font-semibold">
+                {d}
+              </div>
+            ))}
             {slots.map((slot) => (
               <Fragment key={slot}>
-                <div className="text-muted-foreground py-1 text-xs">{slot === "Morning" ? "AM" : slot === "Afternoon" ? "PM" : "EVE"}</div>
+                <div className="text-muted-foreground py-1 text-xs">
+                  {slot === "Morning" ? "AM" : slot === "Afternoon" ? "PM" : "EVE"}
+                </div>
                 {days.map((d) => {
                   const on = availability.some((a) => a.day === d && a.slot === slot);
                   return (
@@ -124,7 +161,7 @@ function ExecutorProfile() {
               </Fragment>
             ))}
           </div>
-          <button 
+          <button
             onClick={saveAvailability}
             className="w-full mt-4 bg-[#1A3557] text-white text-xs font-semibold py-2.5 rounded-[5px]"
           >
@@ -159,8 +196,14 @@ function ExecutorProfile() {
                     <div className="min-w-0">
                       <div className="font-semibold leading-tight">{task.campaign}</div>
                       <div className="mt-1 space-y-1 text-xs text-muted-foreground">
-                        <div className="flex items-center gap-1.5"><MapPin className="w-3 h-3" />{task.store}</div>
-                        <div className="flex items-center gap-1.5"><Clock className="w-3 h-3" />{task.date} · {task.time}</div>
+                        <div className="flex items-center gap-1.5">
+                          <MapPin className="w-3 h-3" />
+                          {task.store}
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <Clock className="w-3 h-3" />
+                          {task.date} · {task.time}
+                        </div>
                       </div>
                     </div>
                     <button
@@ -177,7 +220,9 @@ function ExecutorProfile() {
               );
             })
           ) : (
-            <div className="px-4 py-5 text-center text-sm text-muted-foreground">No declined tasks.</div>
+            <div className="px-4 py-5 text-center text-sm text-muted-foreground">
+              No declined tasks.
+            </div>
           )}
         </div>
       </section>
@@ -186,13 +231,17 @@ function ExecutorProfile() {
         <h2 className="font-semibold mb-2">Account</h2>
         <div className="bg-card border border-border rounded-[5px] divide-y divide-border">
           {["Edit profile", "Change password"].map((i) => (
-            <button key={i} className="w-full text-left px-4 py-3">{i}</button>
+            <button key={i} className="w-full text-left px-4 py-3">
+              {i}
+            </button>
           ))}
           <div className="px-1 py-1">
             <LogoutButton />
           </div>
         </div>
-        <Link to="/login" className="block text-center text-xs text-danger mt-4">Request Deactivation</Link>
+        <Link to="/login" className="block text-center text-xs text-danger mt-4">
+          Request Deactivation
+        </Link>
       </section>
     </div>
   );
@@ -214,8 +263,14 @@ function HistoryCard({ entry }: { entry: TaskHistoryEntry }) {
         <span className={status.className}>{status.label}</span>
       </div>
       <div className="mt-3 space-y-1 text-xs text-muted-foreground">
-        <div className="flex items-center gap-1.5"><MapPin className="w-3 h-3" />{task.store}</div>
-        <div className="flex items-center gap-1.5"><Clock className="w-3 h-3" />{entry.status === "cancelled" ? "Cancelled" : "Completed"} {formatDate(entry.completedAt)}</div>
+        <div className="flex items-center gap-1.5">
+          <MapPin className="w-3 h-3" />
+          {task.store}
+        </div>
+        <div className="flex items-center gap-1.5">
+          <Clock className="w-3 h-3" />
+          {entry.status === "cancelled" ? "Cancelled" : "Completed"} {formatDate(entry.completedAt)}
+        </div>
       </div>
       {entry.status !== "cancelled" && (
         <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
@@ -225,7 +280,9 @@ function HistoryCard({ entry }: { entry: TaskHistoryEntry }) {
           </div>
           <div className="rounded-[5px] bg-surface px-3 py-2">
             <div className="text-muted-foreground">Rating</div>
-            <div className="font-semibold">{entry.rating > 0 ? "★".repeat(entry.rating) : "No rating"}</div>
+            <div className="font-semibold">
+              {entry.rating > 0 ? "★".repeat(entry.rating) : "No rating"}
+            </div>
           </div>
         </div>
       )}
@@ -234,8 +291,10 @@ function HistoryCard({ entry }: { entry: TaskHistoryEntry }) {
 }
 
 function getStatusDisplay(status: TaskHistoryEntry["status"]) {
-  if (status === "completed") return { label: "Completed — Paid", className: "badge badge-success" };
-  if (status === "revision_required") return { label: "Revision Required", className: "badge badge-warning" };
+  if (status === "completed")
+    return { label: "Completed — Paid", className: "badge badge-success" };
+  if (status === "revision_required")
+    return { label: "Revision Required", className: "badge badge-warning" };
   if (status === "rejected") return { label: "Rejected", className: "badge badge-danger" };
   return { label: "Cancelled", className: "badge badge-gray" };
 }

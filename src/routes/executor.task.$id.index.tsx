@@ -10,10 +10,10 @@ export const Route = createFileRoute("/executor/task/$id/")({
 
 function TaskDetail() {
   const { id } = Route.useParams();
-      const router = useRouter();
+  const router = useRouter();
   const navigate = useNavigate();
   const [showCancelDialog, setShowCancelDialog] = useState(false);
-  
+
   // Find task or fallback to first one
   const task = availableTasks.find((x) => x.id === id) ?? availableTasks[0];
 
@@ -48,18 +48,9 @@ function TaskDetail() {
 
         {/* Print Station info */}
         <InfoSection title={"Print Station"}>
-          <InfoRow
-            label={"Materials pickup date"}
-            value={task.printStation?.pickupDate ?? "TBD"}
-          />
-          <InfoRow
-            label={"Print station address"}
-            value={task.printStation?.address ?? "—"}
-          />
-          <InfoRow
-            label={"Materials to collect"}
-            value={task.printStation?.materials ?? "—"}
-          />
+          <InfoRow label={"Materials pickup date"} value={task.printStation?.pickupDate ?? "TBD"} />
+          <InfoRow label={"Print station address"} value={task.printStation?.address ?? "—"} />
+          <InfoRow label={"Materials to collect"} value={task.printStation?.materials ?? "—"} />
           {task.printStation?.note && (
             <div className="bg-orange-50 rounded-[5px] p-3 mt-2 border border-orange-100">
               <p className="text-xs text-orange-700">{task.printStation.note}</p>
@@ -76,15 +67,16 @@ function TaskDetail() {
             </div>
           ))}
           {(!task.sopItems || task.sopItems.length === 0) && (
-             <p className="text-sm text-gray-400 py-2">
-               {"No requirements"}
-             </p>
+            <p className="text-sm text-gray-400 py-2">{"No requirements"}</p>
           )}
         </InfoSection>
       </div>
 
       {/* CTA */}
-      <div className="fixed left-0 right-0 bg-white border-t border-gray-100 px-4 py-4 max-w-[390px] mx-auto z-40 flex gap-2" style={{ bottom: "calc(65px + env(safe-area-inset-bottom))" }}>
+      <div
+        className="fixed left-0 right-0 bg-white border-t border-gray-100 px-4 py-4 max-w-[390px] mx-auto z-40 flex gap-2"
+        style={{ bottom: "calc(65px + env(safe-area-inset-bottom))" }}
+      >
         <button
           onClick={() => setShowCancelDialog(true)}
           className="flex-1 bg-white text-gray-600 border border-gray-200 text-sm font-semibold py-3.5 rounded-[5px] text-center"
@@ -133,9 +125,7 @@ function InfoSection({ title, children }: { title: string; children: React.React
   return (
     <div className="bg-white rounded-[5px] p-4 shadow-sm border border-gray-100">
       <h3 className="font-semibold text-sm mb-3 text-gray-900">{title}</h3>
-      <div className="space-y-0">
-        {children}
-      </div>
+      <div className="space-y-0">{children}</div>
     </div>
   );
 }

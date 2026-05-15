@@ -10,7 +10,7 @@ function Quiz() {
   const { id } = Route.useParams();
   const m = getModule(id);
   const nav = useNavigate();
-  
+
   const [idx, setIdx] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [selected, setSelected] = useState<number | null>(null);
@@ -37,12 +37,19 @@ function Quiz() {
   return (
     <div className="p-5 space-y-5">
       <div>
-        <div className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">Module {m.num} · {"Quiz"}</div>
+        <div className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
+          Module {m.num} · {"Quiz"}
+        </div>
         <div className="flex items-center gap-2 mt-2">
-          <span className="text-sm font-semibold">{"Question"} {idx + 1} / {m.questions.length}</span>
+          <span className="text-sm font-semibold">
+            {"Question"} {idx + 1} / {m.questions.length}
+          </span>
           <div className="flex gap-1 ml-1">
             {m.questions.map((_, i) => (
-              <span key={i} className={`w-2 h-2 rounded-full ${i <= idx ? "bg-orange" : "bg-border"}`} />
+              <span
+                key={i}
+                className={`w-2 h-2 rounded-full ${i <= idx ? "bg-orange" : "bg-border"}`}
+              />
             ))}
           </div>
         </div>
@@ -61,7 +68,9 @@ function Quiz() {
                   : "border-border hover:border-muted-foreground/40"
               }`}
             >
-              <span className="inline-block w-5 text-muted-foreground font-bold mr-2">{String.fromCharCode(65 + i)}.</span>
+              <span className="inline-block w-5 text-muted-foreground font-bold mr-2">
+                {String.fromCharCode(65 + i)}.
+              </span>
               {opt}
             </button>
           ))}

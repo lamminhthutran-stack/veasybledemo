@@ -40,7 +40,8 @@ export const tasks: Task[] = [
     printStation: "Station #3",
     printAddress: "45 Lê Lai, District 1",
     badge: "available",
-    brief: "Set up Pepsi Summer endcap display with promotional signage and product facing per planogram.",
+    brief:
+      "Set up Pepsi Summer endcap display with promotional signage and product facing per planogram.",
   },
   {
     id: "t-002",
@@ -96,7 +97,8 @@ export const tasks: Task[] = [
     printStation: "Station #4",
     printAddress: "19 Phan Van Tri, Go Vap",
     badge: "outside",
-    brief: "Refresh noodle bay POSM, capture before and after photos, and submit shelf compliance proof.",
+    brief:
+      "Refresh noodle bay POSM, capture before and after photos, and submit shelf compliance proof.",
   },
 ];
 
@@ -158,7 +160,12 @@ export const escalations = [
   },
 ];
 
-export const reportEscalation = (issue: { title: string; phase: string; severity: string; executorId: string }) => {
+export const reportEscalation = (issue: {
+  title: string;
+  phase: string;
+  severity: string;
+  executorId: string;
+}) => {
   escalations.unshift({
     id: `e-${Date.now()}`,
     phase: issue.phase,
@@ -171,7 +178,6 @@ export const reportEscalation = (issue: { title: string; phase: string; severity
     resolvedNote: null,
   });
 };
-
 
 export type CoverageZone = {
   district: string;
@@ -194,23 +200,108 @@ export const applications = {
     age: 24,
     background: "Freelancer (2y field activation)",
     availability: "5 days/week, mornings + afternoons",
-    experience: "2 years field marketing for FMCG brands. Previously with Unilever activation team.",
+    experience:
+      "2 years field marketing for FMCG brands. Previously with Unilever activation team.",
     flag: "Age within range but not a student — strong 2-year field activation experience.",
   },
 };
 
 export const campaigns = [
-  { id: "c-1", name: "Pepsi Summer 2026", brand: "Pepsi", city: "HCMC", date: "15/05/2026", total: 48, filled: 42, status: "On Track", fillRate: 88, assignedCount: 42, totalSlots: 48, stalledExecutorCount: 0 },
-  { id: "c-2", name: "Vinamilk Back-to-School", brand: "Vinamilk", city: "HCMC", date: "16/05/2026", total: 60, filled: 41, status: "At Risk", fillRate: 68, assignedCount: 41, totalSlots: 60, stalledExecutorCount: 3 },
-  { id: "c-3", name: "Heineken Silver Launch", brand: "Heineken", city: "Hanoi", date: "18/05/2026", total: 30, filled: 12, status: "Urgent", fillRate: 40, assignedCount: 12, totalSlots: 30, stalledExecutorCount: 2 },
-  { id: "c-4", name: "Coca-Cola Lunar New Year Wrap-up", brand: "Coca-Cola", city: "Da Nang", date: "01/03/2026", total: 25, filled: 25, status: "Completed", fillRate: 100, assignedCount: 25, totalSlots: 25, stalledExecutorCount: 0 },
+  {
+    id: "c-1",
+    name: "Pepsi Summer 2026",
+    brand: "Pepsi",
+    city: "HCMC",
+    date: "15/05/2026",
+    total: 48,
+    filled: 42,
+    status: "On Track",
+    fillRate: 88,
+    assignedCount: 42,
+    totalSlots: 48,
+    stalledExecutorCount: 0,
+  },
+  {
+    id: "c-2",
+    name: "Vinamilk Back-to-School",
+    brand: "Vinamilk",
+    city: "HCMC",
+    date: "16/05/2026",
+    total: 60,
+    filled: 41,
+    status: "At Risk",
+    fillRate: 68,
+    assignedCount: 41,
+    totalSlots: 60,
+    stalledExecutorCount: 3,
+  },
+  {
+    id: "c-3",
+    name: "Heineken Silver Launch",
+    brand: "Heineken",
+    city: "Hanoi",
+    date: "18/05/2026",
+    total: 30,
+    filled: 12,
+    status: "Urgent",
+    fillRate: 40,
+    assignedCount: 12,
+    totalSlots: 30,
+    stalledExecutorCount: 2,
+  },
+  {
+    id: "c-4",
+    name: "Coca-Cola Lunar New Year Wrap-up",
+    brand: "Coca-Cola",
+    city: "Da Nang",
+    date: "01/03/2026",
+    total: 25,
+    filled: 25,
+    status: "Completed",
+    fillRate: 100,
+    assignedCount: 25,
+    totalSlots: 25,
+    stalledExecutorCount: 0,
+  },
 ];
 
 export const executionTasks = [
-  { id: "et-1", executorName: "John Doe", storeName: "FamilyMart Nguyen Trai", district: "District 5", checkInTime: "9:05 AM", campaign: "Pepsi Summer 2026", status: "on-site" },
-  { id: "et-2", executorName: "Patricia Huong", storeName: "Circle K Le Loi", district: "District 1", checkInTime: "2:20 PM", campaign: "Vinamilk Back-to-School", status: "late" },
-  { id: "et-3", executorName: "Leon Huy", storeName: "GS25 Pham Ngu Lao", district: "District 1", checkInTime: null as string | null, campaign: "Heineken Silver Launch", status: "not-checked-in" },
-  { id: "et-4", executorName: "Mandy Linh", storeName: "WinMart Nguyen Van Linh", district: "District 7", checkInTime: "1:10 PM", campaign: "Unilever Perfect Store", status: "completed" },
+  {
+    id: "et-1",
+    executorName: "John Doe",
+    storeName: "FamilyMart Nguyen Trai",
+    district: "District 5",
+    checkInTime: "9:05 AM",
+    campaign: "Pepsi Summer 2026",
+    status: "on-site",
+  },
+  {
+    id: "et-2",
+    executorName: "Patricia Huong",
+    storeName: "Circle K Le Loi",
+    district: "District 1",
+    checkInTime: "2:20 PM",
+    campaign: "Vinamilk Back-to-School",
+    status: "late",
+  },
+  {
+    id: "et-3",
+    executorName: "Leon Huy",
+    storeName: "GS25 Pham Ngu Lao",
+    district: "District 1",
+    checkInTime: null as string | null,
+    campaign: "Heineken Silver Launch",
+    status: "not-checked-in",
+  },
+  {
+    id: "et-4",
+    executorName: "Mandy Linh",
+    storeName: "WinMart Nguyen Van Linh",
+    district: "District 7",
+    checkInTime: "1:10 PM",
+    campaign: "Unilever Perfect Store",
+    status: "completed",
+  },
 ];
 
 export const executorProfile = {
@@ -220,27 +311,27 @@ export const executorProfile = {
   monthlyEarnings: 3200000,
   campaignsThisMonth: 8,
   // availableDates is deprecated, keeping for backward compatibility if needed, but we use getWeeklyAvailability
-  availableDates: [
-    "2026-05-14", "2026-05-15", "2026-05-17", "2026-05-20", "2026-05-21",
-  ],
+  availableDates: ["2026-05-14", "2026-05-15", "2026-05-17", "2026-05-20", "2026-05-21"],
   availableDistricts: ["District 1", "District 3", "District 7", "Binh Thanh"],
   ratingBreakdown: [
-    { label: "On-time check-in",   score: 4.5 },
-    { label: "PoP Quality",       score: 4.2 },
-    { label: "Follows SOP strictly",   score: 4.1 },
-    { label: "Attitude & Communication",  score: 4.6 },
-    { label: "Issue Resolution",          score: 3.8 },
+    { label: "On-time check-in", score: 4.5 },
+    { label: "PoP Quality", score: 4.2 },
+    { label: "Follows SOP strictly", score: 4.1 },
+    { label: "Attitude & Communication", score: 4.6 },
+    { label: "Issue Resolution", score: 3.8 },
   ],
   feedback: [
     {
       from: "Retailer · Big C District 7",
       date: "12/05/2026",
-      comment: "Executor arrived on time, took clear and beautiful product photos. Very professional.",
+      comment:
+        "Executor arrived on time, took clear and beautiful product photos. Very professional.",
     },
     {
       from: "Brand · Milo",
       date: "08/05/2026",
-      comment: "Placement matches planogram, photos cover all angles. However, check-in selfie is slightly blurry.",
+      comment:
+        "Placement matches planogram, photos cover all angles. However, check-in selfie is slightly blurry.",
     },
   ],
 };
@@ -264,19 +355,89 @@ export const setWeeklyAvailability = (newAvailability: WeeklyAvailability[]) => 
 };
 
 export const executorsList = [
-  { 
-    id: "u-1", name: "John Doe", tier: "Standard", city: "HCMC", rating: 4.6, tasks: 23, status: "Active",
+  {
+    id: "u-1",
+    name: "John Doe",
+    tier: "Standard",
+    city: "HCMC",
+    rating: 4.6,
+    tasks: 23,
+    status: "Active",
     partnerFeedback: [
-      { from: "Milo Brand Team", campaignName: "Summer Activation Q2", submittedAt: "2026-05-13", sentiment: "positive", comment: "Executor followed planogram perfectly, good quality photos. Very reliable." },
-      { from: "Big C District 7 — Store Manager", campaignName: "Summer Activation Q2", submittedAt: "2026-05-13", sentiment: "neutral", comment: "Arrived on time but had to ask about placement location. No major issues." },
-      { from: "Pepsi Campaign Team", campaignName: "Back to School Launch", submittedAt: "2026-04-29", sentiment: "negative", comment: "Missed 1 photo angle in the PoP set, had to remind them. Needs to improve proactiveness." }
-    ]
+      {
+        from: "Milo Brand Team",
+        campaignName: "Summer Activation Q2",
+        submittedAt: "2026-05-13",
+        sentiment: "positive",
+        comment: "Executor followed planogram perfectly, good quality photos. Very reliable.",
+      },
+      {
+        from: "Big C District 7 — Store Manager",
+        campaignName: "Summer Activation Q2",
+        submittedAt: "2026-05-13",
+        sentiment: "neutral",
+        comment: "Arrived on time but had to ask about placement location. No major issues.",
+      },
+      {
+        from: "Pepsi Campaign Team",
+        campaignName: "Back to School Launch",
+        submittedAt: "2026-04-29",
+        sentiment: "negative",
+        comment:
+          "Missed 1 photo angle in the PoP set, had to remind them. Needs to improve proactiveness.",
+      },
+    ],
   },
-  { id: "u-2", name: "Patricia Huong", tier: "Senior", city: "HCMC", rating: 4.8, tasks: 91, status: "Active", partnerFeedback: [] },
-  { id: "u-3", name: "Leon Huy", tier: "Standard", city: "Hanoi", rating: 3.9, tasks: 14, status: "Warning", partnerFeedback: [] },
-  { id: "u-4", name: "Mandy Linh", tier: "Senior", city: "Da Nang", rating: 4.5, tasks: 67, status: "Active", partnerFeedback: [] },
-  { id: "u-5", name: "David Son", tier: "Standard", city: "HCMC", rating: 2.8, tasks: 9, status: "Suspended", partnerFeedback: [] },
-  { id: "u-6", name: "Bella Ha", tier: "Standard", city: "HCMC", rating: 4.2, tasks: 31, status: "Dormant", partnerFeedback: [] },
+  {
+    id: "u-2",
+    name: "Patricia Huong",
+    tier: "Senior",
+    city: "HCMC",
+    rating: 4.8,
+    tasks: 91,
+    status: "Active",
+    partnerFeedback: [],
+  },
+  {
+    id: "u-3",
+    name: "Leon Huy",
+    tier: "Standard",
+    city: "Hanoi",
+    rating: 3.9,
+    tasks: 14,
+    status: "Warning",
+    partnerFeedback: [],
+  },
+  {
+    id: "u-4",
+    name: "Mandy Linh",
+    tier: "Senior",
+    city: "Da Nang",
+    rating: 4.5,
+    tasks: 67,
+    status: "Active",
+    partnerFeedback: [],
+  },
+  {
+    id: "u-5",
+    name: "David Son",
+    tier: "Standard",
+    city: "HCMC",
+    rating: 2.8,
+    tasks: 9,
+    status: "Suspended",
+    partnerFeedback: [],
+  },
+  {
+    id: "u-6",
+    name: "Bella Ha",
+    tier: "Standard",
+    city: "HCMC",
+    rating: 4.2,
+    tasks: 31,
+    status: "Dormant",
+    partnerFeedback: [],
+  },
 ];
 
 export interface AvailableTask {

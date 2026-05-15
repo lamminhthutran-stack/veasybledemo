@@ -9,9 +9,11 @@ export const Route = createFileRoute("/executor/in-review")({
 });
 
 function InReviewScreen() {
-    const [history, setHistory] = useState(() => getTaskHistory());
+  const [history, setHistory] = useState(() => getTaskHistory());
 
-  const reviews = history.filter((h) => h.status === "in_review" || h.status === "revision_required");
+  const reviews = history.filter(
+    (h) => h.status === "in_review" || h.status === "revision_required",
+  );
 
   const handleResubmit = (taskId: string) => {
     resubmitTask(taskId);
@@ -23,7 +25,9 @@ function InReviewScreen() {
       {/* Header */}
       <div className="bg-white px-4 pt-12 pb-4 shadow-sm border-b border-gray-100">
         <h1 className="text-xl font-bold text-gray-900">{"In Review"}</h1>
-        <p className="text-sm text-gray-500 mt-1">{reviews.length} {"Browse".toLowerCase()}</p>
+        <p className="text-sm text-gray-500 mt-1">
+          {reviews.length} {"Browse".toLowerCase()}
+        </p>
       </div>
 
       <div className="px-4 py-4 space-y-4">
@@ -33,7 +37,11 @@ function InReviewScreen() {
           </div>
         ) : (
           reviews.map((entry) => (
-            <ReviewCard key={entry.taskId} entry={entry} onResubmit={() => handleResubmit(entry.taskId)} />
+            <ReviewCard
+              key={entry.taskId}
+              entry={entry}
+              onResubmit={() => handleResubmit(entry.taskId)}
+            />
           ))
         )}
       </div>
@@ -42,32 +50,40 @@ function InReviewScreen() {
 }
 
 function ReviewCard({ entry, onResubmit }: { entry: TaskHistoryEntry; onResubmit: () => void }) {
-    const task = findTask(entry.taskId);
+  const task = findTask(entry.taskId);
   if (!task) return null;
 
   const isRevision = entry.status === "revision_required";
 
   return (
-    <div className={`bg-white rounded-[5px] p-4 shadow-sm border ${isRevision ? "border-red-200" : "border-gray-100"}`}>
+    <div
+      className={`bg-white rounded-[5px] p-4 shadow-sm border ${isRevision ? "border-red-200" : "border-gray-100"}`}
+    >
       <div className="flex justify-between items-start mb-2">
         <div>
           <p className="font-semibold text-gray-900 text-sm">{task.brand}</p>
-          <p className="text-xs text-gray-400 mt-0.5">{task.campaignName}</p>
+          <p className="text-xs text-gray-400 mt-0.5">{task.campaign}</p>
         </div>
-        <span className={`text-[10px] font-semibold px-2 py-1 rounded-full ${isRevision ? "bg-red-50 text-red-700" : "bg-blue-50 text-blue-700"}`}>
+        <span
+          className={`text-[10px] font-semibold px-2 py-1 rounded-full ${isRevision ? "bg-red-50 text-red-700" : "bg-blue-50 text-blue-700"}`}
+        >
           {isRevision ? "Revision Required" : "Awaiting Payment Review"}
         </span>
       </div>
-      
+
       <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-3 pb-3 border-b border-gray-50">
         <Clock className="w-3 h-3" />
-        <span>{"Date Submitted"}: {new Date(entry.completedAt).toLocaleDateString()}</span>
+        <span>
+          {"Date Submitted"}: {new Date(entry.completedAt).toLocaleDateString()}
+        </span>
       </div>
 
       {isRevision && (
         <div className="bg-red-50 rounded-[5px] p-3 mb-3">
           <p className="text-xs font-semibold text-red-800 mb-1">Rejection reason:</p>
-          <p className="text-xs text-red-600">{entry.rejectionReason ?? "Need to update with clearer PoP image."}</p>
+          <p className="text-xs text-red-600">
+            {entry.rejectionReason ?? "Need to update with clearer PoP image."}
+          </p>
         </div>
       )}
 

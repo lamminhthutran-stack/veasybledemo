@@ -26,15 +26,11 @@ export function DeviceToggle() {
       <button
         onClick={() => setDevice("mobile")}
         className={`px-2 py-1 rounded-[5px] transition-colors ${device === "mobile" ? "bg-white text-gray-900 shadow-sm" : "text-gray-400"}`}
-      >
-        
-      </button>
+      ></button>
       <button
         onClick={() => setDevice("desktop")}
         className={`px-2 py-1 rounded-[5px] transition-colors ${device === "desktop" ? "bg-white text-gray-900 shadow-sm" : "text-gray-400"}`}
-      >
-        
-      </button>
+      ></button>
     </div>
   );
 }

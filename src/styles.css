@@ -49,9 +49,9 @@
   --popover-foreground: oklch(0.2 0.02 270);
 
   /* Brand */
-  --navy: oklch(0.27 0.11 275);          /* #1A1F5E */
+  --navy: oklch(0.27 0.11 275); /* #1A1F5E */
   --navy-foreground: oklch(0.99 0 0);
-  --orange: oklch(0.63 0.21 38);         /* #E8471C */
+  --orange: oklch(0.63 0.21 38); /* #E8471C */
   --orange-foreground: oklch(1 0 0);
 
   --primary: var(--navy);
@@ -63,10 +63,10 @@
   --accent: oklch(0.95 0.01 270);
   --accent-foreground: oklch(0.2 0.02 270);
 
-  --surface: oklch(0.975 0.005 270);     /* #F5F6FA */
-  --success: oklch(0.72 0.18 150);       /* #22C55E */
-  --warning: oklch(0.78 0.16 75);        /* #F59E0B */
-  --danger: oklch(0.65 0.22 25);         /* #EF4444 */
+  --surface: oklch(0.975 0.005 270); /* #F5F6FA */
+  --success: oklch(0.72 0.18 150); /* #22C55E */
+  --warning: oklch(0.78 0.16 75); /* #F59E0B */
+  --danger: oklch(0.65 0.22 25); /* #EF4444 */
   --destructive: var(--danger);
   --destructive-foreground: oklch(1 0 0);
 
@@ -96,13 +96,25 @@
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
+  * {
+    border-color: var(--color-border);
+  }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    font-family:
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      "Segoe UI",
+      Roboto,
+      "Helvetica Neue",
+      Arial,
+      "Noto Sans",
+      "Liberation Sans",
+      sans-serif;
   }
-  
+
   /* Global button style requested by user */
   button,
   [role="button"],
@@ -115,14 +127,36 @@
 
 @layer utilities {
   .badge {
-    display: inline-flex; align-items: center; gap: 0.25rem;
-    padding: 0.125rem 0.5rem; border-radius: 5px;
-    font-size: 0.75rem; font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    font-weight: 600;
   }
-  .badge-success { background: color-mix(in oklab, var(--success) 18%, transparent); color: var(--success); }
-  .badge-warning { background: color-mix(in oklab, var(--warning) 20%, transparent); color: oklch(0.5 0.15 70); }
-  .badge-danger  { background: color-mix(in oklab, var(--danger) 18%, transparent); color: var(--danger); }
-  .badge-orange  { background: color-mix(in oklab, var(--orange) 18%, transparent); color: var(--orange); }
-  .badge-navy    { background: color-mix(in oklab, var(--navy) 14%, transparent); color: var(--navy); }
-  .badge-gray    { background: var(--surface); color: var(--muted-foreground); }
+  .badge-success {
+    background: color-mix(in oklab, var(--success) 18%, transparent);
+    color: var(--success);
+  }
+  .badge-warning {
+    background: color-mix(in oklab, var(--warning) 20%, transparent);
+    color: oklch(0.5 0.15 70);
+  }
+  .badge-danger {
+    background: color-mix(in oklab, var(--danger) 18%, transparent);
+    color: var(--danger);
+  }
+  .badge-orange {
+    background: color-mix(in oklab, var(--orange) 18%, transparent);
+    color: var(--orange);
+  }
+  .badge-navy {
+    background: color-mix(in oklab, var(--navy) 14%, transparent);
+    color: var(--navy);
+  }
+  .badge-gray {
+    background: var(--surface);
+    color: var(--muted-foreground);
+  }
 }

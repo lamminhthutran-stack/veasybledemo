@@ -10,7 +10,7 @@ export const Route = createFileRoute("/executor/home")({
 });
 
 function ExecutorHome() {
-      const [showRatingSheet, setShowRatingSheet] = useState(false);
+  const [showRatingSheet, setShowRatingSheet] = useState(false);
   const [acceptedIds, setAcceptedIds] = useState(() => getAcceptedTaskIds());
   const myTasks = availableTasks.filter((t) => acceptedIds.includes(t.id));
   const profile = executorProfile;
@@ -45,13 +45,24 @@ function ExecutorHome() {
           >
             <p className="text-[10px] text-gray-400 font-medium">{"Rating"}</p>
             <p className="text-2xl font-bold text-gray-900 leading-none">{profile.rating}</p>
-            <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded-full w-fit ${
-              profile.rating >= 4.0 ? "bg-green-50 text-green-700" :
-              profile.rating >= 3.5 ? "bg-yellow-50 text-yellow-700" :
-              profile.rating >= 3.0 ? "bg-orange-50 text-orange-700" :
-                                      "bg-red-50 text-red-700"
-            }`}>
-              {profile.rating >= 4.0 ? "Healthy" : profile.rating >= 3.5 ? "Warning" : profile.rating >= 3.0 ? "At Risk" : "Suspended"}
+            <span
+              className={`text-[9px] font-semibold px-1.5 py-0.5 rounded-full w-fit ${
+                profile.rating >= 4.0
+                  ? "bg-green-50 text-green-700"
+                  : profile.rating >= 3.5
+                    ? "bg-yellow-50 text-yellow-700"
+                    : profile.rating >= 3.0
+                      ? "bg-orange-50 text-orange-700"
+                      : "bg-red-50 text-red-700"
+              }`}
+            >
+              {profile.rating >= 4.0
+                ? "Healthy"
+                : profile.rating >= 3.5
+                  ? "Warning"
+                  : profile.rating >= 3.0
+                    ? "At Risk"
+                    : "Suspended"}
             </span>
             <p className="text-[9px] text-gray-300 mt-auto pt-1">{"View details →"}</p>
           </button>
@@ -60,7 +71,7 @@ function ExecutorHome() {
           <div className="bg-white rounded-[5px] p-3 shadow-sm border border-gray-100 flex flex-col gap-1">
             <p className="text-[10px] text-gray-400 font-medium">{"Earnings"}</p>
             <p className="text-xl font-bold text-[#F97316] leading-none">
-              {formatEarnings(profile.monthlyEarnings, lang)}
+              {formatEarnings(profile.monthlyEarnings)}
             </p>
             {/* spacer for even height */}
             <div className="mt-auto pt-1" />
@@ -69,7 +80,9 @@ function ExecutorHome() {
           {/* Card Campaigns */}
           <div className="bg-white rounded-[5px] p-3 shadow-sm border border-gray-100 flex flex-col gap-1">
             <p className="text-[10px] text-gray-400 font-medium">{"Campaigns"}</p>
-            <p className="text-2xl font-bold text-gray-900 leading-none">{profile.campaignsThisMonth}</p>
+            <p className="text-2xl font-bold text-gray-900 leading-none">
+              {profile.campaignsThisMonth}
+            </p>
             <p className="text-[9px] text-gray-400 mt-auto pt-1">{"This Month"}</p>
           </div>
         </div>
@@ -110,7 +123,7 @@ function ExecutorHome() {
 // ─── My Task Card ─────────────────────────────────────────────────────────────
 
 function MyTaskCard({ task, onCancel }: { task: AvailableTask; onCancel: (id: string) => void }) {
-    const [showCancelConfirm, setShowCancelConfirm] = useState(false);
+  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
   const displayDate = (() => {
     const [y, m, d] = task.date.split("-");
@@ -122,14 +135,18 @@ function MyTaskCard({ task, onCancel }: { task: AvailableTask; onCancel: (id: st
       <div className="flex justify-between items-start mb-2">
         <div>
           <p className="font-semibold text-gray-900 text-sm">{task.brand}</p>
-          <p className="text-xs text-gray-400 mt-0.5">{task.storeName} · {task.district}</p>
+          <p className="text-xs text-gray-400 mt-0.5">
+            {task.storeName} · {task.district}
+          </p>
         </div>
         <StatusBadge status={task.status} />
       </div>
       <div className="flex items-center gap-3 text-xs text-gray-400 mb-3">
         <span> {task.scheduledTime}</span>
         <span> {displayDate}</span>
-        <span className="ml-auto font-semibold text-[#F97316]">{task.pay.toLocaleString()} VND</span>
+        <span className="ml-auto font-semibold text-[#F97316]">
+          {task.pay.toLocaleString()} VND
+        </span>
       </div>
 
       {!showCancelConfirm ? (
@@ -186,7 +203,7 @@ function RatingBottomSheet({
   profile: typeof executorProfile;
   onClose: () => void;
 }) {
-    return (
+  return (
     <>
       <div className="fixed inset-0 bg-black/40 z-40" onClick={onClose} />
       <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 px-5 pt-5 pb-10 max-h-[80vh] overflow-y-auto">
@@ -200,7 +217,9 @@ function RatingBottomSheet({
           </div>
         </div>
 
-        <p className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wide">{"By dimension"}</p>
+        <p className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wide">
+          {"By dimension"}
+        </p>
         <div className="space-y-3 mb-6">
           {profile.ratingBreakdown.map((dim) => (
             <div key={dim.label}>
@@ -211,8 +230,11 @@ function RatingBottomSheet({
               <div className="w-full bg-gray-100 rounded-full h-2">
                 <div
                   className={`h-2 rounded-full ${
-                    dim.score >= 4.0 ? "bg-green-400" :
-                    dim.score >= 3.5 ? "bg-yellow-400" : "bg-red-400"
+                    dim.score >= 4.0
+                      ? "bg-green-400"
+                      : dim.score >= 3.5
+                        ? "bg-yellow-400"
+                        : "bg-red-400"
                   }`}
                   style={{ width: `${(dim.score / 5) * 100}%` }}
                 />
@@ -223,7 +245,9 @@ function RatingBottomSheet({
 
         {profile.feedback.length > 0 && (
           <>
-            <p className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wide">{"Recent feedback"}</p>
+            <p className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wide">
+              {"Recent feedback"}
+            </p>
             <div className="space-y-2">
               {profile.feedback.map((fb, i) => (
                 <div key={i} className="bg-gray-50 rounded-[5px] p-3">
@@ -253,8 +277,6 @@ function StatusBadge({ status }: { status: string }) {
   };
   const s = map[status] ?? { label: status, color: "bg-gray-100 text-gray-600" };
   return (
-    <span className={`text-[10px] font-semibold px-2 py-1 rounded-full ${s.color}`}>
-      {s.label}
-    </span>
+    <span className={`text-[10px] font-semibold px-2 py-1 rounded-full ${s.color}`}>{s.label}</span>
   );
 }

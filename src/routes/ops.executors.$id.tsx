@@ -2,30 +2,39 @@ import { ArrowLeft } from "lucide-react";
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { executorsList } from "@/lib/mock-data";
 
-
 export const Route = createFileRoute("/ops/executors/$id")({
   component: ExecutorOpsView,
 });
 
 function ExecutorOpsView() {
   const { id } = Route.useParams();
-    const router = useRouter();
+  const router = useRouter();
   const u = executorsList.find((x) => x.id === id) ?? executorsList[0];
   const status =
-    u.rating >= 4.5 ? { label: "Healthy", cls: "badge-success" } :
-    u.rating >= 4.0 ? { label: "Warning", cls: "badge-warning" } :
-    u.rating >= 3.0 ? { label: "At Risk", cls: "badge-orange" } :
-    { label: "Suspended", cls: "badge-danger" };
+    u.rating >= 4.5
+      ? { label: "Healthy", cls: "badge-success" }
+      : u.rating >= 4.0
+        ? { label: "Warning", cls: "badge-warning" }
+        : u.rating >= 3.0
+          ? { label: "At Risk", cls: "badge-orange" }
+          : { label: "Suspended", cls: "badge-danger" };
 
   return (
     <div className="space-y-5 max-w-5xl">
-      <button onClick={() => router.history.back()} className="text-sm text-muted-foreground flex items-center gap-1 hover:text-foreground">
+      <button
+        onClick={() => router.history.back()}
+        className="text-sm text-muted-foreground flex items-center gap-1 hover:text-foreground"
+      >
         <ArrowLeft className="w-4 h-4" /> {"Back to network"}
       </button>
 
       <div className="flex items-center gap-4">
         <div className="w-14 h-14 rounded-full bg-navy text-navy-foreground flex items-center justify-center font-bold">
-          {u.name.split(" ").map((n) => n[0]).slice(0, 2).join("")}
+          {u.name
+            .split(" ")
+            .map((n) => n[0])
+            .slice(0, 2)
+            .join("")}
         </div>
         <div>
           <h1 className="text-2xl font-bold">{u.name}</h1>
@@ -38,7 +47,9 @@ function ExecutorOpsView() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="bg-card border border-border rounded-[5px] p-5">
-          <div className="text-xs uppercase tracking-wider text-muted-foreground">{"Current Rating"}</div>
+          <div className="text-xs uppercase tracking-wider text-muted-foreground">
+            {"Current Rating"}
+          </div>
           <div className="text-4xl font-bold mt-1">{u.rating} ★</div>
           <div className="mt-3 space-y-1.5 text-sm">
             <Row k={"First Job (Veasyble)"} v="4.8" />
@@ -49,12 +60,18 @@ function ExecutorOpsView() {
 
         <div className="bg-card border border-border rounded-[5px] p-5">
           <div className="text-xs uppercase tracking-wider text-muted-foreground">{"Status"}</div>
-          <div className="mt-2"><span className={`badge ${status.cls} text-base px-3 py-1`}>{status.label}</span></div>
-          <div className="text-xs text-muted-foreground mt-3">{"Threshold: 4.0 minimum across last 10 jobs."}</div>
+          <div className="mt-2">
+            <span className={`badge ${status.cls} text-base px-3 py-1`}>{status.label}</span>
+          </div>
+          <div className="text-xs text-muted-foreground mt-3">
+            {"Threshold: 4.0 minimum across last 10 jobs."}
+          </div>
         </div>
 
         <div className="bg-card border border-border rounded-[5px] p-5">
-          <div className="text-xs uppercase tracking-wider text-muted-foreground">{"Rating Trend"}</div>
+          <div className="text-xs uppercase tracking-wider text-muted-foreground">
+            {"Rating Trend"}
+          </div>
           <svg viewBox="0 0 200 60" className="w-full h-20 mt-2">
             <polyline
               fill="none"
@@ -64,7 +81,8 @@ function ExecutorOpsView() {
             />
           </svg>
           <div className="text-[10px] text-muted-foreground flex justify-between">
-            <span>{"6m ago"}</span><span>{"now"}</span>
+            <span>{"6m ago"}</span>
+            <span>{"now"}</span>
           </div>
         </div>
       </div>
@@ -73,15 +91,24 @@ function ExecutorOpsView() {
         <h3 className="font-semibold mb-3">{"Recent Tasks"}</h3>
         <div className="text-sm">
           <div className="grid grid-cols-5 gap-3 text-[11px] uppercase tracking-wider text-muted-foreground font-semibold pb-2 border-b border-border">
-            <div>{"Task"}</div><div>{"Campaign"}</div><div>{"Date"}</div><div>{"PoP"}</div><div>{"Rating"}</div>
+            <div>{"Task"}</div>
+            <div>{"Campaign"}</div>
+            <div>{"Date"}</div>
+            <div>{"PoP"}</div>
+            <div>{"Rating"}</div>
           </div>
           {[
             ["Endcap setup", "Pepsi Summer", "10/05", "Approved", "5.0"],
             ["POSM swap", "Vinamilk B2S", "08/05", "Approved", "4.0"],
             ["Demo support", "Heineken", "01/05", "Pending", "—"],
           ].map((r, i) => (
-            <div key={i} className="grid grid-cols-5 gap-3 py-2 border-b border-border last:border-0">
-              {r.map((c, j) => <div key={j}>{c}</div>)}
+            <div
+              key={i}
+              className="grid grid-cols-5 gap-3 py-2 border-b border-border last:border-0"
+            >
+              {r.map((c, j) => (
+                <div key={j}>{c}</div>
+              ))}
             </div>
           ))}
         </div>
@@ -103,11 +130,15 @@ function ExecutorOpsView() {
               <div key={idx} className="bg-surface rounded-[5px] p-3 border border-border">
                 <div className="flex justify-between items-start mb-1">
                   <div className="flex items-center gap-2">
-                    <span className={`w-2 h-2 rounded-full ${
-                      fb.sentiment === "positive" ? "bg-green-500" :
-                      fb.sentiment === "neutral" ? "bg-yellow-400" :
-                      "bg-red-500"
-                    }`} />
+                    <span
+                      className={`w-2 h-2 rounded-full ${
+                        fb.sentiment === "positive"
+                          ? "bg-green-500"
+                          : fb.sentiment === "neutral"
+                            ? "bg-yellow-400"
+                            : "bg-red-500"
+                      }`}
+                    />
                     <span className="text-xs font-semibold text-gray-900">{fb.from}</span>
                   </div>
                   <span className="text-[10px] text-muted-foreground">{fb.submittedAt}</span>
@@ -121,10 +152,18 @@ function ExecutorOpsView() {
       )}
 
       <div className="flex flex-wrap gap-3">
-        <button className="bg-orange text-orange-foreground font-semibold rounded-[5px] px-4 py-2 text-sm">{"Send Improvement Reminder"}</button>
-        <button className="bg-warning text-white font-semibold rounded-[5px] px-4 py-2 text-sm">{"Issue Warning"}</button>
-        <button className="bg-danger text-white font-semibold rounded-[5px] px-4 py-2 text-sm">{"Suspend Account"}</button>
-        <button className="border border-border rounded-[5px] px-4 py-2 text-sm">{"View Full History"}</button>
+        <button className="bg-orange text-orange-foreground font-semibold rounded-[5px] px-4 py-2 text-sm">
+          {"Send Improvement Reminder"}
+        </button>
+        <button className="bg-warning text-white font-semibold rounded-[5px] px-4 py-2 text-sm">
+          {"Issue Warning"}
+        </button>
+        <button className="bg-danger text-white font-semibold rounded-[5px] px-4 py-2 text-sm">
+          {"Suspend Account"}
+        </button>
+        <button className="border border-border rounded-[5px] px-4 py-2 text-sm">
+          {"View Full History"}
+        </button>
       </div>
     </div>
   );

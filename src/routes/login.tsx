@@ -11,7 +11,7 @@ type PortalType = "executor" | "ops" | null;
 function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
-    
+
   const [portal, setPortal] = useState<PortalType>(null);
   const [email, setEmail] = useState("demo@veasyble.com");
   const [password, setPassword] = useState("");
@@ -20,7 +20,7 @@ function LoginPage() {
     e.preventDefault();
     if (!email.trim()) return;
     if (email !== "demo@veasyble.com" && !password.trim()) return;
-    
+
     // Mock login logic
     if (portal === "executor") {
       import("@/lib/academy-data").then(({ completeAcademyForDemo }) => {
@@ -39,8 +39,7 @@ function LoginPage() {
   return (
     <div className="min-h-screen bg-[#F7F8FA] flex flex-col items-center justify-center px-6 relative">
       {/* Top Right Controls */}
-      <div className="absolute top-4 right-4 z-10">
-              </div>
+      <div className="absolute top-4 right-4 z-10"></div>
 
       <div className="w-full max-w-sm">
         {/* Logo */}
@@ -78,9 +77,7 @@ function LoginPage() {
           <div className="bg-white rounded-[5px] p-6 shadow-sm border border-gray-100 space-y-4">
             <form onSubmit={handleLoginSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-gray-600 mb-1.5">
-                  "Email"
-                </label>
+                <label className="block text-xs font-semibold text-gray-600 mb-1.5">"Email"</label>
                 <input
                   type="email"
                   value={email}

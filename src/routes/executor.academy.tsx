@@ -1,6 +1,13 @@
 import { Lock, CheckCircle2, ArrowLeft } from "lucide-react";
 import { createFileRoute, Link, Outlet, useLocation, useRouter } from "@tanstack/react-router";
-import { modules, getProgress, isUnlocked, completedCount, isAcademyComplete, avgScore } from "@/lib/academy-data";
+import {
+  modules,
+  getProgress,
+  isUnlocked,
+  completedCount,
+  isAcademyComplete,
+  avgScore,
+} from "@/lib/academy-data";
 
 export const Route = createFileRoute("/executor/academy")({
   component: AcademyLayout,
@@ -24,15 +31,13 @@ function AcademyLayout() {
           <div className="text-[10px] text-white/70">Academy</div>
         </div>
       </header>
-      <main className="flex-1 pb-8">
-        {isRoot ? <AcademyHome /> : <Outlet />}
-      </main>
+      <main className="flex-1 pb-8">{isRoot ? <AcademyHome /> : <Outlet />}</main>
     </div>
   );
 }
 
 function AcademyHome() {
-    const progress = getProgress();
+  const progress = getProgress();
   const done = completedCount();
 
   const isComplete = isAcademyComplete();
@@ -65,7 +70,10 @@ function AcademyHome() {
           <span className="text-muted-foreground">{done} / 4 Modules</span>
         </div>
         <div className="h-2 bg-surface rounded-full overflow-hidden">
-          <div className="h-full bg-orange transition-all" style={{ width: `${(done / 4) * 100}%` }} />
+          <div
+            className="h-full bg-orange transition-all"
+            style={{ width: `${(done / 4) * 100}%` }}
+          />
         </div>
       </div>
 
@@ -80,17 +88,25 @@ function AcademyHome() {
               className={`bg-card border rounded-[5px] p-4 ${unlocked ? "border-border" : "border-border/60 opacity-70"}`}
             >
               <div className="flex items-start gap-3">
-                <div className={`w-11 h-11 rounded-[5px] flex items-center justify-center shrink-0 ${unlocked ? "bg-navy text-navy-foreground" : "bg-surface text-muted-foreground"}`}>
+                <div
+                  className={`w-11 h-11 rounded-[5px] flex items-center justify-center shrink-0 ${unlocked ? "bg-navy text-navy-foreground" : "bg-surface text-muted-foreground"}`}
+                >
                   {unlocked ? <Icon className="w-5 h-5" /> : <Lock className="w-5 h-5" />}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">Module {m.num}</span>
+                    <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
+                      Module {m.num}
+                    </span>
                     {status?.passed && (
-                      <span className="badge badge-success"><CheckCircle2 className="w-3 h-3" /> {status.score}%</span>
+                      <span className="badge badge-success">
+                        <CheckCircle2 className="w-3 h-3" /> {status.score}%
+                      </span>
                     )}
                     {!unlocked && <span className="badge badge-gray">{"Locked"}</span>}
-                    {unlocked && !status && <span className="badge badge-success">{"Available"}</span>}
+                    {unlocked && !status && (
+                      <span className="badge badge-success">{"Available"}</span>
+                    )}
                   </div>
                   <div className="font-semibold text-sm mt-0.5">{m.title}</div>
                   <div className="text-xs text-muted-foreground mt-1">{m.desc}</div>

@@ -7,7 +7,7 @@ export const Route = createFileRoute("/executor/academy/complete")({
 });
 
 function Complete() {
-      const avg = avgScore();
+  const avg = avgScore();
   const done = completedCount();
 
   return (
@@ -40,9 +40,16 @@ function Complete() {
       <div className="relative bg-card border-4 border-double border-navy rounded-[5px] p-5 text-center shadow-lg">
         <div className="text-xs font-bold tracking-widest text-orange">VEASYBLE</div>
         <div className="text-[10px] text-muted-foreground mb-4">Making Retail Visibility Easy</div>
-        <div className="text-[11px] uppercase tracking-widest text-navy font-semibold">{"Certificate of Completion"}</div>
+        <div className="text-[11px] uppercase tracking-widest text-navy font-semibold">
+          {"Certificate of Completion"}
+        </div>
         <div className="text-xl font-bold mt-3 mb-1">John Doe</div>
-        <div className="text-xs text-muted-foreground italic" dangerouslySetInnerHTML={{ __html: "has successfully completed the entire<br />Veasyble Academy program" }} />
+        <div
+          className="text-xs text-muted-foreground italic"
+          dangerouslySetInnerHTML={{
+            __html: "has successfully completed the entire<br />Veasyble Academy program",
+          }}
+        />
         <div className="text-[11px] text-muted-foreground mt-4">
           {"Issued on"} {new Date().toLocaleDateString("en-US")}
         </div>

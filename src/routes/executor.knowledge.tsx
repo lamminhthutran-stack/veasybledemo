@@ -43,20 +43,23 @@ const KB_ARTICLES = [
 
 function searchKB(query: string) {
   const q = query.toLowerCase();
-  return KB_ARTICLES.filter(a =>
-    a.tags.some(t => q.includes(t) || t.includes(q)) ||
-    a.title.toLowerCase().includes(q)
+  return KB_ARTICLES.filter(
+    (a) => a.tags.some((t) => q.includes(t) || t.includes(q)) || a.title.toLowerCase().includes(q),
   );
 }
 
 type View = "home" | "results" | "escalate";
 
 const QUICK_TOPICS = [
-  "Late check-in", "Store refuses entry", "PoP photo", "Rating", "Print materials"
+  "Late check-in",
+  "Store refuses entry",
+  "PoP photo",
+  "Rating",
+  "Print materials",
 ];
 
 function FAQPage() {
-      const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("");
   const [view, setView] = useState<View>("home");
   const [results, setResults] = useState<typeof KB_ARTICLES>([]);
 
@@ -69,7 +72,10 @@ function FAQPage() {
 
   function handleSearch(q: string) {
     setQuery(q);
-    if (!q.trim()) { setView("home"); return; }
+    if (!q.trim()) {
+      setView("home");
+      return;
+    }
     const found = searchKB(q);
     setResults(found);
     setView("results");
@@ -123,33 +129,47 @@ function FAQPage() {
         <div className="flex items-center justify-between mb-3">
           <div>
             <h1 className="text-lg font-bold text-gray-900">FAQ</h1>
-            <p className="text-xs text-gray-400">
-              "Find policies & SOPs"
-            </p>
+            <p className="text-xs text-gray-400">"Find policies & SOPs"</p>
           </div>
-                  </div>
+        </div>
         {/* Search box */}
         <div className="relative">
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          <svg
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
           </svg>
           <input
             type="text"
             value={query}
-            onChange={e => handleSearch(e.target.value)}
+            onChange={(e) => handleSearch(e.target.value)}
             placeholder="Search policies, SOPs..."
             className="w-full bg-gray-100 rounded-[5px] pl-9 pr-4 py-2.5 text-sm outline-none placeholder-gray-400"
           />
           {query && (
-            <button onClick={() => { setQuery(""); setView("home"); }}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg leading-none">×</button>
+            <button
+              onClick={() => {
+                setQuery("");
+                setView("home");
+              }}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg leading-none"
+            >
+              ×
+            </button>
           )}
         </div>
       </div>
 
       {/* Content */}
       <div className="flex-1 px-4 py-4">
-
         {/* HOME: quick topics */}
         {view === "home" && (
           <div>
@@ -158,18 +178,33 @@ function FAQPage() {
             </p>
             <div className="space-y-2">
               {topics.map((t, i) => (
-                <button key={i} onClick={() => handleQuickTopic(t)}
-                  className="w-full flex items-center justify-between bg-white rounded-[5px] px-4 py-3 border border-gray-100 shadow-sm text-left">
+                <button
+                  key={i}
+                  onClick={() => handleQuickTopic(t)}
+                  className="w-full flex items-center justify-between bg-white rounded-[5px] px-4 py-3 border border-gray-100 shadow-sm text-left"
+                >
                   <span className="text-sm text-gray-800 font-medium">{t}</span>
-                  <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/>
+                  <svg
+                    className="w-4 h-4 text-gray-300"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
                   </svg>
                 </button>
               ))}
             </div>
-            
-            <button onClick={() => setView("escalate")}
-              className="w-full mt-6 bg-[#1A3557] text-white text-sm font-semibold py-3.5 rounded-[5px]">
+
+            <button
+              onClick={() => setView("escalate")}
+              className="w-full mt-6 bg-[#1A3557] text-white text-sm font-semibold py-3.5 rounded-[5px]"
+            >
               "Need more help? Raise to Ops →"
             </button>
           </div>
@@ -184,18 +219,25 @@ function FAQPage() {
                   {results.length} "results" cho "{query}"
                 </p>
                 <div className="space-y-3">
-                  {results.map(a => (
-                    <div key={a.id} className="bg-white rounded-[5px] p-4 border border-gray-100 shadow-sm">
+                  {results.map((a) => (
+                    <div
+                      key={a.id}
+                      className="bg-white rounded-[5px] p-4 border border-gray-100 shadow-sm"
+                    >
                       <p className="text-sm font-semibold text-gray-900 mb-2">{a.title}</p>
-                      <p className="text-xs text-gray-600 leading-relaxed whitespace-pre-line">{a.body[lang]}</p>
+                      <p className="text-xs text-gray-600 leading-relaxed whitespace-pre-line">
+                        {a.body}
+                      </p>
                     </div>
                   ))}
                 </div>
                 <p className="text-xs text-gray-400 text-center mt-6">
                   {"Didn't find your answer?"}
                 </p>
-                <button onClick={() => setView("escalate")}
-                  className="w-full mt-2 bg-[#1A3557] text-white text-sm font-semibold py-3.5 rounded-[5px]">
+                <button
+                  onClick={() => setView("escalate")}
+                  className="w-full mt-2 bg-[#1A3557] text-white text-sm font-semibold py-3.5 rounded-[5px]"
+                >
                   "Raise to Ops →"
                 </button>
               </>
@@ -208,8 +250,10 @@ function FAQPage() {
                 <p className="text-gray-400 text-xs mb-5">
                   "Please contact the Ops team for support"
                 </p>
-                <button onClick={() => setView("escalate")}
-                  className="bg-[#1A3557] text-white text-sm font-semibold px-6 py-3.5 rounded-[5px] w-full">
+                <button
+                  onClick={() => setView("escalate")}
+                  className="bg-[#1A3557] text-white text-sm font-semibold px-6 py-3.5 rounded-[5px] w-full"
+                >
                   "Raise to Ops"
                 </button>
               </div>
@@ -220,30 +264,41 @@ function FAQPage() {
         {/* ESCALATE TO OPS */}
         {view === "escalate" && (
           <div>
-            <button onClick={() => {
-              setEscalateSent(false);
-              setView(query ? "results" : "home");
-            }} className="flex items-center gap-1.5 text-sm text-gray-600 font-medium py-2 hover:text-gray-900 transition-colors">
+            <button
+              onClick={() => {
+                setEscalateSent(false);
+                setView(query ? "results" : "home");
+              }}
+              className="flex items-center gap-1.5 text-sm text-gray-600 font-medium py-2 hover:text-gray-900 transition-colors"
+            >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
               </svg>
               "Back"
             </button>
-            
+
             {escalateSent ? (
               <div className="text-center py-12 bg-white rounded-[5px] border border-green-100 mt-4 shadow-sm p-6">
-                <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">✓</div>
-                <p className="text-gray-800 font-semibold mb-2 text-base">
-                  "Message Sent"
-                </p>
+                <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                  ✓
+                </div>
+                <p className="text-gray-800 font-semibold mb-2 text-base">"Message Sent"</p>
                 <p className="text-gray-500 text-sm">
                   "Your message has been sent to the Ops team. We will follow up with you shortly."
                 </p>
-                <button onClick={() => {
-                  setEscalateSent(false);
-                  setView("home");
-                  setQuery("");
-                }} className="mt-6 text-[#1A3557] font-semibold text-sm">
+                <button
+                  onClick={() => {
+                    setEscalateSent(false);
+                    setView("home");
+                    setQuery("");
+                  }}
+                  className="mt-6 text-[#1A3557] font-semibold text-sm"
+                >
                   "Return to Home"
                 </button>
               </div>
@@ -267,7 +322,7 @@ function FAQPage() {
                   <input
                     type="text"
                     value={subject}
-                    onChange={e => setSubject(e.target.value)}
+                    onChange={(e) => setSubject(e.target.value)}
                     placeholder="Brief summary..."
                     className="w-full bg-white border border-gray-200 rounded-[5px] px-3 py-2.5 text-sm outline-none focus:border-[#1A3557]"
                   />
@@ -279,10 +334,12 @@ function FAQPage() {
                   </label>
                   <select
                     value={category}
-                    onChange={e => setCategory(e.target.value)}
+                    onChange={(e) => setCategory(e.target.value)}
                     className="w-full bg-white border border-gray-200 rounded-[5px] px-3 py-2.5 text-sm outline-none focus:border-[#1A3557]"
                   >
-                    <option value="" disabled>"-- Select a category --"</option>
+                    <option value="" disabled>
+                      "-- Select a category --"
+                    </option>
                     <option value="Task Issue">"Task Issue"</option>
                     <option value="Platform Bug">"Platform Bug"</option>
                     <option value="Brand/Retailer Issue">"Brand/Retailer Issue"</option>
@@ -297,7 +354,7 @@ function FAQPage() {
                   </label>
                   <textarea
                     value={description}
-                    onChange={e => setDescription(e.target.value)}
+                    onChange={(e) => setDescription(e.target.value)}
                     rows={4}
                     placeholder="Describe your issue (min 20 chars)..."
                     className="w-full bg-white border border-gray-200 rounded-[5px] px-3 py-2.5 text-sm outline-none focus:border-[#1A3557] resize-none"
@@ -307,8 +364,10 @@ function FAQPage() {
                   </div>
                 </div>
 
-                <button onClick={submitEscalation}
-                  className="w-full bg-[#F97316] text-white text-sm font-semibold py-3.5 rounded-[5px] mt-2">
+                <button
+                  onClick={submitEscalation}
+                  className="w-full bg-[#F97316] text-white text-sm font-semibold py-3.5 rounded-[5px] mt-2"
+                >
                   "Send to Ops"
                 </button>
               </div>

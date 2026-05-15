@@ -11,7 +11,7 @@ export const Route = createFileRoute("/executor/task/$id/submitted")({
 function Submitted() {
   const { id } = Route.useParams();
   const nav = useNavigate();
-    
+
   const tsk = tasks.find((x) => x.id === id) ?? tasks[0];
   const ts = new Date().toLocaleString("en-GB", { hour12: false });
 
@@ -30,10 +30,14 @@ function Submitted() {
       </p>
 
       <div className="bg-card border border-border rounded-[5px] p-4 mt-6 w-full text-left">
-        <div className="text-xs uppercase tracking-wide text-muted-foreground mb-1">{"Task Summary"}</div>
+        <div className="text-xs uppercase tracking-wide text-muted-foreground mb-1">
+          {"Task Summary"}
+        </div>
         <div className="font-semibold text-sm">{tsk.campaign}</div>
         <div className="text-xs text-muted-foreground">{tsk.store}</div>
-        <div className="text-xs text-muted-foreground mt-1">{"Completed at"} {ts}</div>
+        <div className="text-xs text-muted-foreground mt-1">
+          {"Completed at"} {ts}
+        </div>
       </div>
 
       <button

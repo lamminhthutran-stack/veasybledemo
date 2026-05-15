@@ -1,4 +1,10 @@
-import { type Task, type DayOfWeek, type TimeSlot, type WeeklyAvailability, type AvailableTask } from "./mock-data";
+import {
+  type Task,
+  type DayOfWeek,
+  type TimeSlot,
+  type WeeklyAvailability,
+  type AvailableTask,
+} from "./mock-data";
 
 /**
  * Parses "YYYY-MM-DD" and returns the DayOfWeek
@@ -17,12 +23,12 @@ export function getTaskDayOfWeek(dateString: string): DayOfWeek {
  */
 export function getTaskTimeSlot(timeString: string): TimeSlot {
   const normalized = timeString.toUpperCase();
-  
+
   // Quick AM/PM check
   if (normalized.includes("AM")) {
     return "Morning";
   }
-  
+
   // It's PM (or 24h, but our mock data uses AM/PM)
   // Extract the first hour number
   const hourMatch = normalized.match(/(\d+):/);
@@ -35,7 +41,7 @@ export function getTaskTimeSlot(timeString: string): TimeSlot {
     // Otherwise Evening
     return "Evening";
   }
-  
+
   // Fallback
   return "Morning";
 }
@@ -43,9 +49,12 @@ export function getTaskTimeSlot(timeString: string): TimeSlot {
 /**
  * Checks if a task matches the provided weekly availability
  */
-export function isTaskMatchingAvailability(task: AvailableTask | Task, availability: WeeklyAvailability[]): boolean {
+export function isTaskMatchingAvailability(
+  task: AvailableTask | Task,
+  availability: WeeklyAvailability[],
+): boolean {
   if (availability.length === 0) return false;
-  
+
   // Use task.date (AvailableTask) or task.date (Task but formatted as DD/MM/YYYY vs YYYY-MM-DD)
   // AvailableTask date is "YYYY-MM-DD"
   // Task date is "DD/MM/YYYY"
@@ -54,10 +63,10 @@ export function isTaskMatchingAvailability(task: AvailableTask | Task, availabil
     const [d, m, y] = parsedDate.split("/");
     parsedDate = `${y}-${m}-${d}`;
   }
-  
+
   const day = getTaskDayOfWeek(parsedDate);
-  const timeStr = 'scheduledTime' in task ? task.scheduledTime : task.time;
+  const timeStr = "scheduledTime" in task ? task.scheduledTime : task.time;
   const slot = getTaskTimeSlot(timeStr);
-  
+
   return availability.some((a) => a.day === day && a.slot === slot);
 }

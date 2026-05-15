@@ -73,17 +73,37 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Lovable App" },
-      { name: "description", content: "Exact Match UI replicates a given screenshot precisely, offering a file-based routing system." },
+      {
+        name: "description",
+        content:
+          "Exact Match UI replicates a given screenshot precisely, offering a file-based routing system.",
+      },
       { name: "author", content: "Lovable" },
       { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Exact Match UI replicates a given screenshot precisely, offering a file-based routing system." },
+      {
+        property: "og:description",
+        content:
+          "Exact Match UI replicates a given screenshot precisely, offering a file-based routing system.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Lovable App" },
-      { name: "twitter:description", content: "Exact Match UI replicates a given screenshot precisely, offering a file-based routing system." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2fa86abc-2c94-4a69-920f-1be6ce0a4c79/id-preview-07538958--c6faf933-4ef5-4f4d-92d6-c9e0e9b417bb.lovable.app-1778642614063.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2fa86abc-2c94-4a69-920f-1be6ce0a4c79/id-preview-07538958--c6faf933-4ef5-4f4d-92d6-c9e0e9b417bb.lovable.app-1778642614063.png" },
+      {
+        name: "twitter:description",
+        content:
+          "Exact Match UI replicates a given screenshot precisely, offering a file-based routing system.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2fa86abc-2c94-4a69-920f-1be6ce0a4c79/id-preview-07538958--c6faf933-4ef5-4f4d-92d6-c9e0e9b417bb.lovable.app-1778642614063.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2fa86abc-2c94-4a69-920f-1be6ce0a4c79/id-preview-07538958--c6faf933-4ef5-4f4d-92d6-c9e0e9b417bb.lovable.app-1778642614063.png",
+      },
     ],
     links: [
       {
@@ -112,7 +132,6 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
-
 import { DeviceProvider, DeviceToggle } from "@/lib/device";
 import { AuthProvider, useAuth } from "@/lib/auth";
 import { useLocation } from "@tanstack/react-router";
@@ -124,14 +143,14 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <LangProvider>
+        
           <DeviceProvider>
             <RouteGuard>
               <Outlet />
             </RouteGuard>
             {/* DeviceToggle and LangToggle are handled in ExecutorSidebar/BottomNav, but for Login or Ops we might need them, though Ops is web-only. Let's not render global DeviceToggle since it's already inside Sidebar and BottomNav */}
           </DeviceProvider>
-        </LangProvider>
+        
       </AuthProvider>
     </QueryClientProvider>
   );

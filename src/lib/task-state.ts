@@ -15,7 +15,7 @@ export const getStartedTasks = (): Record<string, string> => {
   try {
     const parsed = JSON.parse(localStorage.getItem(STARTED_TASKS_KEY) || "null");
     if (parsed && typeof parsed === "object") return parsed;
-    
+
     // Seed with demo data
     const now = Date.now();
     const seeds = {
@@ -105,7 +105,12 @@ export const acceptTask = (taskId: string) => {
   localStorage.setItem(ACCEPTED_TASKS_KEY, JSON.stringify(next));
 };
 
-export type TaskHistoryStatus = "completed" | "rejected" | "cancelled" | "in_review" | "revision_required";
+export type TaskHistoryStatus =
+  | "completed"
+  | "rejected"
+  | "cancelled"
+  | "in_review"
+  | "revision_required";
 export type TaskHistoryEntry = {
   taskId: string;
   status: TaskHistoryStatus;
@@ -203,7 +208,7 @@ export const submitTask = (task: Task) => {
   // Remove from accepted tasks
   const remainingAccepted = getAcceptedTaskIds().filter((id) => id !== task.id);
   localStorage.setItem(ACCEPTED_TASKS_KEY, JSON.stringify(remainingAccepted));
-  
+
   const existing = getTaskHistory().filter((entry) => entry.taskId !== task.id);
   const next: TaskHistoryEntry[] = [
     {
@@ -235,7 +240,11 @@ export const rejectTask = (taskId: string, reason: string) => {
   const existing = getTaskHistory();
   const next = existing.map((entry) => {
     if (entry.taskId === taskId) {
-      return { ...entry, status: "revision_required" as TaskHistoryStatus, rejectionReason: reason };
+      return {
+        ...entry,
+        status: "revision_required" as TaskHistoryStatus,
+        rejectionReason: reason,
+      };
     }
     return entry;
   });
@@ -247,7 +256,12 @@ export const resubmitTask = (taskId: string) => {
   const existing = getTaskHistory();
   const next = existing.map((entry) => {
     if (entry.taskId === taskId) {
-      return { ...entry, status: "in_review" as TaskHistoryStatus, rejectionReason: undefined, completedAt: new Date().toISOString() };
+      return {
+        ...entry,
+        status: "in_review" as TaskHistoryStatus,
+        rejectionReason: undefined,
+        completedAt: new Date().toISOString(),
+      };
     }
     return entry;
   });
@@ -269,7 +283,11 @@ const isTaskHistoryEntry = (value: unknown): value is TaskHistoryEntry => {
     typeof entry.completedAt === "string" &&
     typeof entry.payReceived === "string" &&
     typeof entry.rating === "number" &&
-    (entry.status === "completed" || entry.status === "rejected" || entry.status === "cancelled" || entry.status === "in_review" || entry.status === "revision_required")
+    (entry.status === "completed" ||
+      entry.status === "rejected" ||
+      entry.status === "cancelled" ||
+      entry.status === "in_review" ||
+      entry.status === "revision_required")
   );
 };
 

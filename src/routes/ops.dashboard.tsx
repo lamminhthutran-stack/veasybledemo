@@ -17,22 +17,100 @@ type ThresholdDef = {
 type Thresholds = Record<string, ThresholdDef>;
 
 const initialThresholds: Thresholds = {
-  onboardingCompletionRate: { label: "Onboarding Completion Rate", warn: 80, critical: 60, dir: "below", type: "%" },
-  activeExecutorRate: { label: "Active Executor Rate", warn: 70, critical: 50, dir: "below", type: "%" },
-  executorDropoutRate: { label: "Executor Dropout Rate", warn: 20, critical: 35, dir: "above", type: "%" },
+  onboardingCompletionRate: {
+    label: "Onboarding Completion Rate",
+    warn: 80,
+    critical: 60,
+    dir: "below",
+    type: "%",
+  },
+  activeExecutorRate: {
+    label: "Active Executor Rate",
+    warn: 70,
+    critical: 50,
+    dir: "below",
+    type: "%",
+  },
+  executorDropoutRate: {
+    label: "Executor Dropout Rate",
+    warn: 20,
+    critical: 35,
+    dir: "above",
+    type: "%",
+  },
   taskFillRate: { label: "Task Fill Rate", warn: 80, critical: 60, dir: "below", type: "%" },
-  avgTimeTaskAcceptance: { label: "Avg Time to Task Acceptance", warn: 12, critical: 24, dir: "above", type: "h" },
-  declineRatePerTask: { label: "Decline Rate per Task", warn: 25, critical: 40, dir: "above", type: "%" },
-  browseToAcceptConversion: { label: "Browse-to-Accept Conversion", warn: 30, critical: 15, dir: "below", type: "%" },
+  avgTimeTaskAcceptance: {
+    label: "Avg Time to Task Acceptance",
+    warn: 12,
+    critical: 24,
+    dir: "above",
+    type: "h",
+  },
+  declineRatePerTask: {
+    label: "Decline Rate per Task",
+    warn: 25,
+    critical: 40,
+    dir: "above",
+    type: "%",
+  },
+  browseToAcceptConversion: {
+    label: "Browse-to-Accept Conversion",
+    warn: 30,
+    critical: 15,
+    dir: "below",
+    type: "%",
+  },
   onTimeStartRate: { label: "On-Time Start Rate", warn: 85, critical: 70, dir: "below", type: "%" },
-  taskCompletionRate: { label: "Task Completion Rate", warn: 90, critical: 75, dir: "below", type: "%" },
-  avgCompletionTime: { label: "Avg Completion Time", warn: 36, critical: 48, dir: "above", type: "h" },
-  checklistPassRate: { label: "Checklist Pass Rate", warn: 85, critical: 70, dir: "below", type: "%" },
+  taskCompletionRate: {
+    label: "Task Completion Rate",
+    warn: 90,
+    critical: 75,
+    dir: "below",
+    type: "%",
+  },
+  avgCompletionTime: {
+    label: "Avg Completion Time",
+    warn: 36,
+    critical: 48,
+    dir: "above",
+    type: "h",
+  },
+  checklistPassRate: {
+    label: "Checklist Pass Rate",
+    warn: 85,
+    critical: 70,
+    dir: "below",
+    type: "%",
+  },
   escalationRate: { label: "Escalation Rate", warn: 10, critical: 20, dir: "above", type: "%" },
-  openEscalationCount: { label: "Open Escalation Count", warn: 5, critical: 10, dir: "above", type: "count" },
-  avgEscalationResolutionTime: { label: "Avg Escalation Resolution Time", warn: 24, critical: 48, dir: "above", type: "h" },
-  brandSatisfactionScore: { label: "Brand Satisfaction Score", warn: 3.5, critical: 3.0, dir: "below", type: "score" },
-  retailerSatisfactionScore: { label: "Retailer Satisfaction Score", warn: 3.5, critical: 3.0, dir: "below", type: "score" },
+  openEscalationCount: {
+    label: "Open Escalation Count",
+    warn: 5,
+    critical: 10,
+    dir: "above",
+    type: "count",
+  },
+  avgEscalationResolutionTime: {
+    label: "Avg Escalation Resolution Time",
+    warn: 24,
+    critical: 48,
+    dir: "above",
+    type: "h",
+  },
+  brandSatisfactionScore: {
+    label: "Brand Satisfaction Score",
+    warn: 3.5,
+    critical: 3.0,
+    dir: "below",
+    type: "score",
+  },
+  retailerSatisfactionScore: {
+    label: "Retailer Satisfaction Score",
+    warn: 3.5,
+    critical: 3.0,
+    dir: "below",
+    type: "score",
+  },
 };
 
 const mockMetrics = {
@@ -66,17 +144,57 @@ type ExecutorData = {
 };
 
 const mockExecutors: ExecutorData[] = [
-  { id: "e1", name: "John Doe", completionRate: 95, qualityScore: 92, preferred: true, escalationsRaised: 2, escalationsAgainst: 0 },
-  { id: "e2", name: "Tracy Lan", completionRate: 88, qualityScore: 85, preferred: false, escalationsRaised: 0, escalationsAgainst: 1 },
-  { id: "e3", name: "Lê Văn An", completionRate: 65, qualityScore: 70, preferred: false, escalationsRaised: 1, escalationsAgainst: 3 },
-  { id: "e4", name: "Patricia Huong", completionRate: 92, qualityScore: 88, preferred: true, escalationsRaised: 0, escalationsAgainst: 0 },
-  { id: "e5", name: "Henry Son", completionRate: 75, qualityScore: 80, preferred: false, escalationsRaised: 5, escalationsAgainst: 0 },
+  {
+    id: "e1",
+    name: "John Doe",
+    completionRate: 95,
+    qualityScore: 92,
+    preferred: true,
+    escalationsRaised: 2,
+    escalationsAgainst: 0,
+  },
+  {
+    id: "e2",
+    name: "Tracy Lan",
+    completionRate: 88,
+    qualityScore: 85,
+    preferred: false,
+    escalationsRaised: 0,
+    escalationsAgainst: 1,
+  },
+  {
+    id: "e3",
+    name: "Lê Văn An",
+    completionRate: 65,
+    qualityScore: 70,
+    preferred: false,
+    escalationsRaised: 1,
+    escalationsAgainst: 3,
+  },
+  {
+    id: "e4",
+    name: "Patricia Huong",
+    completionRate: 92,
+    qualityScore: 88,
+    preferred: true,
+    escalationsRaised: 0,
+    escalationsAgainst: 0,
+  },
+  {
+    id: "e5",
+    name: "Henry Son",
+    completionRate: 75,
+    qualityScore: 80,
+    preferred: false,
+    escalationsRaised: 5,
+    escalationsAgainst: 0,
+  },
 ];
 
 function OpsDashboard() {
   const [thresholds, setThresholds] = useState<Thresholds>(initialThresholds);
   const [dateRange, setDateRange] = useState("This Week");
-  
+
   return (
     <div className="space-y-6 pb-20">
       {/* Header */}
@@ -132,11 +250,22 @@ function aggregateStageHealth(healths: ("green" | "amber" | "red")[]): "green" |
 
 // ── Components ──
 
-function StagePanel({ num, title, health, children }: { num: number; title: string; health: "green" | "amber" | "red"; children: React.ReactNode }) {
+function StagePanel({
+  num,
+  title,
+  health,
+  children,
+}: {
+  num: number;
+  title: string;
+  health: "green" | "amber" | "red";
+  children: React.ReactNode;
+}) {
   const [expanded, setExpanded] = useState(true);
-  
-  const dotColor = health === "green" ? "bg-[#16A34A]" : health === "amber" ? "bg-[#D97706]" : "bg-[#DC2626]";
-  
+
+  const dotColor =
+    health === "green" ? "bg-[#16A34A]" : health === "amber" ? "bg-[#D97706]" : "bg-[#DC2626]";
+
   return (
     <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden transition-all">
       <button
@@ -144,40 +273,94 @@ function StagePanel({ num, title, health, children }: { num: number; title: stri
         className="w-full flex items-center justify-between p-4 bg-[#1A3557] text-white hover:bg-[#1A3557]/90 transition-colors"
       >
         <div className="flex items-center gap-3">
-          <span className="w-6 h-6 rounded-md bg-white/20 text-xs font-bold flex items-center justify-center">{num}</span>
+          <span className="w-6 h-6 rounded-md bg-white/20 text-xs font-bold flex items-center justify-center">
+            {num}
+          </span>
           <span className="font-semibold">{title}</span>
           <div className="flex items-center gap-2 ml-4 px-2.5 py-1 rounded-full bg-white/10 border border-white/20 text-xs">
             <span className={`w-2.5 h-2.5 rounded-full ${dotColor} shadow-sm`} />
-            <span className="text-white/80 font-medium capitalize">{health === "green" ? "Healthy" : health === "amber" ? "Warning" : "Critical"}</span>
+            <span className="text-white/80 font-medium capitalize">
+              {health === "green" ? "Healthy" : health === "amber" ? "Warning" : "Critical"}
+            </span>
           </div>
         </div>
-        {expanded ? <ChevronDown className="w-5 h-5 opacity-70" /> : <ChevronRight className="w-5 h-5 opacity-70" />}
+        {expanded ? (
+          <ChevronDown className="w-5 h-5 opacity-70" />
+        ) : (
+          <ChevronRight className="w-5 h-5 opacity-70" />
+        )}
       </button>
       {expanded && <div className="p-5">{children}</div>}
     </div>
   );
 }
 
-function KPICard({ label, value, health, def }: { label: string; value: string | number; health?: "green" | "amber" | "red"; def?: ThresholdDef }) {
-    const borderColor = health === "green" ? "border-l-[#16A34A]" : health === "amber" ? "border-l-[#D97706]" : health === "red" ? "border-l-[#DC2626]" : "border-l-gray-300";
-  const textColor = health === "red" ? "text-[#DC2626]" : health === "amber" ? "text-[#D97706]" : "text-gray-900";
-  const bgBadge = health === "green" ? "bg-[#16A34A]/10 text-[#16A34A]" : health === "amber" ? "bg-[#D97706]/10 text-[#D97706]" : health === "red" ? "bg-[#DC2626]/10 text-[#DC2626]" : "";
+function KPICard({
+  label,
+  value,
+  health,
+  def,
+}: {
+  label: string;
+  value: string | number;
+  health?: "green" | "amber" | "red";
+  def?: ThresholdDef;
+}) {
+  const borderColor =
+    health === "green"
+      ? "border-l-[#16A34A]"
+      : health === "amber"
+        ? "border-l-[#D97706]"
+        : health === "red"
+          ? "border-l-[#DC2626]"
+          : "border-l-gray-300";
+  const textColor =
+    health === "red" ? "text-[#DC2626]" : health === "amber" ? "text-[#D97706]" : "text-gray-900";
+  const bgBadge =
+    health === "green"
+      ? "bg-[#16A34A]/10 text-[#16A34A]"
+      : health === "amber"
+        ? "bg-[#D97706]/10 text-[#D97706]"
+        : health === "red"
+          ? "bg-[#DC2626]/10 text-[#DC2626]"
+          : "";
 
   return (
-    <div className={`bg-gray-50 border border-gray-200 rounded-r-lg border-l-4 ${borderColor} p-4 flex flex-col justify-between`}>
-      <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 line-clamp-1" title={label}>{label}</div>
+    <div
+      className={`bg-gray-50 border border-gray-200 rounded-r-lg border-l-4 ${borderColor} p-4 flex flex-col justify-between`}
+    >
+      <div
+        className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 line-clamp-1"
+        title={label}
+      >
+        {label}
+      </div>
       <div className="flex items-end gap-2 mb-2">
         <div className={`text-3xl font-bold ${textColor}`}>{value}</div>
-        {health && <div className={`text-[10px] font-bold px-1.5 py-0.5 rounded uppercase mb-1 ${bgBadge}`}>{health === "green" ? "Healthy" : health === "amber" ? "Warning" : "Critical"}</div>}
+        {health && (
+          <div className={`text-[10px] font-bold px-1.5 py-0.5 rounded uppercase mb-1 ${bgBadge}`}>
+            {health === "green" ? "Healthy" : health === "amber" ? "Warning" : "Critical"}
+          </div>
+        )}
       </div>
       {def && (
         <div className="text-[10px] text-gray-400 mt-auto pt-2 border-t border-gray-200">
-          <span className="font-medium text-[#D97706]">{def.dir === "below" ? "Warn below" : "Warn above"} {def.warn}{def.type}</span>
+          <span className="font-medium text-[#D97706]">
+            {def.dir === "below" ? "Warn below" : "Warn above"} {def.warn}
+            {def.type}
+          </span>
           <span className="mx-1">•</span>
-          <span className="font-medium text-[#DC2626]">{def.dir === "below" ? "Crit below" : "Crit above"} {def.critical}{def.type}</span>
+          <span className="font-medium text-[#DC2626]">
+            {def.dir === "below" ? "Crit below" : "Crit above"} {def.critical}
+            {def.type}
+          </span>
         </div>
       )}
-      {!def && <div className="text-[10px] text-gray-400 mt-auto pt-2 border-t border-gray-200">{"No threshold configured"}</div>}
+      {!def && (
+        <div className="text-[10px] text-gray-400 mt-auto pt-2 border-t border-gray-200">
+          {"No threshold configured"}
+        </div>
+      )}
     </div>
   );
 }
@@ -189,16 +372,31 @@ function Stage1({ thresholds }: { thresholds: Thresholds }) {
   const h1 = evaluateHealth(m.onboardingCompletionRate, thresholds.onboardingCompletionRate);
   const h2 = evaluateHealth(m.activeExecutorRate, thresholds.activeExecutorRate);
   const h3 = evaluateHealth(m.executorDropoutRate, thresholds.executorDropoutRate);
-  
+
   const overall = aggregateStageHealth([h1, h2, h3]);
 
-    return (
+  return (
     <StagePanel num={1} title={"Stage 1 — Executor Pool"} health={overall}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <KPICard label={"Total Reg. Executors"} value={m.totalRegisteredExecutors} />
-        <KPICard label={"Onboarding Completion Rate"} value={`${m.onboardingCompletionRate}%`} health={h1} def={thresholds.onboardingCompletionRate} />
-        <KPICard label={"Active Executor Rate"} value={`${m.activeExecutorRate}%`} health={h2} def={thresholds.activeExecutorRate} />
-        <KPICard label={"Executor Dropout Rate"} value={`${m.executorDropoutRate}%`} health={h3} def={thresholds.executorDropoutRate} />
+        <KPICard
+          label={"Onboarding Completion Rate"}
+          value={`${m.onboardingCompletionRate}%`}
+          health={h1}
+          def={thresholds.onboardingCompletionRate}
+        />
+        <KPICard
+          label={"Active Executor Rate"}
+          value={`${m.activeExecutorRate}%`}
+          health={h2}
+          def={thresholds.activeExecutorRate}
+        />
+        <KPICard
+          label={"Executor Dropout Rate"}
+          value={`${m.executorDropoutRate}%`}
+          health={h3}
+          def={thresholds.executorDropoutRate}
+        />
       </div>
     </StagePanel>
   );
@@ -210,16 +408,36 @@ function Stage2({ thresholds }: { thresholds: Thresholds }) {
   const h2 = evaluateHealth(m.avgTimeTaskAcceptance, thresholds.avgTimeTaskAcceptance);
   const h3 = evaluateHealth(m.declineRatePerTask, thresholds.declineRatePerTask);
   const h4 = evaluateHealth(m.browseToAcceptConversion, thresholds.browseToAcceptConversion);
-  
+
   const overall = aggregateStageHealth([h1, h2, h3, h4]);
 
-    return (
+  return (
     <StagePanel num={2} title={"Stage 2 — Task Acceptance"} health={overall}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KPICard label={"Task Fill Rate"} value={`${m.taskFillRate}%`} health={h1} def={thresholds.taskFillRate} />
-        <KPICard label={"Avg Time to Acceptance"} value={`${m.avgTimeTaskAcceptance}h`} health={h2} def={thresholds.avgTimeTaskAcceptance} />
-        <KPICard label={"Decline Rate per Task"} value={`${m.declineRatePerTask}%`} health={h3} def={thresholds.declineRatePerTask} />
-        <KPICard label={"Browse-to-Accept Conv."} value={`${m.browseToAcceptConversion}%`} health={h4} def={thresholds.browseToAcceptConversion} />
+        <KPICard
+          label={"Task Fill Rate"}
+          value={`${m.taskFillRate}%`}
+          health={h1}
+          def={thresholds.taskFillRate}
+        />
+        <KPICard
+          label={"Avg Time to Acceptance"}
+          value={`${m.avgTimeTaskAcceptance}h`}
+          health={h2}
+          def={thresholds.avgTimeTaskAcceptance}
+        />
+        <KPICard
+          label={"Decline Rate per Task"}
+          value={`${m.declineRatePerTask}%`}
+          health={h3}
+          def={thresholds.declineRatePerTask}
+        />
+        <KPICard
+          label={"Browse-to-Accept Conv."}
+          value={`${m.browseToAcceptConversion}%`}
+          health={h4}
+          def={thresholds.browseToAcceptConversion}
+        />
       </div>
     </StagePanel>
   );
@@ -231,16 +449,36 @@ function Stage3({ thresholds }: { thresholds: Thresholds }) {
   const h2 = evaluateHealth(m.taskCompletionRate, thresholds.taskCompletionRate);
   const h3 = evaluateHealth(m.avgCompletionTime, thresholds.avgCompletionTime);
   const h4 = evaluateHealth(m.checklistPassRate, thresholds.checklistPassRate);
-  
+
   const overall = aggregateStageHealth([h1, h2, h3, h4]);
 
-    return (
+  return (
     <StagePanel num={3} title={"Stage 3 — Task Execution"} health={overall}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KPICard label={"On-Time Start Rate"} value={`${m.onTimeStartRate}%`} health={h1} def={thresholds.onTimeStartRate} />
-        <KPICard label={"Task Completion Rate"} value={`${m.taskCompletionRate}%`} health={h2} def={thresholds.taskCompletionRate} />
-        <KPICard label={"Avg Completion Time"} value={`${m.avgCompletionTime}h`} health={h3} def={thresholds.avgCompletionTime} />
-        <KPICard label={"Checklist Pass Rate"} value={`${m.checklistPassRate}%`} health={h4} def={thresholds.checklistPassRate} />
+        <KPICard
+          label={"On-Time Start Rate"}
+          value={`${m.onTimeStartRate}%`}
+          health={h1}
+          def={thresholds.onTimeStartRate}
+        />
+        <KPICard
+          label={"Task Completion Rate"}
+          value={`${m.taskCompletionRate}%`}
+          health={h2}
+          def={thresholds.taskCompletionRate}
+        />
+        <KPICard
+          label={"Avg Completion Time"}
+          value={`${m.avgCompletionTime}h`}
+          health={h3}
+          def={thresholds.avgCompletionTime}
+        />
+        <KPICard
+          label={"Checklist Pass Rate"}
+          value={`${m.checklistPassRate}%`}
+          health={h4}
+          def={thresholds.checklistPassRate}
+        />
       </div>
     </StagePanel>
   );
@@ -253,17 +491,42 @@ function Stage4({ thresholds }: { thresholds: Thresholds }) {
   const h3 = evaluateHealth(m.avgEscalationResolutionTime, thresholds.avgEscalationResolutionTime);
   const h4 = evaluateHealth(m.brandSatisfactionScore, thresholds.brandSatisfactionScore);
   const h5 = evaluateHealth(m.retailerSatisfactionScore, thresholds.retailerSatisfactionScore);
-  
+
   const overall = aggregateStageHealth([h1, h2, h3, h4, h5]);
 
-    return (
+  return (
     <StagePanel num={4} title={"Stage 4 — Quality & Escalation"} health={overall}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-        <KPICard label={"Escalation Rate"} value={`${m.escalationRate}%`} health={h1} def={thresholds.escalationRate} />
-        <KPICard label={"Open Escalation Count"} value={m.openEscalationCount} health={h2} def={thresholds.openEscalationCount} />
-        <KPICard label={"Avg Escalation Res. Time"} value={`${m.avgEscalationResolutionTime}h`} health={h3} def={thresholds.avgEscalationResolutionTime} />
-        <KPICard label={"Brand Sat. Score"} value={m.brandSatisfactionScore} health={h4} def={thresholds.brandSatisfactionScore} />
-        <KPICard label={"Retailer Sat. Score"} value={m.retailerSatisfactionScore} health={h5} def={thresholds.retailerSatisfactionScore} />
+        <KPICard
+          label={"Escalation Rate"}
+          value={`${m.escalationRate}%`}
+          health={h1}
+          def={thresholds.escalationRate}
+        />
+        <KPICard
+          label={"Open Escalation Count"}
+          value={m.openEscalationCount}
+          health={h2}
+          def={thresholds.openEscalationCount}
+        />
+        <KPICard
+          label={"Avg Escalation Res. Time"}
+          value={`${m.avgEscalationResolutionTime}h`}
+          health={h3}
+          def={thresholds.avgEscalationResolutionTime}
+        />
+        <KPICard
+          label={"Brand Sat. Score"}
+          value={m.brandSatisfactionScore}
+          health={h4}
+          def={thresholds.brandSatisfactionScore}
+        />
+        <KPICard
+          label={"Retailer Sat. Score"}
+          value={m.retailerSatisfactionScore}
+          health={h5}
+          def={thresholds.retailerSatisfactionScore}
+        />
       </div>
     </StagePanel>
   );
@@ -279,11 +542,15 @@ function Stage5() {
 
   const getStatus = (e: ExecutorData) => {
     if (e.completionRate < 70 || e.escalationsAgainst > 2) return "Flagged";
-    if ((e.completionRate >= 70 && e.completionRate <= 90) || (e.escalationsAgainst >= 1 && e.escalationsAgainst <= 2)) return "At Risk";
+    if (
+      (e.completionRate >= 70 && e.completionRate <= 90) ||
+      (e.escalationsAgainst >= 1 && e.escalationsAgainst <= 2)
+    )
+      return "At Risk";
     return "Good";
   };
 
-  const statusWeight = { "Flagged": 0, "At Risk": 1, "Good": 2 };
+  const statusWeight = { Flagged: 0, "At Risk": 1, Good: 2 };
 
   const sorted = [...mockExecutors].sort((a, b) => {
     let cmp = 0;
@@ -294,7 +561,8 @@ function Stage5() {
       const vb = b[sortField];
       if (typeof va === "string" && typeof vb === "string") cmp = va.localeCompare(vb);
       else if (typeof va === "number" && typeof vb === "number") cmp = va - vb;
-      else if (typeof va === "boolean" && typeof vb === "boolean") cmp = (va ? 1 : 0) - (vb ? 1 : 0);
+      else if (typeof va === "boolean" && typeof vb === "boolean")
+        cmp = (va ? 1 : 0) - (vb ? 1 : 0);
     }
     return sortDesc ? -cmp : cmp;
   });
@@ -308,7 +576,7 @@ function Stage5() {
   };
 
   const Th = ({ field, label }: { field: SortField; label: string }) => (
-    <th 
+    <th
       className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider py-3 px-4 cursor-pointer hover:bg-gray-50"
       onClick={() => handleSort(field)}
     >
@@ -319,7 +587,6 @@ function Stage5() {
     </th>
   );
 
-  
   return (
     <StagePanel num={5} title={"Stage 5 — Executor Performance"} health="green">
       <div className="overflow-x-auto rounded-lg border border-gray-200">
@@ -336,23 +603,36 @@ function Stage5() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 bg-white">
-            {sorted.map(e => {
+            {sorted.map((e) => {
               const status = getStatus(e);
-              const badgeCls = status === "Good" ? "bg-[#16A34A]/10 text-[#16A34A] border border-[#16A34A]/20" : 
-                               status === "At Risk" ? "bg-[#D97706]/10 text-[#D97706] border border-[#D97706]/20" : 
-                               "bg-[#DC2626]/10 text-[#DC2626] border border-[#DC2626]/20";
+              const badgeCls =
+                status === "Good"
+                  ? "bg-[#16A34A]/10 text-[#16A34A] border border-[#16A34A]/20"
+                  : status === "At Risk"
+                    ? "bg-[#D97706]/10 text-[#D97706] border border-[#D97706]/20"
+                    : "bg-[#DC2626]/10 text-[#DC2626] border border-[#DC2626]/20";
               return (
                 <tr key={e.id} className="hover:bg-gray-50/50">
                   <td className="py-3 px-4 font-semibold text-gray-900">{e.name}</td>
                   <td className="py-3 px-4">{e.completionRate}%</td>
                   <td className="py-3 px-4">{e.qualityScore}%</td>
                   <td className="py-3 px-4">
-                    {e.preferred ? <span className="text-[#1A3557] font-semibold bg-[#1A3557]/10 px-2 py-0.5 rounded text-[10px]">{"YES"}</span> : <span className="text-gray-400">{"No"}</span>}
+                    {e.preferred ? (
+                      <span className="text-[#1A3557] font-semibold bg-[#1A3557]/10 px-2 py-0.5 rounded text-[10px]">
+                        {"YES"}
+                      </span>
+                    ) : (
+                      <span className="text-gray-400">{"No"}</span>
+                    )}
                   </td>
                   <td className="py-3 px-4">{e.escalationsRaised}</td>
                   <td className="py-3 px-4 font-medium">{e.escalationsAgainst}</td>
                   <td className="py-3 px-4">
-                    <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide ${badgeCls}`}>{status === "Flagged" ? "Flagged" : status === "At Risk" ? "At Risk" : "Good"}</span>
+                    <span
+                      className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide ${badgeCls}`}
+                    >
+                      {status === "Flagged" ? "Flagged" : status === "At Risk" ? "At Risk" : "Good"}
+                    </span>
                   </td>
                 </tr>
               );
@@ -366,15 +646,21 @@ function Stage5() {
 
 // ── Threshold Settings ──
 
-function ThresholdSettingsPanel({ thresholds, setThresholds }: { thresholds: Thresholds, setThresholds: (t: Thresholds) => void }) {
+function ThresholdSettingsPanel({
+  thresholds,
+  setThresholds,
+}: {
+  thresholds: Thresholds;
+  setThresholds: (t: Thresholds) => void;
+}) {
   const [expanded, setExpanded] = useState(false);
   const [local, setLocal] = useState<Thresholds>(thresholds);
 
   const handleChange = (key: string, field: "warn" | "critical", value: string) => {
     const num = parseFloat(value);
-    setLocal(prev => ({
+    setLocal((prev) => ({
       ...prev,
-      [key]: { ...prev[key], [field]: isNaN(num) ? 0 : num }
+      [key]: { ...prev[key], [field]: isNaN(num) ? 0 : num },
     }));
   };
 
@@ -383,7 +669,6 @@ function ThresholdSettingsPanel({ thresholds, setThresholds }: { thresholds: Thr
     setExpanded(false);
   };
 
-  
   return (
     <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden mt-8">
       <button
@@ -394,34 +679,51 @@ function ThresholdSettingsPanel({ thresholds, setThresholds }: { thresholds: Thr
           <Settings className="w-5 h-5" />
           {"Threshold Settings"}
         </div>
-        {expanded ? <ChevronDown className="w-5 h-5 opacity-70" /> : <ChevronRight className="w-5 h-5 opacity-70" />}
+        {expanded ? (
+          <ChevronDown className="w-5 h-5 opacity-70" />
+        ) : (
+          <ChevronRight className="w-5 h-5 opacity-70" />
+        )}
       </button>
-      
+
       {expanded && (
         <div className="p-5 border-t border-gray-200">
-          <div className="text-sm text-gray-500 mb-4">{"Adjust the warning (amber) and critical (red) thresholds for each metric. Changes apply immediately upon saving."}</div>
-          
+          <div className="text-sm text-gray-500 mb-4">
+            {
+              "Adjust the warning (amber) and critical (red) thresholds for each metric. Changes apply immediately upon saving."
+            }
+          </div>
+
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-200">
                   <th className="text-left font-semibold text-gray-500 pb-2 w-1/2">{"Metric"}</th>
-                  <th className="text-left font-semibold text-[#D97706] pb-2 w-1/4">{"Warning Threshold"}</th>
-                  <th className="text-left font-semibold text-[#DC2626] pb-2 w-1/4">{"Critical Threshold"}</th>
+                  <th className="text-left font-semibold text-[#D97706] pb-2 w-1/4">
+                    {"Warning Threshold"}
+                  </th>
+                  <th className="text-left font-semibold text-[#DC2626] pb-2 w-1/4">
+                    {"Critical Threshold"}
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {Object.entries(local).map(([key, def]) => (
                   <tr key={key}>
                     <td className="py-3 font-medium text-gray-700">
-                      {def.label} <span className="text-xs text-gray-400 ml-1">({def.dir} X{def.type})</span>
+                      {def.label}{" "}
+                      <span className="text-xs text-gray-400 ml-1">
+                        ({def.dir} X{def.type})
+                      </span>
                     </td>
                     <td className="py-3 pr-4">
                       <div className="flex items-center gap-2">
-                        <span className="text-gray-400 text-xs">{def.dir === "below" ? "<" : ">"}</span>
-                        <input 
-                          type="number" 
-                          value={def.warn} 
+                        <span className="text-gray-400 text-xs">
+                          {def.dir === "below" ? "<" : ">"}
+                        </span>
+                        <input
+                          type="number"
+                          value={def.warn}
                           onChange={(e) => handleChange(key, "warn", e.target.value)}
                           className="border border-gray-300 rounded px-2 py-1 w-20 text-sm focus:outline-none focus:border-[#D97706]"
                         />
@@ -430,10 +732,12 @@ function ThresholdSettingsPanel({ thresholds, setThresholds }: { thresholds: Thr
                     </td>
                     <td className="py-3">
                       <div className="flex items-center gap-2">
-                        <span className="text-gray-400 text-xs">{def.dir === "below" ? "<" : ">"}</span>
-                        <input 
-                          type="number" 
-                          value={def.critical} 
+                        <span className="text-gray-400 text-xs">
+                          {def.dir === "below" ? "<" : ">"}
+                        </span>
+                        <input
+                          type="number"
+                          value={def.critical}
                           onChange={(e) => handleChange(key, "critical", e.target.value)}
                           className="border border-gray-300 rounded px-2 py-1 w-20 text-sm focus:outline-none focus:border-[#DC2626]"
                         />
@@ -447,13 +751,16 @@ function ThresholdSettingsPanel({ thresholds, setThresholds }: { thresholds: Thr
           </div>
 
           <div className="mt-5 flex justify-end gap-3 pt-5 border-t border-gray-200">
-            <button 
-              onClick={() => { setLocal(thresholds); setExpanded(false); }}
+            <button
+              onClick={() => {
+                setLocal(thresholds);
+                setExpanded(false);
+              }}
               className="px-4 py-2 border border-gray-300 rounded-[5px] text-sm font-semibold text-gray-700 hover:bg-gray-50"
             >
               {"Cancel"}
             </button>
-            <button 
+            <button
               onClick={handleSave}
               className="px-4 py-2 bg-[#F97316] text-white rounded-[5px] text-sm font-bold hover:bg-[#F97316]/90 shadow-sm"
             >

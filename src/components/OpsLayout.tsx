@@ -6,11 +6,8 @@ export function OpsLayout({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-screen bg-[#F7F8FA]">
       <OpsSidebar />
       <main className="flex-1 ml-56 flex flex-col">
-        <header className="h-16 bg-white border-b border-gray-100 px-8 flex items-center justify-end sticky top-0 z-20">
-                  </header>
-        <div className="p-8 max-w-6xl w-full">
-          {children}
-        </div>
+        <header className="h-16 bg-white border-b border-gray-100 px-8 flex items-center justify-end sticky top-0 z-20"></header>
+        <div className="p-8 max-w-6xl w-full">{children}</div>
       </main>
     </div>
   );
@@ -18,16 +15,16 @@ export function OpsLayout({ children }: { children: React.ReactNode }) {
 
 function OpsSidebar() {
   const { pathname } = useLocation();
-    const { logout } = useAuth();
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
   const navItems = [
-    { to: "/ops/dashboard",   label: "Dashboard",         icon: "" },
-    { to: "/ops/escalations", label: "Escalation Queue",  icon: "" },
-    { to: "/ops/submissions", label: "Submissions",  icon: "" },
-    { to: "/ops/campaigns",   label: "Campaign Monitor",  icon: "" },
-    { to: "/ops/execution",   label: "Execution Live",    icon: "" },
-    { to: "/ops/executors",   label: "Executor Network",  icon: "" },
+    { to: "/ops/dashboard", label: "Dashboard", icon: "" },
+    { to: "/ops/escalations", label: "Escalation Queue", icon: "" },
+    { to: "/ops/submissions", label: "Submissions", icon: "" },
+    { to: "/ops/campaigns", label: "Campaign Monitor", icon: "" },
+    { to: "/ops/execution", label: "Execution Live", icon: "" },
+    { to: "/ops/executors", label: "Executor Network", icon: "" },
   ];
 
   function handleLogout() {
@@ -45,15 +42,18 @@ function OpsSidebar() {
 
       {/* Nav */}
       <nav className="flex-1 space-y-1">
-        {navItems.map(item => {
+        {navItems.map((item) => {
           const isActive = pathname.startsWith(item.to);
           return (
-            <Link key={item.to} to={item.to}
+            <Link
+              key={item.to}
+              to={item.to}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-[5px] text-sm font-medium transition-colors ${
                 isActive
                   ? "bg-white/15 text-white"
                   : "text-white/60 hover:bg-white/10 hover:text-white"
-              }`}>
+              }`}
+            >
               <span>{item.icon}</span>
               <span>{item.label}</span>
             </Link>
@@ -68,8 +68,12 @@ function OpsSidebar() {
           className="w-full flex items-center gap-2 px-3 py-2 text-sm text-white/60 hover:text-white hover:bg-white/10 rounded-[5px] transition-colors font-medium"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+            />
           </svg>
           {"Logout"}
         </button>

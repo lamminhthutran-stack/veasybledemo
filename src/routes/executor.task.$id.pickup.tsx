@@ -14,9 +14,9 @@ function PrintPickupScreen() {
   const navigate = useNavigate();
   const [showIssueForm, setShowIssueForm] = useState(false);
   const [issueDesc, setIssueDesc] = useState("");
-  
+
   const task = availableTasks.find((x) => x.id === id);
-  
+
   if (!task) {
     return <div className="p-4 text-center mt-20">Task not found</div>;
   }
@@ -29,26 +29,31 @@ function PrintPickupScreen() {
   const handleSubmitIssue = (e: React.FormEvent) => {
     e.preventDefault();
     if (!issueDesc.trim()) return;
-    
+
     reportEscalation({
       title: `Print Station Issue - ${task.campaignName}`,
       phase: "Execute",
       severity: "High",
       executorId: "exec-001",
     });
-    
+
     alert("Your issue has been reported to the Ops team.");
     setShowIssueForm(false);
     setIssueDesc("");
   };
 
   const ps = task.printStation;
-  const mapLink = ps?.address ? `https://maps.google.com/?q=${encodeURIComponent(ps.address)}` : "#";
+  const mapLink = ps?.address
+    ? `https://maps.google.com/?q=${encodeURIComponent(ps.address)}`
+    : "#";
 
   return (
     <div className="min-h-screen bg-surface pb-24 flex flex-col">
       <header className="sticky top-0 z-10 bg-white border-b border-border px-4 py-3 flex items-center gap-3">
-        <button onClick={() => router.history.back()} className="text-muted-foreground hover:text-foreground">
+        <button
+          onClick={() => router.history.back()}
+          className="text-muted-foreground hover:text-foreground"
+        >
           <ArrowLeft className="w-5 h-5" />
         </button>
         <h1 className="font-bold text-lg text-foreground">Pick Up Your Materials</h1>
@@ -70,7 +75,9 @@ function PrintPickupScreen() {
               </a>
             </>
           ) : (
-            <p className="text-sm text-muted-foreground mt-2">No specific print station assigned.</p>
+            <p className="text-sm text-muted-foreground mt-2">
+              No specific print station assigned.
+            </p>
           )}
         </div>
 
@@ -79,7 +86,10 @@ function PrintPickupScreen() {
           {ps?.materials ? (
             <ul className="space-y-2">
               {ps.materials.split(",").map((mat, i) => (
-                <li key={i} className="flex gap-2 py-2 border-b border-border last:border-0 text-sm">
+                <li
+                  key={i}
+                  className="flex gap-2 py-2 border-b border-border last:border-0 text-sm"
+                >
                   <span className="text-orange">✓</span>
                   <span className="text-foreground">{mat.trim()}</span>
                 </li>
@@ -133,7 +143,10 @@ function PrintPickupScreen() {
       </main>
 
       {/* Fixed bottom CTA */}
-      <div className="fixed left-0 right-0 bg-white border-t border-border px-4 py-4 max-w-[390px] mx-auto z-40" style={{ bottom: "env(safe-area-inset-bottom)" }}>
+      <div
+        className="fixed left-0 right-0 bg-white border-t border-border px-4 py-4 max-w-[390px] mx-auto z-40"
+        style={{ bottom: "env(safe-area-inset-bottom)" }}
+      >
         <button
           onClick={handleConfirm}
           className="w-full bg-[#1A3557] text-white text-sm font-bold py-4 rounded-[5px] text-center shadow-sm"

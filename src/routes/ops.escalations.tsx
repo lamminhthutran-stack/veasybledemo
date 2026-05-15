@@ -9,7 +9,7 @@ export const Route = createFileRoute("/ops/escalations")({
 type Tab = "queue" | "log";
 
 function OpsEscalations() {
-    const [tab, setTab] = useState<Tab>("queue");
+  const [tab, setTab] = useState<Tab>("queue");
   const [filters, setFilters] = useState({ phase: "all", severity: "all" });
   const [escalationsList, setEscalationsList] = useState(initialEscalations);
 
@@ -17,9 +17,14 @@ function OpsEscalations() {
     setEscalationsList((prev) =>
       prev.map((e) =>
         e.id === id
-          ? { ...e, status: "Resolved", resolvedAt: new Date().toISOString(), resolvedNote: note || "Resolved by Ops." }
-          : e
-      )
+          ? {
+              ...e,
+              status: "Resolved",
+              resolvedAt: new Date().toISOString(),
+              resolvedNote: note || "Resolved by Ops.",
+            }
+          : e,
+      ),
     );
   };
 
@@ -38,7 +43,9 @@ function OpsEscalations() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">{"Escalation Queue"}</h1>
-          <p className="mt-1 text-sm text-muted-foreground">{"Manage and resolve network incidents."}</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {"Manage and resolve network incidents."}
+          </p>
         </div>
       </div>
 
@@ -48,7 +55,9 @@ function OpsEscalations() {
           <button
             onClick={() => setTab("queue")}
             className={`pb-3 border-b-2 transition-colors ${
-              tab === "queue" ? "border-primary text-primary" : "border-transparent text-muted-foreground"
+              tab === "queue"
+                ? "border-primary text-primary"
+                : "border-transparent text-muted-foreground"
             }`}
           >
             {"Open"} ({escalationsList.filter((e) => e.status !== "Resolved").length})
@@ -56,7 +65,9 @@ function OpsEscalations() {
           <button
             onClick={() => setTab("log")}
             className={`pb-3 border-b-2 transition-colors ${
-              tab === "log" ? "border-primary text-primary" : "border-transparent text-muted-foreground"
+              tab === "log"
+                ? "border-primary text-primary"
+                : "border-transparent text-muted-foreground"
             }`}
           >
             {"Resolved"}
@@ -67,7 +78,9 @@ function OpsEscalations() {
         <div className="p-4 border-b border-border bg-background space-y-3">
           <div className="flex gap-4">
             <div className="flex-1">
-              <label className="text-xs font-semibold text-muted-foreground block mb-1.5">{"Phase"}</label>
+              <label className="text-xs font-semibold text-muted-foreground block mb-1.5">
+                {"Phase"}
+              </label>
               <select
                 value={filters.phase}
                 onChange={(e) => setFilters((f) => ({ ...f, phase: e.target.value }))}
@@ -87,7 +100,9 @@ function OpsEscalations() {
               </select>
             </div>
             <div className="flex-1">
-              <label className="text-xs font-semibold text-muted-foreground block mb-1.5">{"Severity"}</label>
+              <label className="text-xs font-semibold text-muted-foreground block mb-1.5">
+                {"Severity"}
+              </label>
               <select
                 value={filters.severity}
                 onChange={(e) => setFilters((f) => ({ ...f, severity: e.target.value }))}
@@ -113,7 +128,12 @@ function OpsEscalations() {
           ) : (
             <div className="divide-y divide-border">
               {filtered.map((e) => (
-                <EscalationRow key={e.id} escalation={e} isQueue={isQueue} onResolve={handleResolve} />
+                <EscalationRow
+                  key={e.id}
+                  escalation={e}
+                  isQueue={isQueue}
+                  onResolve={handleResolve}
+                />
               ))}
             </div>
           )}
@@ -132,7 +152,7 @@ function EscalationRow({
   isQueue: boolean;
   onResolve: (id: string, note: string) => void;
 }) {
-    const [resolveNote, setResolveNote] = useState("");
+  const [resolveNote, setResolveNote] = useState("");
   const [resolving, setResolving] = useState(false);
 
   return (
@@ -140,14 +160,16 @@ function EscalationRow({
       <div className="flex justify-between items-start gap-4">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
-            <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
-              e.severity === "High" ? "bg-red-50 text-red-700" :
-              e.severity === "Medium" ? "bg-yellow-50 text-yellow-700" :
-              "bg-green-50 text-green-700"
-            }`}>
-              {e.severity === "High" ? "High" :
-               e.severity === "Medium" ? "Medium" :
-               "Low"}
+            <span
+              className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                e.severity === "High"
+                  ? "bg-red-50 text-red-700"
+                  : e.severity === "Medium"
+                    ? "bg-yellow-50 text-yellow-700"
+                    : "bg-green-50 text-green-700"
+              }`}
+            >
+              {e.severity === "High" ? "High" : e.severity === "Medium" ? "Medium" : "Low"}
             </span>
             <span className="text-[10px] bg-surface text-muted-foreground px-2 py-0.5 rounded font-medium">
               {e.phase}
@@ -157,13 +179,17 @@ function EscalationRow({
             </span>
           </div>
           <h3 className="font-semibold text-gray-900 text-sm mt-1">{e.title}</h3>
-          <p className="text-xs text-muted-foreground mt-1">Executor ID: <span className="font-medium text-gray-700">{e.executorId}</span></p>
+          <p className="text-xs text-muted-foreground mt-1">
+            Executor ID: <span className="font-medium text-gray-700">{e.executorId}</span>
+          </p>
 
           {!isQueue && e.resolvedNote && (
             <div className="mt-3 bg-gray-50 border border-gray-100 rounded-[5px] p-3 text-xs">
               <span className="font-semibold text-gray-700">{"Resolution Note:"}</span>
               <p className="text-gray-600 mt-0.5">{e.resolvedNote}</p>
-              <p className="text-[10px] text-gray-400 mt-1">{"Resolved at:"} {new Date(e.resolvedAt).toLocaleString()}</p>
+              <p className="text-[10px] text-gray-400 mt-1">
+                {"Resolved at:"} {new Date(e.resolvedAt).toLocaleString()}
+              </p>
             </div>
           )}
         </div>
