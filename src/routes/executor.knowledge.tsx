@@ -193,7 +193,7 @@ function FAQPage() {
               onClick={() => setView("escalate")}
               className="w-full mt-6 bg-[#1A3557] text-white text-sm font-semibold py-3.5 rounded-[5px]"
             >
-              Need more help? Raise to Ops ->
+              {"Need more help? Raise to Ops ->"}
             </button>
           </div>
         )}
@@ -225,7 +225,7 @@ function FAQPage() {
                   onClick={() => setView("escalate")}
                   className="w-full mt-2 bg-[#1A3557] text-white text-sm font-semibold py-3.5 rounded-[5px]"
                 >
-                  Raise to Ops ->
+                  {"Raise to Ops ->"}
                 </button>
               </>
             ) : (
