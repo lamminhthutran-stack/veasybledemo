@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { getModule, setModuleResult } from "@/lib/academy-data";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/executor/academy/module/$id/quiz")({
   component: Quiz,
@@ -10,6 +11,7 @@ function Quiz() {
   const { id } = Route.useParams();
   const m = getModule(id);
   const nav = useNavigate();
+  const { t } = useTranslation();
 
   const [idx, setIdx] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
@@ -37,9 +39,9 @@ function Quiz() {
   return (
     <div className="p-5 space-y-5">
       <div>
-        <div className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">Module {m.num} · Quiz</div>
+        <div className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">Module {m.num} · {t("quiz")}</div>
         <div className="flex items-center gap-2 mt-2">
-          <span className="text-sm font-semibold">Câu {idx + 1} / {m.questions.length}</span>
+          <span className="text-sm font-semibold">{t("question")} {idx + 1} / {m.questions.length}</span>
           <div className="flex gap-1 ml-1">
             {m.questions.map((_, i) => (
               <span key={i} className={`w-2 h-2 rounded-full ${i <= idx ? "bg-orange" : "bg-border"}`} />
@@ -55,7 +57,7 @@ function Quiz() {
             <button
               key={i}
               onClick={() => setSelected(i)}
-              className={`w-full text-left px-4 py-3 rounded-[5px] border text-sm transition ${
+              className={`w-full min-h-[44px] text-left px-4 py-3 rounded-[5px] border text-sm transition ${
                 selected === i
                   ? "border-orange bg-orange/10 font-semibold"
                   : "border-border hover:border-muted-foreground/40"
@@ -71,9 +73,9 @@ function Quiz() {
       <button
         onClick={next}
         disabled={selected === null}
-        className="w-full bg-orange text-orange-foreground font-semibold rounded-md py-3 text-sm disabled:opacity-40 disabled:cursor-not-allowed"
+        className="w-full min-h-[44px] bg-orange text-orange-foreground font-semibold rounded-md py-3 text-sm disabled:opacity-40 disabled:cursor-not-allowed"
       >
-        {isLast ? "Nộp bài" : "Tiếp theo →"}
+        {isLast ? t("submit_quiz") : t("next")}
       </button>
     </div>
   );

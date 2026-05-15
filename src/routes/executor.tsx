@@ -18,10 +18,11 @@ export const Route = createFileRoute("/executor")({
 
 function ExecutorLayout() {
   const loc = useLocation();
-  const { lang } = useLang();
   const onTask = loc.pathname.startsWith("/executor/task") && loc.pathname !== "/executor/tasks";
   const onSetup = loc.pathname.startsWith("/executor/profile/setup");
-  const hideChrome = onTask || onSetup;
+  const onAcademy = loc.pathname.startsWith("/executor/academy");
+  const isAcademyOnboarding = onAcademy && !isAcademyComplete();
+  const hideChrome = onTask || onSetup || isAcademyOnboarding;
 
   return (
     <AppLayout hideChrome={hideChrome}>

@@ -158,6 +158,21 @@ export const escalations = [
   },
 ];
 
+export const reportEscalation = (issue: { title: string; phase: string; severity: string; executorId: string }) => {
+  escalations.unshift({
+    id: `e-${Date.now()}`,
+    phase: issue.phase,
+    severity: issue.severity,
+    status: "Open",
+    title: issue.title,
+    executorId: issue.executorId,
+    createdAt: new Date().toISOString(),
+    resolvedAt: null,
+    resolvedNote: null,
+  });
+};
+
+
 export type CoverageZone = {
   district: string;
   executorCount: number;
@@ -204,6 +219,7 @@ export const executorProfile = {
   rating: 4.3,
   monthlyEarnings: 3200000,
   campaignsThisMonth: 8,
+  // availableDates is deprecated, keeping for backward compatibility if needed, but we use getWeeklyAvailability
   availableDates: [
     "2026-05-14", "2026-05-15", "2026-05-17", "2026-05-20", "2026-05-21",
   ],
@@ -227,6 +243,24 @@ export const executorProfile = {
       comment: "Placement đúng theo planogram, ảnh đủ góc. Tuy nhiên selfie check-in hơi mờ.",
     },
   ],
+};
+
+export type TimeSlot = "Morning" | "Afternoon" | "Evening";
+export type DayOfWeek = "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun";
+
+export interface WeeklyAvailability {
+  day: DayOfWeek;
+  slot: TimeSlot;
+}
+
+let _weeklyAvailability: WeeklyAvailability[] = [];
+
+export const getWeeklyAvailability = (): WeeklyAvailability[] => {
+  return _weeklyAvailability;
+};
+
+export const setWeeklyAvailability = (newAvailability: WeeklyAvailability[]) => {
+  _weeklyAvailability = newAvailability;
 };
 
 export const executorsList = [
@@ -270,7 +304,7 @@ export const availableTasks: AvailableTask[] = [
   {
     id: "t-001",
     brand: "Pepsi",
-    brandLogo: "🥤",
+    brandLogo: "",
     campaignName: "Pepsi Summer 2026",
     storeName: "FamilyMart Nguyễn Trãi",
     district: "Quận 5",
@@ -295,7 +329,7 @@ export const availableTasks: AvailableTask[] = [
   {
     id: "t-002",
     brand: "Vinamilk",
-    brandLogo: "🥛",
+    brandLogo: "",
     campaignName: "Vinamilk Back-to-School",
     storeName: "Circle K Lê Lợi",
     district: "Quận 1",
@@ -307,7 +341,7 @@ export const availableTasks: AvailableTask[] = [
   {
     id: "t-003",
     brand: "Heineken",
-    brandLogo: "🍺",
+    brandLogo: "",
     campaignName: "Heineken Silver Launch",
     storeName: "GS25 Phạm Ngũ Lão",
     district: "Quận 1",
@@ -319,7 +353,7 @@ export const availableTasks: AvailableTask[] = [
   {
     id: "t-004",
     brand: "Unilever",
-    brandLogo: "🧴",
+    brandLogo: "",
     campaignName: "Unilever Perfect Store",
     storeName: "WinMart Nguyen Van Linh",
     district: "Quận 7",
@@ -331,7 +365,7 @@ export const availableTasks: AvailableTask[] = [
   {
     id: "t-005",
     brand: "Masan",
-    brandLogo: "🍜",
+    brandLogo: "",
     campaignName: "Masan Pantry Reset",
     storeName: "Bach Hoa Xanh Go Vap",
     district: "Gò Vấp",

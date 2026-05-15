@@ -1,8 +1,10 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useRouter, useNavigate } from "@tanstack/react-router";
 import { availableTasks } from "@/lib/mock-data";
 import { useTranslation } from "react-i18next";
 import { useLang } from "@/lib/i18n-context";
 import { BackButton } from "@/components/BackButton";
+import { cancelTask } from "@/lib/task-state";
+import { useState } from "react";
 
 export const Route = createFileRoute("/executor/task/$id/")({
   component: TaskDetail,
@@ -12,9 +14,17 @@ function TaskDetail() {
   const { id } = Route.useParams();
   const { lang } = useLang();
   const { t } = useTranslation();
+  const router = useRouter();
+  const navigate = useNavigate();
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
   
   // Find task or fallback to first one
   const task = availableTasks.find((x) => x.id === id) ?? availableTasks[0];
+
+  const handleConfirmCancel = () => {
+    cancelTask(task.id);
+    navigate({ to: "/executor/profile" });
+  };
 
   return (
     <div className="min-h-screen bg-[#F7F8FA] pb-24">
@@ -44,7 +54,7 @@ function TaskDetail() {
         <InfoSection title={t("print_station")}>
           <InfoRow
             label={t("pickup_date")}
-            value={task.printStation?.pickupDate ?? (lang === "vi" ? "Chưa xác định" : "TBD")}
+            value={task.printStation?.pickupDate ?? t("tbd")}
           />
           <InfoRow
             label={t("print_address")}
@@ -71,22 +81,54 @@ function TaskDetail() {
           ))}
           {(!task.sopItems || task.sopItems.length === 0) && (
              <p className="text-sm text-gray-400 py-2">
-               {lang === "vi" ? "Không có yêu cầu cụ thể." : "No specific requirements."}
+               {t("no_reqs")}
              </p>
           )}
         </InfoSection>
       </div>
 
       {/* CTA */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-4 max-w-[390px] mx-auto z-50">
-        <Link
-          to="/executor/task/$id/onsite"
-          params={{ id: task.id }}
-          className="block w-full bg-[#1A3557] text-white text-sm font-semibold py-3.5 rounded-[5px] text-center"
+      <div className="fixed left-0 right-0 bg-white border-t border-gray-100 px-4 py-4 max-w-[390px] mx-auto z-40 flex gap-2" style={{ bottom: "calc(65px + env(safe-area-inset-bottom))" }}>
+        <button
+          onClick={() => setShowCancelDialog(true)}
+          className="flex-1 bg-white text-gray-600 border border-gray-200 text-sm font-semibold py-3.5 rounded-[5px] text-center"
         >
-          {t("start_day_of")}
+          {t("cancel") ?? "Cancel"}
+        </button>
+        <Link
+          to="/executor/task/$id/pickup"
+          params={{ id: task.id }}
+          className="flex-1 bg-[#1A3557] text-white text-sm font-semibold py-3.5 rounded-[5px] text-center"
+        >
+          {t("start_task") ?? "Start Task"}
         </Link>
       </div>
+
+      {/* Cancel Confirmation Dialog */}
+      {showCancelDialog && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-[5px] p-5 max-w-sm w-full shadow-lg">
+            <h3 className="font-bold text-lg mb-2 text-gray-900">Cancel Task</h3>
+            <p className="text-sm text-gray-600 mb-6 leading-relaxed">
+              Are you sure you want to cancel this task? This cannot be undone.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowCancelDialog(false)}
+                className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 rounded-[5px] text-sm transition-colors"
+              >
+                Keep Task
+              </button>
+              <button
+                onClick={handleConfirmCancel}
+                className="flex-1 bg-danger hover:bg-red-600 text-white font-semibold py-3 rounded-[5px] text-sm transition-colors"
+              >
+                Yes, Cancel Task
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

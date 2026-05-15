@@ -40,7 +40,7 @@ function OpsEscalations() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">{t("escalation_queue")}</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Manage and resolve network incidents.</p>
+          <p className="mt-1 text-sm text-muted-foreground">{t("escalation_desc")}</p>
         </div>
       </div>
 
@@ -69,28 +69,33 @@ function OpsEscalations() {
         <div className="p-4 border-b border-border bg-background space-y-3">
           <div className="flex gap-4">
             <div className="flex-1">
-              <label className="text-xs font-semibold text-muted-foreground block mb-1.5">Phase</label>
+              <label className="text-xs font-semibold text-muted-foreground block mb-1.5">{t("phase")}</label>
               <select
                 value={filters.phase}
                 onChange={(e) => setFilters((f) => ({ ...f, phase: e.target.value }))}
                 className="w-full bg-surface border border-border rounded-md px-3 py-2 text-sm outline-none"
               >
-                <option value="all">All Phases</option>
+                <option value="all">{t("all_phases")}</option>
                 <option value="Onboard">Onboard</option>
                 <option value="Dispatch">Dispatch</option>
                 <option value="Execute">Execute</option>
                 <option value="Verification">Verification</option>
                 <option value="Quality">Quality</option>
+                <option value="Task Issue">Task Issue</option>
+                <option value="Platform Bug">Platform Bug</option>
+                <option value="Brand/Retailer Issue">Brand/Retailer Issue</option>
+                <option value="Payment Issue">Payment Issue</option>
+                <option value="Other">Other</option>
               </select>
             </div>
             <div className="flex-1">
-              <label className="text-xs font-semibold text-muted-foreground block mb-1.5">Severity</label>
+              <label className="text-xs font-semibold text-muted-foreground block mb-1.5">{t("severity")}</label>
               <select
                 value={filters.severity}
                 onChange={(e) => setFilters((f) => ({ ...f, severity: e.target.value }))}
                 className="w-full bg-surface border border-border rounded-md px-3 py-2 text-sm outline-none"
               >
-                <option value="all">All Severities</option>
+                <option value="all">{t("all_severities")}</option>
                 <option value="High">High</option>
                 <option value="Medium">Medium</option>
                 <option value="Low">Low</option>
@@ -103,9 +108,9 @@ function OpsEscalations() {
         <div className="bg-background">
           {filtered.length === 0 ? (
             <div className="text-center py-12 text-muted-foreground">
-              <div className="text-4xl mb-3">📭</div>
-              <p className="font-semibold text-gray-900">No escalations found</p>
-              <p className="text-sm mt-1">Try adjusting the filters or check another tab.</p>
+              <div className="text-4xl mb-3"></div>
+              <p className="font-semibold text-gray-900">{t("no_escalations_found")}</p>
+              <p className="text-sm mt-1">{t("adjust_filters")}</p>
             </div>
           ) : (
             <div className="divide-y divide-border">
@@ -159,9 +164,9 @@ function EscalationRow({
 
           {!isQueue && e.resolvedNote && (
             <div className="mt-3 bg-gray-50 border border-gray-100 rounded-[5px] p-3 text-xs">
-              <span className="font-semibold text-gray-700">Resolution Note:</span>
+              <span className="font-semibold text-gray-700">{t("resolution_note")}</span>
               <p className="text-gray-600 mt-0.5">{e.resolvedNote}</p>
-              <p className="text-[10px] text-gray-400 mt-1">Resolved at: {new Date(e.resolvedAt).toLocaleString()}</p>
+              <p className="text-[10px] text-gray-400 mt-1">{t("resolved_at")} {new Date(e.resolvedAt).toLocaleString()}</p>
             </div>
           )}
         </div>
@@ -173,13 +178,13 @@ function EscalationRow({
                 onClick={() => setResolving(true)}
                 className="bg-white border border-gray-200 text-gray-700 font-semibold px-4 py-2 rounded-[5px] text-xs shadow-sm hover:bg-gray-50"
               >
-                Resolve...
+                {t("resolve_action")}
               </button>
             ) : (
               <div className="w-full bg-surface border border-border rounded-[5px] p-3 mt-1 shadow-sm">
                 <input
                   type="text"
-                  placeholder="Resolution note..."
+                  placeholder={t("resolution_placeholder")}
                   value={resolveNote}
                   onChange={(ev) => setResolveNote(ev.target.value)}
                   className="w-full bg-white border border-border rounded-md px-2 py-1.5 text-xs mb-2 outline-none"
@@ -187,18 +192,18 @@ function EscalationRow({
                 <div className="flex gap-2">
                   <button
                     onClick={() => setResolving(false)}
-                    className="flex-1 border border-border bg-white text-gray-600 rounded-md py-1.5 text-[10px] font-semibold"
+                    className="flex-1 border border-border bg-white text-gray-600 rounded-[5px] py-1.5 text-[10px] font-semibold"
                   >
-                    Cancel
+                    {t("cancel")}
                   </button>
                   <button
                     onClick={() => {
                       onResolve(e.id, resolveNote);
                       setResolving(false);
                     }}
-                    className="flex-1 bg-green-600 text-white rounded-md py-1.5 text-[10px] font-semibold"
+                    className="flex-1 bg-green-600 text-white rounded-[5px] py-1.5 text-[10px] font-semibold"
                   >
-                    Confirm Resolve
+                    {t("confirm_resolve")}
                   </button>
                 </div>
               </div>

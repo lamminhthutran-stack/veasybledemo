@@ -102,12 +102,21 @@
     color: var(--color-foreground);
     font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
   }
+  
+  /* Global button style requested by user */
+  button,
+  [role="button"],
+  a.bg-\[\#1A3557\],
+  a.bg-orange,
+  a.bg-white.border {
+    border-radius: 5px !important;
+  }
 }
 
 @layer utilities {
   .badge {
     display: inline-flex; align-items: center; gap: 0.25rem;
-    padding: 0.125rem 0.5rem; border-radius: 9999px;
+    padding: 0.125rem 0.5rem; border-radius: 5px;
     font-size: 0.75rem; font-weight: 600;
   }
   .badge-success { background: color-mix(in oklab, var(--success) 18%, transparent); color: var(--success); }

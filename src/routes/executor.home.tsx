@@ -83,7 +83,7 @@ function ExecutorHome() {
           <p className="text-sm font-bold text-gray-800 mb-3">{t("current_tasks")}</p>
           {myTasks.length === 0 ? (
             <div className="bg-white rounded-[5px] p-6 text-center border border-gray-100">
-              <div className="text-3xl mb-2">📋</div>
+              <div className="text-3xl mb-2"></div>
               <p className="text-gray-500 text-sm font-medium">{t("no_tasks")}</p>
               <p className="text-gray-400 text-xs mt-1">{t("no_tasks_sub")}</p>
               <Link
@@ -132,8 +132,8 @@ function MyTaskCard({ task, onCancel }: { task: AvailableTask; onCancel: (id: st
         <StatusBadge status={task.status} />
       </div>
       <div className="flex items-center gap-3 text-xs text-gray-400 mb-3">
-        <span>🕐 {task.scheduledTime}</span>
-        <span>📅 {displayDate}</span>
+        <span> {task.scheduledTime}</span>
+        <span> {displayDate}</span>
         <span className="ml-auto font-semibold text-[#F97316]">{task.pay.toLocaleString()}đ</span>
       </div>
 
@@ -144,7 +144,7 @@ function MyTaskCard({ task, onCancel }: { task: AvailableTask; onCancel: (id: st
             params={{ id: task.id }}
             className="flex-1 bg-[#1A3557] text-white text-xs font-semibold py-2.5 rounded-[5px] text-center"
           >
-            {t("start_task")}
+            {t("view_task") ?? "View Task"}
           </Link>
           <button
             onClick={() => setShowCancelConfirm(true)}

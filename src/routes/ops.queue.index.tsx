@@ -1,28 +1,37 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { escalations } from "@/lib/mock-data";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/ops/queue/")({
   component: Queue,
 });
 
-const tabs = ["All", "Onboard", "Execute", "Verification", "Quality", "Network"];
+const tabs = [
+  { id: "All", key: "tab_all" },
+  { id: "Onboard", key: "tab_onboard" },
+  { id: "Execute", key: "tab_execute" },
+  { id: "Verification", key: "tab_verification" },
+  { id: "Quality", key: "tab_quality" },
+  { id: "Network", key: "tab_network" }
+];
 
 function Queue() {
+  const { t } = useTranslation();
   const [tab, setTab] = useState("All");
 
   return (
     <div className="space-y-5">
-      <h1 className="text-2xl font-bold">Escalation Queue</h1>
+      <h1 className="text-2xl font-bold">{t("escalation_queue")}</h1>
 
       <div className="flex gap-1 border-b border-border">
-        {tabs.map((t) => (
+        {tabs.map((tb) => (
           <button
-            key={t}
-            onClick={() => setTab(t)}
-            className={`px-4 py-2 text-sm border-b-2 -mb-px ${tab === t ? "border-orange text-orange font-semibold" : "border-transparent text-muted-foreground"}`}
+            key={tb.id}
+            onClick={() => setTab(tb.id)}
+            className={`px-4 py-2 text-sm border-b-2 -mb-px ${tab === tb.id ? "border-orange text-orange font-semibold" : "border-transparent text-muted-foreground"}`}
           >
-            {t}
+            {t(tb.key)}
           </button>
         ))}
       </div>
@@ -31,27 +40,27 @@ function Queue() {
         {escalations.map((e) => (
           <div key={e.id} className={`bg-card border border-border rounded-[5px] p-4 flex items-center gap-4 ${e.status === "Resolved" ? "opacity-60" : ""}`}>
             <div className="w-10 h-10 rounded-[5px] bg-surface flex items-center justify-center text-xs font-bold text-navy shrink-0">
-              {e.type[0]}
+              {e.phase[0]}
             </div>
             <div className="flex-1 min-w-0">
-              <div className="font-medium text-sm">{e.desc}</div>
-              <div className="text-xs text-muted-foreground mt-0.5">{e.type} · {e.time}</div>
+              <div className="font-medium text-sm">{e.title}</div>
+              <div className="text-xs text-muted-foreground mt-0.5">{t(`tab_${e.phase.toLowerCase()}`)} · {new Date(e.createdAt).toLocaleTimeString()}</div>
             </div>
-            <span className={`badge badge-${e.priority === "High" ? "danger" : e.priority === "Medium" ? "warning" : "gray"}`}>{e.priority}</span>
+            <span className={`badge badge-${e.severity === "High" ? "danger" : e.severity === "Medium" ? "warning" : "gray"}`}>{e.severity}</span>
             <div className="flex items-center gap-2">
               {e.status === "Resolved" ? (
-                <span className="badge badge-gray">Resolved ✓</span>
+                <span className="badge badge-gray">{t("resolved")}</span>
               ) : e.status === "In Progress" ? (
-                <span className="badge badge-orange">In Progress</span>
+                <span className="badge badge-orange">{t("in_progress")}</span>
               ) : (
-                <button className="text-xs px-3 py-1.5 border border-border rounded-md">Assign to Me</button>
+                <button className="text-xs px-3 py-1.5 border border-border rounded-[5px]">{t("assign_to_me")}</button>
               )}
-              {e.type === "Application" ? (
-                <Link to="/ops/queue/application/$id" params={{ id: e.id }} className="text-xs px-3 py-1.5 bg-orange text-orange-foreground rounded-md font-semibold">
-                  View
+              {e.phase === "Onboard" ? (
+                <Link to="/ops/queue/application/$id" params={{ id: e.id }} className="text-xs px-3 py-1.5 bg-orange text-orange-foreground rounded-[5px] font-semibold">
+                  {t("view")}
                 </Link>
               ) : (
-                <button className="text-xs px-3 py-1.5 bg-orange text-orange-foreground rounded-md font-semibold">View</button>
+                <button className="text-xs px-3 py-1.5 bg-orange text-orange-foreground rounded-[5px] font-semibold">{t("view")}</button>
               )}
             </div>
           </div>

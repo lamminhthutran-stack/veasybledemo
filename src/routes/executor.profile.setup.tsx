@@ -1,7 +1,7 @@
-import { Camera, Check } from "lucide-react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Camera, Check, ArrowLeft } from "lucide-react";
+import { createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
 import { Fragment, useState } from "react";
-
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/executor/profile/setup")({
   component: ProfileSetup,
@@ -19,6 +19,8 @@ const slots = ["Sáng", "Chiều", "Tối"];
 
 function ProfileSetup() {
   const nav = useNavigate();
+  const router = useRouter();
+  const { t } = useTranslation();
   const [city, setCity] = useState("Hồ Chí Minh");
   const [picked, setPicked] = useState<string[]>(["Quận 1", "Quận 5"]);
   const [grid, setGrid] = useState<Record<string, boolean>>({});
@@ -29,46 +31,51 @@ function ProfileSetup() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="sticky top-0 z-10 bg-navy text-navy-foreground px-4 py-3">
-        <div className="font-bold tracking-tight">Veasyble</div>
-        <div className="text-[10px] text-white/70">Profile Setup</div>
+      <header className="sticky top-0 z-10 bg-navy text-navy-foreground px-4 py-3 flex items-center gap-3">
+        <button onClick={() => router.history.back()} className="opacity-80 hover:opacity-100 min-h-[44px] flex items-center">
+          <ArrowLeft className="w-5 h-5" />
+        </button>
+        <div>
+          <div className="font-bold tracking-tight">Veasyble</div>
+          <div className="text-[10px] text-white/70">{t("profile_setup")}</div>
+        </div>
       </header>
 
       <main className="flex-1 p-5 space-y-5">
           <div className="flex items-center gap-2 text-[11px]">
-            <Step done label="Academy" />
+            <Step done label={t("step_academy")} />
             <Bar />
-            <Step active label="Profile" />
+            <Step active label={t("step_profile")} />
             <Bar />
-            <Step label="Done" />
+            <Step label={t("step_done")} />
           </div>
 
           <div>
-            <h1 className="text-xl font-extrabold leading-tight">Thiết lập Profile của bạn</h1>
-            <p className="text-sm text-muted-foreground mt-1">Chỉ còn một bước nữa để bắt đầu nhận task!</p>
+            <h1 className="text-xl font-extrabold leading-tight">{t("setup_profile_title")}</h1>
+            <p className="text-sm text-muted-foreground mt-1">{t("setup_profile_subtitle")}</p>
           </div>
 
-          <Section title="Thông tin cá nhân">
+          <Section title={t("personal_info")}>
             <div className="flex items-center gap-3 mb-3">
               <div className="w-16 h-16 rounded-full bg-surface border border-border flex items-center justify-center text-muted-foreground">
                 <Camera className="w-5 h-5" />
               </div>
-              <button className="text-xs px-3 py-1.5 border border-border rounded-md">Tải ảnh lên</button>
+              <button className="text-xs px-3 py-1.5 border border-border rounded-md min-h-[44px]">{t("upload_photo")}</button>
             </div>
-            <Input label="Họ và tên" defaultValue="Nguyễn Minh Khoa" />
-            <Input label="Số điện thoại" defaultValue="0912 345 678" />
+            <Input label={t("full_name")} defaultValue="Nguyễn Minh Khoa" />
+            <Input label={t("phone_label")} defaultValue="0912 345 678" />
           </Section>
 
-          <Section title="Khu vực hoạt động">
-            <label className="block text-xs font-medium mb-1">Thành phố</label>
+          <Section title={t("operation_area")}>
+            <label className="block text-xs font-medium mb-1">{t("city")}</label>
             <select
               value={city}
               onChange={(e) => { setCity(e.target.value); setPicked([]); }}
-              className="w-full border border-border rounded-md px-3 py-2 mb-3 text-sm bg-background"
+              className="w-full min-h-[44px] border border-border rounded-md px-3 py-2 mb-3 text-sm bg-background"
             >
               {cities.map((c) => <option key={c}>{c}</option>)}
             </select>
-            <label className="block text-xs font-medium mb-1">Quận / Huyện</label>
+            <label className="block text-xs font-medium mb-1">{t("district_label")}</label>
             <div className="flex flex-wrap gap-1.5">
               {(districts[city] || []).map((d) => {
                 const on = picked.includes(d);
@@ -76,7 +83,7 @@ function ProfileSetup() {
                   <button
                     key={d}
                     onClick={() => toggleDistrict(d)}
-                    className={`text-xs px-2.5 py-1 rounded-full border ${on ? "bg-orange text-orange-foreground border-orange" : "border-border"}`}
+                    className={`text-xs px-2.5 py-1 rounded-full border min-h-[44px] flex items-center justify-center ${on ? "bg-orange text-orange-foreground border-orange" : "border-border"}`}
                   >
                     {d}
                   </button>
@@ -85,7 +92,7 @@ function ProfileSetup() {
             </div>
           </Section>
 
-          <Section title="Lịch làm việc">
+          <Section title={t("work_schedule")}>
             <div className="grid grid-cols-[auto_repeat(7,1fr)] gap-1 text-[10px] text-center">
               <div />
               {days.map((d) => <div key={d} className="font-semibold py-1">{d}</div>)}
@@ -99,7 +106,7 @@ function ProfileSetup() {
                       <button
                         key={k}
                         onClick={() => toggleSlot(k)}
-                        className={`aspect-square rounded text-[10px] border ${on ? "bg-orange text-orange-foreground border-orange" : "bg-surface border-border text-muted-foreground"}`}
+                        className={`aspect-square min-h-[32px] rounded text-[10px] border flex items-center justify-center ${on ? "bg-orange text-orange-foreground border-orange" : "bg-surface border-border text-muted-foreground"}`}
                       >
                         {on ? "✓" : ""}
                       </button>
@@ -111,14 +118,14 @@ function ProfileSetup() {
           </Section>
 
           <div className="bg-orange/10 border border-orange/30 rounded-[5px] p-3 text-xs">
-            💡 Chọn càng nhiều khung giờ, bạn càng được ưu tiên nhận task tốt hơn!
+             {t("schedule_hint")}
           </div>
 
           <button
             onClick={() => nav({ to: "/executor/home" })}
-            className="w-full bg-orange text-orange-foreground font-semibold rounded-md py-3 text-sm"
+            className="w-full min-h-[44px] bg-orange text-orange-foreground font-semibold rounded-md py-3 text-sm"
           >
-            Hoàn tất & Vào Pool →
+            {t("finish_and_pool")}
           </button>
       </main>
     </div>

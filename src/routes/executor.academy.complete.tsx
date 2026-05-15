@@ -1,13 +1,16 @@
 import { GraduationCap } from "lucide-react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { avgScore, completedCount, modules } from "@/lib/academy-data";
-
+import { useTranslation } from "react-i18next";
+import { useLang } from "@/lib/i18n-context";
 
 export const Route = createFileRoute("/executor/academy/complete")({
   component: Complete,
 });
 
 function Complete() {
+  const { t } = useTranslation();
+  const { lang } = useLang();
   const avg = avgScore();
   const done = completedCount();
 
@@ -34,32 +37,32 @@ function Complete() {
         <div className="w-20 h-20 rounded-full bg-orange/15 mx-auto flex items-center justify-center">
           <GraduationCap className="w-10 h-10 text-orange" />
         </div>
-        <h1 className="text-2xl font-extrabold mt-3">Chúc mừng! 🎉</h1>
-        <p className="text-sm text-muted-foreground">Bạn đã hoàn thành Veasyble Academy</p>
+        <h1 className="text-2xl font-extrabold mt-3">{t("academy_complete_title")}</h1>
+        <p className="text-sm text-muted-foreground">{t("academy_complete_subtitle")}</p>
       </div>
 
       <div className="relative bg-card border-4 border-double border-navy rounded-[5px] p-5 text-center shadow-lg">
         <div className="text-xs font-bold tracking-widest text-orange">VEASYBLE</div>
         <div className="text-[10px] text-muted-foreground mb-4">Making Retail Visibility Easy</div>
-        <div className="text-[11px] uppercase tracking-widest text-navy font-semibold">Chứng nhận hoàn thành</div>
+        <div className="text-[11px] uppercase tracking-widest text-navy font-semibold">{t("certificate_title")}</div>
         <div className="text-xl font-bold mt-3 mb-1">Nguyễn Minh Khoa</div>
-        <div className="text-xs text-muted-foreground italic">đã hoàn thành toàn bộ chương trình<br />Veasyble Academy</div>
+        <div className="text-xs text-muted-foreground italic" dangerouslySetInnerHTML={{ __html: t("certificate_desc") }} />
         <div className="text-[11px] text-muted-foreground mt-4">
-          Cấp ngày {new Date().toLocaleDateString("vi-VN")}
+          {t("issued_on")} {new Date().toLocaleDateString(lang === "vi" ? "vi-VN" : "en-US")}
         </div>
       </div>
 
       <div className="grid grid-cols-3 gap-2 text-center">
         <Stat label="Modules" value={`${done}/${modules.length}`} />
-        <Stat label="Điểm TB" value={`${avg}%`} />
-        <Stat label="Hoàn thành" value="2 ngày" />
+        <Stat label={t("avg_score")} value={`${avg}%`} />
+        <Stat label={t("time_completed")} value={t("two_days")} />
       </div>
 
       <Link
         to="/executor/profile/setup"
-        className="relative block text-center w-full bg-orange text-orange-foreground font-semibold rounded-md py-3 text-sm"
+        className="relative flex items-center justify-center w-full bg-orange text-orange-foreground font-semibold rounded-md py-3 min-h-[44px] text-sm"
       >
-        Thiết lập Profile & Bắt đầu nhận Task →
+        {t("setup_profile_btn")}
       </Link>
     </div>
   );

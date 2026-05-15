@@ -1,6 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { LangToggle } from "@/lib/i18n-context";
 import { DeviceToggle } from "@/lib/device";
 import { LogoutButton } from "./LogoutButton";
 
@@ -9,10 +8,10 @@ export function ExecutorSidebar() {
   const { t } = useTranslation();
 
   const navItems = [
-    { to: "/executor/home",      label: t("nav_home"),    icon: "🏠" },
-    { to: "/executor/tasks",     label: t("nav_tasks"),   icon: "📋" },
-    { to: "/executor/knowledge", label: t("nav_sml"),     icon: "💬" },
-    { to: "/executor/profile",   label: t("nav_profile"), icon: "👤" },
+    { to: "/executor/home",      label: t("nav_home"),    icon: "" },
+    { to: "/executor/tasks",     label: t("nav_tasks"),   icon: "" },
+    { to: "/executor/knowledge", label: t("nav_faq") ?? "FAQ",     icon: "" },
+    { to: "/executor/profile",   label: t("nav_profile"), icon: "" },
   ];
 
   return (
@@ -20,7 +19,7 @@ export function ExecutorSidebar() {
       {/* Logo */}
       <div className="mb-8 px-2">
         <p className="text-lg font-bold text-[#1A3557]">Veasyble</p>
-        <p className="text-[10px] text-gray-400">Executor Portal</p>
+        <p className="text-[10px] text-gray-400">{t("executor_portal") ?? "Executor Portal"}</p>
       </div>
 
       {/* Nav items */}
@@ -42,7 +41,6 @@ export function ExecutorSidebar() {
       {/* Bottom: toggles + logout */}
       <div className="space-y-3 pt-4 border-t border-gray-100">
         <div className="flex items-center justify-between px-2">
-          <LangToggle />
           <DeviceToggle />
         </div>
         <LogoutButton />

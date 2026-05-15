@@ -3,9 +3,10 @@ import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLang, LangToggle } from "@/lib/i18n-context";
 import { BackButton } from "@/components/BackButton";
+import { escalations } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/executor/knowledge")({
-  component: SMLPage,
+  component: FAQPage,
 });
 
 // ── Knowledge base tĩnh ───────────────────────────────────────────────────────
@@ -65,41 +66,26 @@ function searchKB(query: string, lang: "vi" | "en") {
   );
 }
 
-// ── AI system prompt ──────────────────────────────────────────────────────────
-const SYSTEM_PROMPT = `You are the Veasyble SML assistant. Answer executor questions about policies and SOPs concisely (max 3–4 sentences). If you are not confident, end with "Vui lòng nhấn 'Hỏi Ops team' để được hỗ trợ thêm." (VI) or "Please tap 'Ask Ops team' for further support." (EN).
-
-KEY POLICIES:
-- Late < 15 min: % pay deducted. Late > 15 min: task auto-cancelled + surge reassign.
-- Store refuses entry: report via app → pay NOT deducted → Veasyble handles with retailer.
-- Defective print materials: report via app → not penalized → platform reprints.
-- First job: Veasyble rates. Job 2+: Brand + Retailer average only.
-- Rating: ≥4.0 Healthy | 3.5–3.9 Warning | 3.0–3.4 At Risk | <3.0 Suspended.
-- PoP: blurry/wrong angle → retake on-site. GPS spoof suspected → account suspended.
-Reply in the same language as the question.`;
-
-type View = "home" | "results" | "ai" | "escalate";
-type Message = { role: "user" | "assistant"; content: string };
+type View = "home" | "results" | "escalate";
 
 const QUICK_TOPICS = {
   vi: ["Check-in trễ", "Cửa hàng từ chối", "Chụp PoP", "Rating", "Tài liệu in"],
   en: ["Late check-in", "Store refuses entry", "PoP photo", "Rating", "Print materials"],
 };
 
-function SMLPage() {
+function FAQPage() {
   const { lang } = useLang();
   const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [view, setView] = useState<View>("home");
   const [results, setResults] = useState<typeof KB_ARTICLES>([]);
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [aiLoading, setAiLoading] = useState(false);
-  const [escalateNote, setEscalateNote] = useState("");
-  const [escalateSent, setEscalateSent] = useState(false);
-  const bottomRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, aiLoading]);
+  // Form State
+  const [subject, setSubject] = useState("");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [escalateSent, setEscalateSent] = useState(false);
+  const [formError, setFormError] = useState("");
 
   function handleSearch(q: string) {
     setQuery(q);
@@ -114,49 +100,37 @@ function SMLPage() {
     handleSearch(topic);
   }
 
-  async function askAI(q: string) {
-    setView("ai");
-    const userMsg: Message = { role: "user", content: q };
-    const history = [...messages, userMsg];
-    setMessages(history);
-    setAiLoading(true);
-    try {
-      // In a real app we'd need an API key. For demo, we rely on the env or mock.
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-          "x-api-key": process.env.VITE_ANTHROPIC_API_KEY || "mock-key",
-          "anthropic-version": "2023-06-01"
-        },
-        body: JSON.stringify({
-          model: "claude-3-5-sonnet-20241022",
-          max_tokens: 1000,
-          system: SYSTEM_PROMPT,
-          messages: history.map(m => ({ role: m.role, content: m.content })),
-        }),
-      });
-      if (!res.ok) {
-         // Fallback to a mock answer if API fails (e.g. no key)
-         setTimeout(() => {
-           setMessages([...history, { role: "assistant", content: lang === "vi" ? "Tính năng AI đang được bảo trì. Vui lòng nhấn 'Hỏi Ops team' để được hỗ trợ thêm." : "AI feature is under maintenance. Please tap 'Ask Ops team' for further support." }]);
-           setAiLoading(false);
-         }, 1500);
-         return;
-      }
-      const data = await res.json();
-      const reply = data.content?.[0]?.text ?? (lang === "vi" ? "Xin lỗi, có lỗi xảy ra." : "Sorry, something went wrong.");
-      setMessages([...history, { role: "assistant", content: reply }]);
-      setAiLoading(false);
-    } catch {
-      setTimeout(() => {
-        setMessages([...history, { role: "assistant", content: lang === "vi" ? "Không thể kết nối. Thử lại sau." : "Connection error. Please try again." }]);
-        setAiLoading(false);
-      }, 1000);
-    }
-  }
-
   function submitEscalation() {
+    setFormError("");
+    if (!subject.trim()) {
+      setFormError(lang === "vi" ? "Vui lòng nhập tiêu đề." : "Please enter a subject.");
+      return;
+    }
+    if (!category) {
+      setFormError(lang === "vi" ? "Vui lòng chọn danh mục." : "Please select a category.");
+      return;
+    }
+    if (description.trim().length < 20) {
+      setFormError(lang === "vi" ? "Mô tả phải có ít nhất 20 ký tự." : "Description must be at least 20 characters long.");
+      return;
+    }
+
+    // Push to global mock escalations
+    escalations.unshift({
+      id: "e-" + Math.floor(Math.random() * 100000),
+      phase: category,
+      severity: "Medium",
+      status: "Open",
+      title: subject,
+      executorId: "exec-001",
+      createdAt: new Date().toISOString(),
+      resolvedAt: null,
+      resolvedNote: null,
+    });
+
+    setSubject("");
+    setCategory("");
+    setDescription("");
     setEscalateSent(true);
   }
 
@@ -168,9 +142,9 @@ function SMLPage() {
       <div className="bg-white px-4 pt-12 pb-4 shadow-sm">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <h1 className="text-lg font-bold text-gray-900">SML</h1>
+            <h1 className="text-lg font-bold text-gray-900">FAQ</h1>
             <p className="text-xs text-gray-400">
-              {t("sml_subtitle")}
+              {t("faq_subtitle") ?? "Tìm policy & SOP"}
             </p>
           </div>
           <LangToggle />
@@ -184,7 +158,7 @@ function SMLPage() {
             type="text"
             value={query}
             onChange={e => handleSearch(e.target.value)}
-            placeholder={t("sml_search_placeholder")}
+            placeholder={t("faq_search_placeholder") ?? "Tìm kiếm policy, SOP..."}
             className="w-full bg-gray-100 rounded-[5px] pl-9 pr-4 py-2.5 text-sm outline-none placeholder-gray-400"
           />
           {query && (
@@ -201,7 +175,7 @@ function SMLPage() {
         {view === "home" && (
           <div>
             <p className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wide">
-              {t("popular_topics")}
+              {t("popular_topics") ?? "Chủ đề phổ biến"}
             </p>
             <div className="space-y-2">
               {topics.map((t, i) => (
@@ -214,6 +188,11 @@ function SMLPage() {
                 </button>
               ))}
             </div>
+            
+            <button onClick={() => setView("escalate")}
+              className="w-full mt-6 bg-[#1A3557] text-white text-sm font-semibold py-3.5 rounded-[5px]">
+              {lang === "vi" ? "Bạn cần hỗ trợ thêm? Raise to Ops →" : "Need more help? Raise to Ops →"}
+            </button>
           </div>
         )}
 
@@ -223,7 +202,7 @@ function SMLPage() {
             {results.length > 0 ? (
               <>
                 <p className="text-xs text-gray-400 mb-3">
-                  {results.length} {t("sml_results")} cho "{query}"
+                  {results.length} {t("faq_results") ?? "kết quả"} cho "{query}"
                 </p>
                 <div className="space-y-3">
                   {results.map(a => (
@@ -233,71 +212,28 @@ function SMLPage() {
                     </div>
                   ))}
                 </div>
-                <p className="text-xs text-gray-400 text-center mt-4">
+                <p className="text-xs text-gray-400 text-center mt-6">
                   {lang === "vi" ? "Chưa tìm thấy câu trả lời?" : "Didn't find your answer?"}
                 </p>
-                <button onClick={() => askAI(query)}
-                  className="w-full mt-2 bg-[#1A3557] text-white text-sm font-semibold py-3 rounded-[5px]">
-                  {t("ask_ai")}
+                <button onClick={() => setView("escalate")}
+                  className="w-full mt-2 bg-[#1A3557] text-white text-sm font-semibold py-3.5 rounded-[5px]">
+                  {lang === "vi" ? "Raise to Ops →" : "Raise to Ops →"}
                 </button>
               </>
             ) : (
               <div className="text-center py-8">
-                <div className="text-4xl mb-3">🔍</div>
+                <div className="text-4xl mb-3"></div>
                 <p className="text-gray-600 text-sm font-medium mb-1">
                   {lang === "vi" ? `Không tìm thấy kết quả cho "${query}"` : `No results for "${query}"`}
                 </p>
                 <p className="text-gray-400 text-xs mb-5">
-                  {lang === "vi" ? "Thử hỏi AI hoặc liên hệ Ops team" : "Try asking AI or contact Ops team"}
+                  {lang === "vi" ? "Vui lòng liên hệ Ops team để được hỗ trợ" : "Please contact the Ops team for support"}
                 </p>
-                <button onClick={() => askAI(query)}
-                  className="bg-[#1A3557] text-white text-sm font-semibold px-6 py-3 rounded-[5px]">
-                  {t("ask_ai")}
+                <button onClick={() => setView("escalate")}
+                  className="bg-[#1A3557] text-white text-sm font-semibold px-6 py-3.5 rounded-[5px] w-full">
+                  {lang === "vi" ? "Raise to Ops" : "Raise to Ops"}
                 </button>
               </div>
-            )}
-          </div>
-        )}
-
-        {/* AI CHAT */}
-        {view === "ai" && (
-          <div>
-            <button onClick={() => setView("results")}
-              className="flex items-center gap-1 text-xs text-gray-400 mb-3">
-              ← {t("back_to_results")}
-            </button>
-            <div className="space-y-3">
-              {messages.map((m, i) => (
-                <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
-                  {m.role === "assistant" && (
-                    <div className="w-7 h-7 rounded-full bg-[#1A3557] flex items-center justify-center text-white text-xs font-bold mr-2 flex-shrink-0 mt-0.5">V</div>
-                  )}
-                  <div className={`max-w-[85%] rounded-[5px] px-4 py-2.5 text-sm leading-relaxed whitespace-pre-line ${
-                    m.role === "user"
-                      ? "bg-[#1A3557] text-white rounded-br-sm"
-                      : "bg-white text-gray-800 border border-gray-100 shadow-sm rounded-bl-sm"
-                  }`}>
-                    {m.content}
-                  </div>
-                </div>
-              ))}
-              {aiLoading && (
-                <div className="flex">
-                  <div className="w-7 h-7 rounded-full bg-[#1A3557] flex items-center justify-center text-white text-xs font-bold mr-2">V</div>
-                  <div className="bg-white rounded-[5px] px-4 py-3 border border-gray-100 shadow-sm flex gap-1 items-center">
-                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}/>
-                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}/>
-                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}/>
-                  </div>
-                </div>
-              )}
-              <div ref={bottomRef} />
-            </div>
-            {!aiLoading && messages.length > 0 && (
-              <button onClick={() => setView("escalate")}
-                className="w-full mt-4 border-2 border-[#F97316] text-[#F97316] text-sm font-semibold py-3 rounded-[5px]">
-                {lang === "vi" ? "Vẫn chưa rõ? Hỏi Ops team →" : "Still unclear? Ask Ops team →"}
-              </button>
             )}
           </div>
         )}
@@ -305,47 +241,98 @@ function SMLPage() {
         {/* ESCALATE TO OPS */}
         {view === "escalate" && (
           <div>
-            <BackButton label={t("back")} />
+            <button onClick={() => {
+              setEscalateSent(false);
+              setView(query ? "results" : "home");
+            }} className="flex items-center gap-1.5 text-sm text-gray-600 font-medium py-2 hover:text-gray-900 transition-colors">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/>
+              </svg>
+              {t("back") ?? "Back"}
+            </button>
+            
             {escalateSent ? (
-              <div className="text-center py-12">
-                <div className="text-5xl mb-4">✅</div>
-                <p className="text-gray-800 font-semibold mb-1">
-                  {t("ops_sent")}
+              <div className="text-center py-12 bg-white rounded-[5px] border border-green-100 mt-4 shadow-sm p-6">
+                <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">✓</div>
+                <p className="text-gray-800 font-semibold mb-2 text-base">
+                  {lang === "vi" ? "Tin nhắn đã được gửi" : "Message Sent"}
                 </p>
-                <p className="text-gray-400 text-xs">
-                  {t("ops_sent_sub")}
+                <p className="text-gray-500 text-sm">
+                  {lang === "vi" 
+                    ? "Tin nhắn của bạn đã được gửi đến Ops team. Chúng tôi sẽ phản hồi lại trong thời gian sớm nhất." 
+                    : "Your message has been sent to the Ops team. We will follow up with you shortly."}
                 </p>
+                <button onClick={() => {
+                  setEscalateSent(false);
+                  setView("home");
+                  setQuery("");
+                }} className="mt-6 text-[#1A3557] font-semibold text-sm">
+                  {lang === "vi" ? "Quay lại trang chủ" : "Return to Home"}
+                </button>
               </div>
             ) : (
-              <div className="space-y-4">
-                <div className="bg-orange-50 rounded-[5px] p-3 border border-orange-100">
-                  <p className="text-xs text-orange-700 font-medium">
-                    {lang === "vi"
-                      ? "Câu hỏi của bạn sẽ được gửi đến Ops team kèm lịch sử tìm kiếm."
-                      : "Your question and search history will be sent to the Ops team."}
-                  </p>
-                </div>
-                <div className="bg-white rounded-[5px] border border-gray-100 p-3">
-                  <p className="text-xs text-gray-400 mb-1">
-                    {lang === "vi" ? "Câu hỏi của bạn" : "Your question"}
-                  </p>
-                  <p className="text-sm text-gray-700 font-medium">"{query}"</p>
-                </div>
+              <div className="space-y-4 mt-4">
+                <h2 className="text-xl font-bold text-gray-900 mb-1">Raise to Ops</h2>
+                <p className="text-xs text-gray-500 mb-4">
+                  {lang === "vi" ? "Gửi yêu cầu hỗ trợ trực tiếp cho team Ops." : "Send a direct support request to the Ops team."}
+                </p>
+
+                {formError && (
+                  <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-[5px] text-xs font-medium">
+                    {formError}
+                  </div>
+                )}
+
                 <div>
-                  <p className="text-xs font-semibold text-gray-600 mb-1.5">
-                    {lang === "vi" ? "Thêm thông tự (không bắt buộc)" : "Additional context (optional)"}
-                  </p>
-                  <textarea
-                    value={escalateNote}
-                    onChange={e => setEscalateNote(e.target.value)}
-                    rows={3}
-                    placeholder={t("describe_situation")}
-                    className="w-full bg-gray-50 border border-gray-200 rounded-[5px] px-3 py-2.5 text-sm outline-none placeholder-gray-400 resize-none"
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                    {lang === "vi" ? "Tiêu đề" : "Subject"} <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={subject}
+                    onChange={e => setSubject(e.target.value)}
+                    placeholder={lang === "vi" ? "Tóm tắt vấn đề..." : "Brief summary..."}
+                    className="w-full bg-white border border-gray-200 rounded-[5px] px-3 py-2.5 text-sm outline-none focus:border-[#1A3557]"
                   />
                 </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                    {lang === "vi" ? "Danh mục" : "Category"} <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={category}
+                    onChange={e => setCategory(e.target.value)}
+                    className="w-full bg-white border border-gray-200 rounded-[5px] px-3 py-2.5 text-sm outline-none focus:border-[#1A3557]"
+                  >
+                    <option value="" disabled>{lang === "vi" ? "-- Chọn danh mục --" : "-- Select a category --"}</option>
+                    <option value="Task Issue">{lang === "vi" ? "Vấn đề về Task" : "Task Issue"}</option>
+                    <option value="Platform Bug">{lang === "vi" ? "Lỗi ứng dụng" : "Platform Bug"}</option>
+                    <option value="Brand/Retailer Issue">{lang === "vi" ? "Vấn đề Brand/Cửa hàng" : "Brand/Retailer Issue"}</option>
+                    <option value="Payment Issue">{lang === "vi" ? "Vấn đề thanh toán" : "Payment Issue"}</option>
+                    <option value="Other">{lang === "vi" ? "Khác" : "Other"}</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                    {lang === "vi" ? "Mô tả chi tiết" : "Description"} <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    value={description}
+                    onChange={e => setDescription(e.target.value)}
+                    rows={4}
+                    placeholder={lang === "vi" ? "Mô tả ít nhất 20 ký tự..." : "Describe your issue (min 20 chars)..."}
+                    className="w-full bg-white border border-gray-200 rounded-[5px] px-3 py-2.5 text-sm outline-none focus:border-[#1A3557] resize-none"
+                  />
+                  <div className="text-[10px] text-gray-400 mt-1 text-right">
+                    {description.length}/20 {lang === "vi" ? "ký tự (tối thiểu)" : "min chars"}
+                  </div>
+                </div>
+
                 <button onClick={submitEscalation}
-                  className="w-full bg-[#1A3557] text-white text-sm font-semibold py-3.5 rounded-[5px]">
-                  {t("send_to_ops")}
+                  className="w-full bg-[#F97316] text-white text-sm font-semibold py-3.5 rounded-[5px] mt-2">
+                  {lang === "vi" ? "Gửi cho Ops" : "Send to Ops"}
                 </button>
               </div>
             )}

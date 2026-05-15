@@ -13,14 +13,17 @@ import { Route as OpsRouteImport } from './routes/ops'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ExecutorRouteImport } from './routes/executor'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as OpsSubmissionsRouteImport } from './routes/ops.submissions'
 import { Route as OpsQueueRouteImport } from './routes/ops.queue'
 import { Route as OpsExecutorsRouteImport } from './routes/ops.executors'
+import { Route as OpsExecutionRouteImport } from './routes/ops.execution'
 import { Route as OpsEscalationsRouteImport } from './routes/ops.escalations'
 import { Route as OpsDashboardRouteImport } from './routes/ops.dashboard'
 import { Route as OpsCampaignsRouteImport } from './routes/ops.campaigns'
 import { Route as ExecutorTasksRouteImport } from './routes/executor.tasks'
 import { Route as ExecutorProfileRouteImport } from './routes/executor.profile'
 import { Route as ExecutorKnowledgeRouteImport } from './routes/executor.knowledge'
+import { Route as ExecutorInReviewRouteImport } from './routes/executor.in-review'
 import { Route as ExecutorHomeRouteImport } from './routes/executor.home'
 import { Route as ExecutorAcademyRouteImport } from './routes/executor.academy'
 import { Route as OpsQueueIndexRouteImport } from './routes/ops.queue.index'
@@ -34,6 +37,7 @@ import { Route as ExecutorTaskIdIndexRouteImport } from './routes/executor.task.
 import { Route as OpsQueueApplicationIdRouteImport } from './routes/ops.queue.application.$id'
 import { Route as ExecutorTaskIdSubmittedRouteImport } from './routes/executor.task.$id.submitted'
 import { Route as ExecutorTaskIdPreExecuteRouteImport } from './routes/executor.task.$id.pre-execute'
+import { Route as ExecutorTaskIdPickupRouteImport } from './routes/executor.task.$id.pickup'
 import { Route as ExecutorTaskIdOnsiteRouteImport } from './routes/executor.task.$id.onsite'
 import { Route as ExecutorAcademyModuleIdVideoRouteImport } from './routes/executor.academy.module.$id.video'
 import { Route as ExecutorAcademyModuleIdResultsRouteImport } from './routes/executor.academy.module.$id.results'
@@ -59,6 +63,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OpsSubmissionsRoute = OpsSubmissionsRouteImport.update({
+  id: '/submissions',
+  path: '/submissions',
+  getParentRoute: () => OpsRoute,
+} as any)
 const OpsQueueRoute = OpsQueueRouteImport.update({
   id: '/queue',
   path: '/queue',
@@ -67,6 +76,11 @@ const OpsQueueRoute = OpsQueueRouteImport.update({
 const OpsExecutorsRoute = OpsExecutorsRouteImport.update({
   id: '/executors',
   path: '/executors',
+  getParentRoute: () => OpsRoute,
+} as any)
+const OpsExecutionRoute = OpsExecutionRouteImport.update({
+  id: '/execution',
+  path: '/execution',
   getParentRoute: () => OpsRoute,
 } as any)
 const OpsEscalationsRoute = OpsEscalationsRouteImport.update({
@@ -97,6 +111,11 @@ const ExecutorProfileRoute = ExecutorProfileRouteImport.update({
 const ExecutorKnowledgeRoute = ExecutorKnowledgeRouteImport.update({
   id: '/knowledge',
   path: '/knowledge',
+  getParentRoute: () => ExecutorRoute,
+} as any)
+const ExecutorInReviewRoute = ExecutorInReviewRouteImport.update({
+  id: '/in-review',
+  path: '/in-review',
   getParentRoute: () => ExecutorRoute,
 } as any)
 const ExecutorHomeRoute = ExecutorHomeRouteImport.update({
@@ -165,6 +184,11 @@ const ExecutorTaskIdPreExecuteRoute =
     path: '/pre-execute',
     getParentRoute: () => ExecutorTaskIdRoute,
   } as any)
+const ExecutorTaskIdPickupRoute = ExecutorTaskIdPickupRouteImport.update({
+  id: '/pickup',
+  path: '/pickup',
+  getParentRoute: () => ExecutorTaskIdRoute,
+} as any)
 const ExecutorTaskIdOnsiteRoute = ExecutorTaskIdOnsiteRouteImport.update({
   id: '/onsite',
   path: '/onsite',
@@ -196,14 +220,17 @@ export interface FileRoutesByFullPath {
   '/ops': typeof OpsRouteWithChildren
   '/executor/academy': typeof ExecutorAcademyRouteWithChildren
   '/executor/home': typeof ExecutorHomeRoute
+  '/executor/in-review': typeof ExecutorInReviewRoute
   '/executor/knowledge': typeof ExecutorKnowledgeRoute
   '/executor/profile': typeof ExecutorProfileRouteWithChildren
   '/executor/tasks': typeof ExecutorTasksRoute
   '/ops/campaigns': typeof OpsCampaignsRoute
   '/ops/dashboard': typeof OpsDashboardRoute
   '/ops/escalations': typeof OpsEscalationsRoute
+  '/ops/execution': typeof OpsExecutionRoute
   '/ops/executors': typeof OpsExecutorsRouteWithChildren
   '/ops/queue': typeof OpsQueueRouteWithChildren
+  '/ops/submissions': typeof OpsSubmissionsRoute
   '/executor/academy/complete': typeof ExecutorAcademyCompleteRoute
   '/executor/profile/setup': typeof ExecutorProfileSetupRoute
   '/executor/task/$id': typeof ExecutorTaskIdRouteWithChildren
@@ -212,6 +239,7 @@ export interface FileRoutesByFullPath {
   '/ops/executors/': typeof OpsExecutorsIndexRoute
   '/ops/queue/': typeof OpsQueueIndexRoute
   '/executor/task/$id/onsite': typeof ExecutorTaskIdOnsiteRoute
+  '/executor/task/$id/pickup': typeof ExecutorTaskIdPickupRoute
   '/executor/task/$id/pre-execute': typeof ExecutorTaskIdPreExecuteRoute
   '/executor/task/$id/submitted': typeof ExecutorTaskIdSubmittedRoute
   '/ops/queue/application/$id': typeof OpsQueueApplicationIdRoute
@@ -227,11 +255,14 @@ export interface FileRoutesByTo {
   '/ops': typeof OpsRouteWithChildren
   '/executor/academy': typeof ExecutorAcademyRouteWithChildren
   '/executor/home': typeof ExecutorHomeRoute
+  '/executor/in-review': typeof ExecutorInReviewRoute
   '/executor/knowledge': typeof ExecutorKnowledgeRoute
   '/executor/tasks': typeof ExecutorTasksRoute
   '/ops/campaigns': typeof OpsCampaignsRoute
   '/ops/dashboard': typeof OpsDashboardRoute
   '/ops/escalations': typeof OpsEscalationsRoute
+  '/ops/execution': typeof OpsExecutionRoute
+  '/ops/submissions': typeof OpsSubmissionsRoute
   '/executor/academy/complete': typeof ExecutorAcademyCompleteRoute
   '/executor/profile/setup': typeof ExecutorProfileSetupRoute
   '/ops/executors/$id': typeof OpsExecutorsIdRoute
@@ -239,6 +270,7 @@ export interface FileRoutesByTo {
   '/ops/executors': typeof OpsExecutorsIndexRoute
   '/ops/queue': typeof OpsQueueIndexRoute
   '/executor/task/$id/onsite': typeof ExecutorTaskIdOnsiteRoute
+  '/executor/task/$id/pickup': typeof ExecutorTaskIdPickupRoute
   '/executor/task/$id/pre-execute': typeof ExecutorTaskIdPreExecuteRoute
   '/executor/task/$id/submitted': typeof ExecutorTaskIdSubmittedRoute
   '/ops/queue/application/$id': typeof OpsQueueApplicationIdRoute
@@ -255,14 +287,17 @@ export interface FileRoutesById {
   '/ops': typeof OpsRouteWithChildren
   '/executor/academy': typeof ExecutorAcademyRouteWithChildren
   '/executor/home': typeof ExecutorHomeRoute
+  '/executor/in-review': typeof ExecutorInReviewRoute
   '/executor/knowledge': typeof ExecutorKnowledgeRoute
   '/executor/profile': typeof ExecutorProfileRouteWithChildren
   '/executor/tasks': typeof ExecutorTasksRoute
   '/ops/campaigns': typeof OpsCampaignsRoute
   '/ops/dashboard': typeof OpsDashboardRoute
   '/ops/escalations': typeof OpsEscalationsRoute
+  '/ops/execution': typeof OpsExecutionRoute
   '/ops/executors': typeof OpsExecutorsRouteWithChildren
   '/ops/queue': typeof OpsQueueRouteWithChildren
+  '/ops/submissions': typeof OpsSubmissionsRoute
   '/executor/academy/complete': typeof ExecutorAcademyCompleteRoute
   '/executor/profile/setup': typeof ExecutorProfileSetupRoute
   '/executor/task/$id': typeof ExecutorTaskIdRouteWithChildren
@@ -271,6 +306,7 @@ export interface FileRoutesById {
   '/ops/executors/': typeof OpsExecutorsIndexRoute
   '/ops/queue/': typeof OpsQueueIndexRoute
   '/executor/task/$id/onsite': typeof ExecutorTaskIdOnsiteRoute
+  '/executor/task/$id/pickup': typeof ExecutorTaskIdPickupRoute
   '/executor/task/$id/pre-execute': typeof ExecutorTaskIdPreExecuteRoute
   '/executor/task/$id/submitted': typeof ExecutorTaskIdSubmittedRoute
   '/ops/queue/application/$id': typeof OpsQueueApplicationIdRoute
@@ -288,14 +324,17 @@ export interface FileRouteTypes {
     | '/ops'
     | '/executor/academy'
     | '/executor/home'
+    | '/executor/in-review'
     | '/executor/knowledge'
     | '/executor/profile'
     | '/executor/tasks'
     | '/ops/campaigns'
     | '/ops/dashboard'
     | '/ops/escalations'
+    | '/ops/execution'
     | '/ops/executors'
     | '/ops/queue'
+    | '/ops/submissions'
     | '/executor/academy/complete'
     | '/executor/profile/setup'
     | '/executor/task/$id'
@@ -304,6 +343,7 @@ export interface FileRouteTypes {
     | '/ops/executors/'
     | '/ops/queue/'
     | '/executor/task/$id/onsite'
+    | '/executor/task/$id/pickup'
     | '/executor/task/$id/pre-execute'
     | '/executor/task/$id/submitted'
     | '/ops/queue/application/$id'
@@ -319,11 +359,14 @@ export interface FileRouteTypes {
     | '/ops'
     | '/executor/academy'
     | '/executor/home'
+    | '/executor/in-review'
     | '/executor/knowledge'
     | '/executor/tasks'
     | '/ops/campaigns'
     | '/ops/dashboard'
     | '/ops/escalations'
+    | '/ops/execution'
+    | '/ops/submissions'
     | '/executor/academy/complete'
     | '/executor/profile/setup'
     | '/ops/executors/$id'
@@ -331,6 +374,7 @@ export interface FileRouteTypes {
     | '/ops/executors'
     | '/ops/queue'
     | '/executor/task/$id/onsite'
+    | '/executor/task/$id/pickup'
     | '/executor/task/$id/pre-execute'
     | '/executor/task/$id/submitted'
     | '/ops/queue/application/$id'
@@ -346,14 +390,17 @@ export interface FileRouteTypes {
     | '/ops'
     | '/executor/academy'
     | '/executor/home'
+    | '/executor/in-review'
     | '/executor/knowledge'
     | '/executor/profile'
     | '/executor/tasks'
     | '/ops/campaigns'
     | '/ops/dashboard'
     | '/ops/escalations'
+    | '/ops/execution'
     | '/ops/executors'
     | '/ops/queue'
+    | '/ops/submissions'
     | '/executor/academy/complete'
     | '/executor/profile/setup'
     | '/executor/task/$id'
@@ -362,6 +409,7 @@ export interface FileRouteTypes {
     | '/ops/executors/'
     | '/ops/queue/'
     | '/executor/task/$id/onsite'
+    | '/executor/task/$id/pickup'
     | '/executor/task/$id/pre-execute'
     | '/executor/task/$id/submitted'
     | '/ops/queue/application/$id'
@@ -408,6 +456,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ops/submissions': {
+      id: '/ops/submissions'
+      path: '/submissions'
+      fullPath: '/ops/submissions'
+      preLoaderRoute: typeof OpsSubmissionsRouteImport
+      parentRoute: typeof OpsRoute
+    }
     '/ops/queue': {
       id: '/ops/queue'
       path: '/queue'
@@ -420,6 +475,13 @@ declare module '@tanstack/react-router' {
       path: '/executors'
       fullPath: '/ops/executors'
       preLoaderRoute: typeof OpsExecutorsRouteImport
+      parentRoute: typeof OpsRoute
+    }
+    '/ops/execution': {
+      id: '/ops/execution'
+      path: '/execution'
+      fullPath: '/ops/execution'
+      preLoaderRoute: typeof OpsExecutionRouteImport
       parentRoute: typeof OpsRoute
     }
     '/ops/escalations': {
@@ -462,6 +524,13 @@ declare module '@tanstack/react-router' {
       path: '/knowledge'
       fullPath: '/executor/knowledge'
       preLoaderRoute: typeof ExecutorKnowledgeRouteImport
+      parentRoute: typeof ExecutorRoute
+    }
+    '/executor/in-review': {
+      id: '/executor/in-review'
+      path: '/in-review'
+      fullPath: '/executor/in-review'
+      preLoaderRoute: typeof ExecutorInReviewRouteImport
       parentRoute: typeof ExecutorRoute
     }
     '/executor/home': {
@@ -555,6 +624,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExecutorTaskIdPreExecuteRouteImport
       parentRoute: typeof ExecutorTaskIdRoute
     }
+    '/executor/task/$id/pickup': {
+      id: '/executor/task/$id/pickup'
+      path: '/pickup'
+      fullPath: '/executor/task/$id/pickup'
+      preLoaderRoute: typeof ExecutorTaskIdPickupRouteImport
+      parentRoute: typeof ExecutorTaskIdRoute
+    }
     '/executor/task/$id/onsite': {
       id: '/executor/task/$id/onsite'
       path: '/onsite'
@@ -620,6 +696,7 @@ const ExecutorProfileRouteWithChildren = ExecutorProfileRoute._addFileChildren(
 
 interface ExecutorTaskIdRouteChildren {
   ExecutorTaskIdOnsiteRoute: typeof ExecutorTaskIdOnsiteRoute
+  ExecutorTaskIdPickupRoute: typeof ExecutorTaskIdPickupRoute
   ExecutorTaskIdPreExecuteRoute: typeof ExecutorTaskIdPreExecuteRoute
   ExecutorTaskIdSubmittedRoute: typeof ExecutorTaskIdSubmittedRoute
   ExecutorTaskIdIndexRoute: typeof ExecutorTaskIdIndexRoute
@@ -627,6 +704,7 @@ interface ExecutorTaskIdRouteChildren {
 
 const ExecutorTaskIdRouteChildren: ExecutorTaskIdRouteChildren = {
   ExecutorTaskIdOnsiteRoute: ExecutorTaskIdOnsiteRoute,
+  ExecutorTaskIdPickupRoute: ExecutorTaskIdPickupRoute,
   ExecutorTaskIdPreExecuteRoute: ExecutorTaskIdPreExecuteRoute,
   ExecutorTaskIdSubmittedRoute: ExecutorTaskIdSubmittedRoute,
   ExecutorTaskIdIndexRoute: ExecutorTaskIdIndexRoute,
@@ -639,6 +717,7 @@ const ExecutorTaskIdRouteWithChildren = ExecutorTaskIdRoute._addFileChildren(
 interface ExecutorRouteChildren {
   ExecutorAcademyRoute: typeof ExecutorAcademyRouteWithChildren
   ExecutorHomeRoute: typeof ExecutorHomeRoute
+  ExecutorInReviewRoute: typeof ExecutorInReviewRoute
   ExecutorKnowledgeRoute: typeof ExecutorKnowledgeRoute
   ExecutorProfileRoute: typeof ExecutorProfileRouteWithChildren
   ExecutorTasksRoute: typeof ExecutorTasksRoute
@@ -648,6 +727,7 @@ interface ExecutorRouteChildren {
 const ExecutorRouteChildren: ExecutorRouteChildren = {
   ExecutorAcademyRoute: ExecutorAcademyRouteWithChildren,
   ExecutorHomeRoute: ExecutorHomeRoute,
+  ExecutorInReviewRoute: ExecutorInReviewRoute,
   ExecutorKnowledgeRoute: ExecutorKnowledgeRoute,
   ExecutorProfileRoute: ExecutorProfileRouteWithChildren,
   ExecutorTasksRoute: ExecutorTasksRoute,
@@ -690,16 +770,20 @@ interface OpsRouteChildren {
   OpsCampaignsRoute: typeof OpsCampaignsRoute
   OpsDashboardRoute: typeof OpsDashboardRoute
   OpsEscalationsRoute: typeof OpsEscalationsRoute
+  OpsExecutionRoute: typeof OpsExecutionRoute
   OpsExecutorsRoute: typeof OpsExecutorsRouteWithChildren
   OpsQueueRoute: typeof OpsQueueRouteWithChildren
+  OpsSubmissionsRoute: typeof OpsSubmissionsRoute
 }
 
 const OpsRouteChildren: OpsRouteChildren = {
   OpsCampaignsRoute: OpsCampaignsRoute,
   OpsDashboardRoute: OpsDashboardRoute,
   OpsEscalationsRoute: OpsEscalationsRoute,
+  OpsExecutionRoute: OpsExecutionRoute,
   OpsExecutorsRoute: OpsExecutorsRouteWithChildren,
   OpsQueueRoute: OpsQueueRouteWithChildren,
+  OpsSubmissionsRoute: OpsSubmissionsRoute,
 }
 
 const OpsRouteWithChildren = OpsRoute._addFileChildren(OpsRouteChildren)

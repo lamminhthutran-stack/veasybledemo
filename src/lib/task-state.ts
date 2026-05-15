@@ -7,6 +7,54 @@ const TASK_HISTORY_KEY = "veasyble_task_history";
 const SEEDED_ACCEPTED_IDS = ["t-001", "t-002"];
 
 const CANCELLED_TASKS_KEY = "veasyble_cancelled_task_ids";
+const PRINT_PICKUPS_KEY = "veasyble_print_pickup_confirmed";
+const STARTED_TASKS_KEY = "veasyble_started_tasks";
+
+export const getStartedTasks = (): Record<string, string> => {
+  if (typeof window === "undefined") return {};
+  try {
+    const parsed = JSON.parse(localStorage.getItem(STARTED_TASKS_KEY) || "null");
+    if (parsed && typeof parsed === "object") return parsed;
+    
+    // Seed with demo data
+    const now = Date.now();
+    const seeds = {
+      "t-001": new Date(now - 2 * 60 * 60 * 1000).toISOString(), // 2 hours ago
+      "t-002": new Date(now - 5 * 60 * 60 * 1000).toISOString(), // 5 hours ago (overdue)
+      "t-003": new Date(now - 9 * 60 * 60 * 1000).toISOString(), // 9 hours ago (critically overdue)
+    };
+    localStorage.setItem(STARTED_TASKS_KEY, JSON.stringify(seeds));
+    return seeds;
+  } catch {
+    return {};
+  }
+};
+
+export const startTask = (taskId: string) => {
+  if (typeof window === "undefined") return;
+  const started = getStartedTasks();
+  if (!started[taskId]) {
+    started[taskId] = new Date().toISOString();
+    localStorage.setItem(STARTED_TASKS_KEY, JSON.stringify(started));
+  }
+};
+
+export const getConfirmedPickups = (): Record<string, string> => {
+  if (typeof window === "undefined") return {};
+  try {
+    const parsed = JSON.parse(localStorage.getItem(PRINT_PICKUPS_KEY) || "{}");
+    return typeof parsed === "object" ? parsed : {};
+  } catch {
+    return {};
+  }
+};
+
+export const confirmPrintPickup = (taskId: string) => {
+  if (typeof window === "undefined") return;
+  const pickups = getConfirmedPickups();
+  pickups[taskId] = new Date().toISOString();
+  localStorage.setItem(PRINT_PICKUPS_KEY, JSON.stringify(pickups));
+};
 
 export const getCancelledTaskIds = (): string[] => {
   if (typeof window === "undefined") return [];
@@ -24,6 +72,19 @@ export const cancelTask = (taskId: string) => {
   localStorage.setItem(CANCELLED_TASKS_KEY, JSON.stringify(cancelled));
   const remaining = getAcceptedTaskIds().filter((id) => id !== taskId);
   localStorage.setItem(ACCEPTED_TASKS_KEY, JSON.stringify(remaining));
+
+  const existing = getTaskHistory().filter((entry) => entry.taskId !== taskId);
+  const next: TaskHistoryEntry[] = [
+    {
+      taskId,
+      status: "cancelled",
+      completedAt: new Date().toISOString(),
+      payReceived: "0",
+      rating: 0,
+    },
+    ...existing,
+  ];
+  localStorage.setItem(TASK_HISTORY_KEY, JSON.stringify(next));
 };
 
 export const getAcceptedTaskIds = (): string[] => {
@@ -44,13 +105,14 @@ export const acceptTask = (taskId: string) => {
   localStorage.setItem(ACCEPTED_TASKS_KEY, JSON.stringify(next));
 };
 
-export type TaskHistoryStatus = "completed" | "rejected" | "cancelled";
+export type TaskHistoryStatus = "completed" | "rejected" | "cancelled" | "in_review" | "revision_required";
 export type TaskHistoryEntry = {
   taskId: string;
   status: TaskHistoryStatus;
   completedAt: string;
   payReceived: string;
   rating: number;
+  rejectionReason?: string;
 };
 
 const seededHistory: TaskHistoryEntry[] = [
@@ -136,6 +198,62 @@ export const completeTask = (task: Task) => {
   localStorage.setItem(TASK_HISTORY_KEY, JSON.stringify(next));
 };
 
+export const submitTask = (task: Task) => {
+  if (typeof window === "undefined") return;
+  // Remove from accepted tasks
+  const remainingAccepted = getAcceptedTaskIds().filter((id) => id !== task.id);
+  localStorage.setItem(ACCEPTED_TASKS_KEY, JSON.stringify(remainingAccepted));
+  
+  const existing = getTaskHistory().filter((entry) => entry.taskId !== task.id);
+  const next: TaskHistoryEntry[] = [
+    {
+      taskId: task.id,
+      status: "in_review",
+      completedAt: new Date().toISOString(),
+      payReceived: task.pay,
+      rating: 0,
+    },
+    ...existing,
+  ];
+  localStorage.setItem(TASK_HISTORY_KEY, JSON.stringify(next));
+};
+
+export const approveTask = (taskId: string) => {
+  if (typeof window === "undefined") return;
+  const existing = getTaskHistory();
+  const next = existing.map((entry) => {
+    if (entry.taskId === taskId) {
+      return { ...entry, status: "completed" as TaskHistoryStatus, rating: 5 };
+    }
+    return entry;
+  });
+  localStorage.setItem(TASK_HISTORY_KEY, JSON.stringify(next));
+};
+
+export const rejectTask = (taskId: string, reason: string) => {
+  if (typeof window === "undefined") return;
+  const existing = getTaskHistory();
+  const next = existing.map((entry) => {
+    if (entry.taskId === taskId) {
+      return { ...entry, status: "revision_required" as TaskHistoryStatus, rejectionReason: reason };
+    }
+    return entry;
+  });
+  localStorage.setItem(TASK_HISTORY_KEY, JSON.stringify(next));
+};
+
+export const resubmitTask = (taskId: string) => {
+  if (typeof window === "undefined") return;
+  const existing = getTaskHistory();
+  const next = existing.map((entry) => {
+    if (entry.taskId === taskId) {
+      return { ...entry, status: "in_review" as TaskHistoryStatus, rejectionReason: undefined, completedAt: new Date().toISOString() };
+    }
+    return entry;
+  });
+  localStorage.setItem(TASK_HISTORY_KEY, JSON.stringify(next));
+};
+
 export const isTaskExpired = (task: Task) => {
   const [day, month, year] = task.date.split("/").map(Number);
   if (!day || !month || !year) return false;
@@ -151,7 +269,7 @@ const isTaskHistoryEntry = (value: unknown): value is TaskHistoryEntry => {
     typeof entry.completedAt === "string" &&
     typeof entry.payReceived === "string" &&
     typeof entry.rating === "number" &&
-    (entry.status === "completed" || entry.status === "rejected" || entry.status === "cancelled")
+    (entry.status === "completed" || entry.status === "rejected" || entry.status === "cancelled" || entry.status === "in_review" || entry.status === "revision_required")
   );
 };
 
