@@ -9,6 +9,7 @@ export const Route = createFileRoute("/login")({
 type PortalType = "executor" | "ops" | null;
 type TourTarget =
   | "welcome"
+  | "how-card"
   | "executor-card"
   | "ops-card"
   | "email-field"
@@ -30,43 +31,55 @@ const tourSteps: TourStep[] = [
     target: "welcome",
     portal: null,
     title: "Welcome to Veasyble Demo",
-    body: "This toolkit lets you explore both the executor mobile app and the Veasyble operations dashboard.",
+    body: "This toolkit lets you explore both sides of the product: the executor mobile app and the Veasyble operations dashboard.",
+  },
+  {
+    target: "how-card",
+    portal: null,
+    title: "How This Demo Works",
+    body: "Start by choosing a portal. Execution Team shows the field worker journey. Veasyble Ops shows how the internal team monitors work, submissions, escalations, and quality.",
   },
   {
     target: "executor-card",
     portal: null,
-    title: "Execution Team",
-    body: "Use this portal to test the executor flow: Academy, task browsing, task detail, in-store execution, PoP submission, and profile history.",
+    title: "Execution Team Portal",
+    body: "Use this to test the executor journey: complete Academy, browse available tasks, accept work, review task details, execute on site, submit proof, and check profile history.",
   },
   {
     target: "ops-card",
     portal: null,
-    title: "Veasyble Ops",
-    body: "Use this portal to test operations workflows: dashboard health, campaign monitor, submissions, escalations, and executor network quality.",
+    title: "Veasyble Ops Portal",
+    body: "Use this to test Ops workflows: monitor dashboard metrics, campaign fill, live submissions, escalations, and executor network health.",
   },
   {
     target: "email-field",
     portal: "executor",
-    title: "Demo Email",
-    body: "The default demo email is already filled in so you can enter quickly. You can also type another email to simulate another user.",
+    title: "Demo Login",
+    body: "The default demo email is pre-filled. Use it to enter quickly, or type another email to simulate a different account.",
   },
   {
     target: "password-field",
     portal: "executor",
-    title: "Demo Password",
-    body: "For the default demo account, the password can stay empty. For another email, enter any password to continue the demo.",
+    title: "Password Field",
+    body: "For the default demo account, the password can stay empty. For another email, enter any password to continue.",
   },
   {
     target: "login-button",
     portal: "executor",
-    title: "Start The Flow",
-    body: "Login sends Execution Team users into the executor experience and Ops users into the dashboard. Demo progress is saved in this browser.",
+    title: "Executor Feature Flow",
+    body: "After login, new executors go through Academy before live tasks. Returning executors land on Home with My Tasks, Browse Tasks, task details, execution steps, PoP submission, and Profile history.",
+  },
+  {
+    target: "login-button",
+    portal: "ops",
+    title: "Ops Feature Flow",
+    body: "Ops users land on Dashboard. From there, review phase metrics, campaign monitor, Submissions, Escalation Queue, and Executor Network.",
   },
   {
     target: "back-button",
     portal: "executor",
     title: "Switch Portal",
-    body: "Use Back if you want to return to portal selection and switch between Execution Team and Veasyble Ops.",
+    body: "Use Back to return to portal selection if you want to compare the executor mobile flow with the Ops dashboard flow.",
   },
 ];
 
@@ -145,7 +158,7 @@ function LoginPage() {
       : "";
 
   return (
-    <div className="min-h-screen bg-[#F7F8FA] flex flex-col items-center justify-center px-6 relative">
+    <div className="min-h-screen bg-[#F7F8FA] flex flex-col items-center justify-center px-6 py-10 relative">
       <button
         type="button"
         onClick={openTour}
@@ -155,10 +168,36 @@ function LoginPage() {
       </button>
 
       <div className="w-full max-w-sm">
-        {/* Logo */}
-        <div className={`text-center mb-8 rounded-[5px] ${targetClass("welcome")}`}>
+        <div className={`text-center mb-5 rounded-[5px] ${targetClass("welcome")}`}>
           <p className="text-3xl font-bold text-[#1A3557]">Veasyble</p>
         </div>
+
+        {!portal && (
+          <div
+            className={`mb-5 rounded-[5px] border border-orange-100 bg-white p-4 shadow-sm ${targetClass("how-card")}`}
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-sm font-bold text-gray-900">How to use this toolkit</p>
+                <p className="mt-1 text-xs leading-relaxed text-gray-500">
+                  Explore the executor app flow or the Ops dashboard flow. The tour explains the
+                  features, screens, and what each role is meant to test.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={openTour}
+                className="shrink-0 rounded-[5px] bg-[#F97316] px-3 py-2 text-[11px] font-semibold text-white"
+              >
+                Start tour
+              </button>
+            </div>
+            <div className="mt-3 grid grid-cols-2 gap-2 text-[10px] font-semibold text-gray-500">
+              <div className="rounded-[5px] bg-gray-50 px-2 py-2">Academy -> Tasks -> PoP</div>
+              <div className="rounded-[5px] bg-gray-50 px-2 py-2">Dashboard -> Submissions -> Quality</div>
+            </div>
+          </div>
+        )}
 
         {!portal ? (
           <div className="space-y-3">
@@ -188,6 +227,11 @@ function LoginPage() {
           </div>
         ) : (
           <div className="bg-white rounded-[5px] p-6 shadow-sm border border-gray-100 space-y-4">
+            <div className="rounded-[5px] bg-orange-50 border border-orange-100 px-3 py-2 text-xs text-orange-800">
+              {portal === "executor"
+                ? "Execution Team flow: Academy, My Tasks, Browse Tasks, Task Detail, execution steps, PoP submission, and Profile history."
+                : "Ops flow: Dashboard, Campaign Monitor, Submissions, Escalations, and Executor Network."}
+            </div>
             <form onSubmit={handleLoginSubmit} className="space-y-4">
               <div className={`rounded-[5px] ${targetClass("email-field")}`}>
                 <label className="block text-xs font-semibold text-gray-600 mb-1.5">Email</label>
