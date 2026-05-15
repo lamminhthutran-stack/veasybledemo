@@ -37,19 +37,19 @@ const tourSteps: TourStep[] = [
     target: "how-card",
     portal: null,
     title: "How This Demo Works",
-    body: "Start by choosing a portal. Execution Team shows the field worker journey. Veasyble Ops shows how the internal team monitors work, submissions, escalations, and quality.",
+    body: "Read the feature guide first. It explains what each screen does, then use the tour to walk through the login choices step by step.",
   },
   {
     target: "executor-card",
     portal: null,
     title: "Execution Team Portal",
-    body: "Use this to test the executor journey: complete Academy, browse available tasks, accept work, review task details, execute on site, submit proof, and check profile history.",
+    body: "This side shows the field executor journey: learn rules in Academy, browse jobs, commit to tasks, execute at store, submit proof, and review history.",
   },
   {
     target: "ops-card",
     portal: null,
     title: "Veasyble Ops Portal",
-    body: "Use this to test Ops workflows: monitor dashboard metrics, campaign fill, live submissions, escalations, and executor network health.",
+    body: "This side shows internal operations: monitor phase metrics, campaign fill, submissions, escalations, and executor network quality.",
   },
   {
     target: "email-field",
@@ -67,19 +67,69 @@ const tourSteps: TourStep[] = [
     target: "login-button",
     portal: "executor",
     title: "Executor Feature Flow",
-    body: "After login, new executors go through Academy before live tasks. Returning executors land on Home with My Tasks, Browse Tasks, task details, execution steps, PoP submission, and Profile history.",
+    body: "After login, follow Academy if needed, then use Home for committed tasks, Browse Tasks for available work, Task Detail for requirements, execution screens for PoP, and Profile for history.",
   },
   {
     target: "login-button",
     portal: "ops",
     title: "Ops Feature Flow",
-    body: "Ops users land on Dashboard. From there, review phase metrics, campaign monitor, Submissions, Escalation Queue, and Executor Network.",
+    body: "Ops users land on Dashboard, then use Campaign Monitor for fill health, Submissions for proof review, Escalations for issues, and Executor Network for quality risk.",
   },
   {
     target: "back-button",
     portal: "executor",
     title: "Switch Portal",
     body: "Use Back to return to portal selection if you want to compare the executor mobile flow with the Ops dashboard flow.",
+  },
+];
+
+const executorFeatures = [
+  {
+    title: "Academy",
+    body: "New executors learn Veasyble rules and must pass quizzes before accessing live task work.",
+  },
+  {
+    title: "My Tasks",
+    body: "Shows accepted tasks the executor has committed to complete. These are active responsibilities, not optional jobs.",
+  },
+  {
+    title: "Browse Tasks",
+    body: "Shows available jobs with filters for time, location, and brand. Executors review pay, store, date, and availability before accepting.",
+  },
+  {
+    title: "Task Detail",
+    body: "Explains campaign brief, store information, print station, contact points, pay, and execution requirements before starting.",
+  },
+  {
+    title: "Execution and PoP",
+    body: "Guides pickup, pre-check, on-site checklist, photo proof, and final submission for Ops review.",
+  },
+  {
+    title: "Profile History",
+    body: "Tracks completed, rejected, cancelled, and declined tasks, including pay, rating, and restore options for hidden tasks.",
+  },
+];
+
+const opsFeatures = [
+  {
+    title: "Dashboard",
+    body: "Summarizes Onboard, Dispatch, Execution, and Quality metrics so Ops can spot operational risk quickly.",
+  },
+  {
+    title: "Campaign Monitor",
+    body: "Shows campaign fill rate, assigned slots, urgent campaigns, and execution readiness.",
+  },
+  {
+    title: "Submissions",
+    body: "Lets Ops inspect submitted proof, checklist evidence, materials pickup status, and request revision when needed.",
+  },
+  {
+    title: "Escalation Queue",
+    body: "Central place for operational issues such as late check-ins, store refusal, PoP problems, and quality disputes.",
+  },
+  {
+    title: "Executor Network",
+    body: "Reviews executor rating, status, quality risk, and performance trends across the field network.",
   },
 ];
 
@@ -174,14 +224,14 @@ function LoginPage() {
 
         {!portal && (
           <div
-            className={`mb-5 rounded-[5px] border border-orange-100 bg-white p-4 shadow-sm ${targetClass("how-card")}`}
+            className={`mb-5 max-h-[50vh] overflow-y-auto rounded-[5px] border border-orange-100 bg-white p-4 shadow-sm ${targetClass("how-card")}`}
           >
             <div className="flex items-start justify-between gap-3">
               <div>
                 <p className="text-sm font-bold text-gray-900">How to use this toolkit</p>
                 <p className="mt-1 text-xs leading-relaxed text-gray-500">
-                  Explore the executor app flow or the Ops dashboard flow. The tour explains the
-                  features, screens, and what each role is meant to test.
+                  Start with one portal, follow the feature flow, then switch portal to see how the
+                  same field work is monitored by Ops.
                 </p>
               </div>
               <button
@@ -192,9 +242,10 @@ function LoginPage() {
                 Start tour
               </button>
             </div>
-            <div className="mt-3 grid grid-cols-2 gap-2 text-[10px] font-semibold text-gray-500">
-              <div className="rounded-[5px] bg-gray-50 px-2 py-2">{"Academy -> Tasks -> PoP"}</div>
-              <div className="rounded-[5px] bg-gray-50 px-2 py-2">{"Dashboard -> Submissions -> Quality"}</div>
+
+            <div className="mt-4 space-y-4">
+              <FeatureGroup title="Execution Team features" items={executorFeatures} />
+              <FeatureGroup title="Veasyble Ops features" items={opsFeatures} />
             </div>
           </div>
         )}
@@ -315,5 +366,27 @@ function LoginPage() {
         </div>
       )}
     </div>
+  );
+}
+
+function FeatureGroup({
+  title,
+  items,
+}: {
+  title: string;
+  items: { title: string; body: string }[];
+}) {
+  return (
+    <section>
+      <p className="text-[11px] font-bold uppercase tracking-wide text-[#1A3557]">{title}</p>
+      <div className="mt-2 space-y-2">
+        {items.map((item) => (
+          <div key={item.title} className="rounded-[5px] bg-gray-50 px-3 py-2">
+            <p className="text-xs font-bold text-gray-900">{item.title}</p>
+            <p className="mt-0.5 text-[11px] leading-relaxed text-gray-500">{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
