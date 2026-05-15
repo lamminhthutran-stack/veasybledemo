@@ -3,7 +3,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { campaigns } from "@/lib/mock-data";
 import { useState } from "react";
 import { DateFilterDropdown, type DateFilterState } from "@/components/DateFilterDropdown";
-import { ContextGuide } from "@/components/ContextGuide";
 
 export const Route = createFileRoute("/ops/campaigns")({
   component: CampaignMonitor,
@@ -71,16 +70,6 @@ function CampaignMonitor() {
         <p className="text-sm text-gray-500 mt-1">{filterText}</p>
       </div>
 
-      <ContextGuide
-        title="How Campaign Monitor works"
-        steps={[
-          "Use this screen to see whether each campaign has enough executors before execution day.",
-          "Filled shows assigned slots versus total slots; low fill rates indicate campaigns that need attention.",
-          "Status marks healthy, at-risk, urgent, or completed campaigns so Ops can prioritize dispatch work.",
-          "Open a campaign row to inspect store-level assignment status and decide whether surge support is needed.",
-        ]}
-      />
-
       <div className="flex gap-2">
         {["All Cities", "All Statuses"].map((f) => (
           <button
@@ -140,7 +129,7 @@ function CampaignMonitor() {
                     {[
                       { store: "FamilyMart Q.1", exec: "Khoa N.", status: "Assigned" },
                       { store: "Circle K Q.3", exec: "Unassigned", status: "Open" },
-                      { store: "GS25 Q.7", exec: "Huong P.", status: "Completed" },
+                      { store: "GS25 Q.7", exec: "Hương P.", status: "Completed" },
                     ].map((row, i) => (
                       <div
                         key={i}
