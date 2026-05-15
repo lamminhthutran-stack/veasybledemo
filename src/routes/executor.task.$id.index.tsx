@@ -3,7 +3,6 @@ import { availableTasks } from "@/lib/mock-data";
 import { BackButton } from "@/components/BackButton";
 import { cancelTask } from "@/lib/task-state";
 import { useState } from "react";
-import { ContextGuide } from "@/components/ContextGuide";
 
 export const Route = createFileRoute("/executor/task/$id/")({
   component: TaskDetail,
@@ -31,17 +30,6 @@ function TaskDetail() {
       </div>
 
       <div className="px-4 py-4 space-y-4">
-        <ContextGuide
-          title="How Task Detail works"
-          steps={[
-            "Review campaign info first so you know the brand, time, pay, and expected work window.",
-            "Check location and print station details before going on site so materials and store address are correct.",
-            "Read execution requirements carefully; these are the checklist items you must complete during the task.",
-            "Tap Start only when you are ready to begin the execution flow: pickup, pre-check, on-site work, and PoP submission.",
-            "Use Cancel only if you cannot complete the task; it is recorded and may affect your rating.",
-          ]}
-        />
-
         {/* Campaign info */}
         <InfoSection title="Campaign Info">
           <InfoRow label="Brand" value={task.brand} />
