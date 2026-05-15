@@ -1,8 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useAuth } from "@/lib/auth";
-import { useTranslation } from "react-i18next";
-import { LangToggle } from "@/lib/i18n-context";
 
 export const Route = createFileRoute("/login")({
   component: LoginPage,
@@ -13,8 +11,7 @@ type PortalType = "executor" | "ops" | null;
 function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const { t } = useTranslation();
-  
+    
   const [portal, setPortal] = useState<PortalType>(null);
   const [email, setEmail] = useState("demo@veasyble.com");
   const [password, setPassword] = useState("");
@@ -30,11 +27,11 @@ function LoginPage() {
         if (email === "demo@veasyble.com") {
           completeAcademyForDemo();
         }
-        login("Nguyễn Minh Khoa");
+        login("John Doe");
         navigate({ to: "/executor/home" });
       });
     } else {
-      login("Linh Trần");
+      login("Linda Tran");
       navigate({ to: "/ops/dashboard" });
     }
   }
@@ -43,8 +40,7 @@ function LoginPage() {
     <div className="min-h-screen bg-[#F7F8FA] flex flex-col items-center justify-center px-6 relative">
       {/* Top Right Controls */}
       <div className="absolute top-4 right-4 z-10">
-        <LangToggle />
-      </div>
+              </div>
 
       <div className="w-full max-w-sm">
         {/* Logo */}
@@ -55,7 +51,7 @@ function LoginPage() {
         {!portal ? (
           <div className="space-y-3">
             <p className="text-xs text-center text-gray-400 font-medium mb-4 uppercase tracking-wide">
-              {t("select_portal") ?? "Select Portal"}
+              "Select Portal"
             </p>
             <button
               onClick={() => setPortal("executor")}
@@ -83,7 +79,7 @@ function LoginPage() {
             <form onSubmit={handleLoginSubmit} className="space-y-4">
               <div>
                 <label className="block text-xs font-semibold text-gray-600 mb-1.5">
-                  {t("email_label") ?? "Email"}
+                  "Email"
                 </label>
                 <input
                   type="email"
@@ -95,7 +91,7 @@ function LoginPage() {
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 mb-1.5">
-                  {t("password_label") ?? "Password"}
+                  "Password"
                 </label>
                 <input
                   type="password"
@@ -111,13 +107,13 @@ function LoginPage() {
                   onClick={() => setPortal(null)}
                   className="px-4 py-2.5 text-xs font-semibold text-gray-600 bg-gray-100 rounded-[5px] hover:bg-gray-200 transition-colors"
                 >
-                  {t("back") ?? "Back"}
+                  "Back"
                 </button>
                 <button
                   type="submit"
                   className="flex-1 bg-[#F97316] text-white text-sm font-semibold py-2.5 rounded-[5px] hover:bg-[#ea580c] transition-colors shadow-sm"
                 >
-                  {t("login_btn") ?? "Login"}
+                  "Login"
                 </button>
               </div>
             </form>

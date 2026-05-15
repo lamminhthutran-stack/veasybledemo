@@ -1,5 +1,4 @@
 import { ExecutorBottomNav } from "./ExecutorBottomNav";
-import { LangToggle } from "@/lib/i18n-context";
 
 export function AppLayout({ children, hideChrome }: { children: React.ReactNode; hideChrome?: boolean }) {
   return (

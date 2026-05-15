@@ -112,7 +112,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
-import { LangProvider } from "@/lib/i18n-context";
+
 import { DeviceProvider, DeviceToggle } from "@/lib/device";
 import { AuthProvider, useAuth } from "@/lib/auth";
 import { useLocation } from "@tanstack/react-router";

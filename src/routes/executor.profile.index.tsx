@@ -134,7 +134,7 @@ function ExecutorProfile() {
       </section>
 
       <section>
-        <h2 className="font-semibold mb-2">Lịch sử</h2>
+        <h2 className="font-semibold mb-2">History</h2>
         <div className="space-y-3">
           {history.map((entry) => (
             <HistoryCard key={`${entry.taskId}-${entry.completedAt}`} entry={entry} />
@@ -148,7 +148,7 @@ function ExecutorProfile() {
       </section>
 
       <section>
-        <h2 className="font-semibold mb-2">Đã từ chối</h2>
+        <h2 className="font-semibold mb-2">Rejected</h2>
         <div className="bg-card border border-border rounded-[5px] divide-y divide-border overflow-hidden">
           {declinedTasks.length ? (
             declinedTasks.map((task) => {

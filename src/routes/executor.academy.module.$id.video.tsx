@@ -1,7 +1,6 @@
 import { Play } from "lucide-react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { getModule } from "@/lib/academy-data";
-import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/executor/academy/module/$id/video")({
   component: VideoLesson,
@@ -10,8 +9,7 @@ export const Route = createFileRoute("/executor/academy/module/$id/video")({
 function VideoLesson() {
   const { id } = Route.useParams();
   const m = getModule(id);
-  const { t } = useTranslation();
-
+  
   return (
     <div className="p-5 space-y-5">
       <div>
@@ -28,7 +26,7 @@ function VideoLesson() {
       </div>
 
       <div className="bg-card border border-border rounded-[5px] p-4">
-        <div className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mb-2">{t("summary")}</div>
+        <div className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mb-2">{"Summary"}</div>
         <ul className="space-y-2">
           {m.summary.map((s, i) => (
             <li key={i} className="text-sm flex gap-2">
@@ -44,7 +42,7 @@ function VideoLesson() {
         params={{ id }}
         className="flex items-center justify-center w-full bg-orange text-orange-foreground font-semibold rounded-md min-h-[44px] py-3 text-sm"
       >
-        {t("continue_to_quiz")}
+        {"Continue to Quiz →"}
       </Link>
     </div>
   );

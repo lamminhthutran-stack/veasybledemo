@@ -1,7 +1,6 @@
 import { Lock, CheckCircle2, ArrowLeft } from "lucide-react";
 import { createFileRoute, Link, Outlet, useLocation, useRouter } from "@tanstack/react-router";
 import { modules, getProgress, isUnlocked, completedCount, isAcademyComplete, avgScore } from "@/lib/academy-data";
-import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/executor/academy")({
   component: AcademyLayout,
@@ -33,8 +32,7 @@ function AcademyLayout() {
 }
 
 function AcademyHome() {
-  const { t } = useTranslation();
-  const progress = getProgress();
+    const progress = getProgress();
   const done = completedCount();
 
   const isComplete = isAcademyComplete();
@@ -54,16 +52,16 @@ function AcademyHome() {
         </div>
       ) : (
         <div>
-          <h1 className="text-xl font-extrabold leading-tight">{t("academy_welcome")}</h1>
+          <h1 className="text-xl font-extrabold leading-tight">{"Welcome to Veasyble Academy"}</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            {t("academy_subtitle")}
+            {"Complete 4 modules to start accepting tasks and earning."}
           </p>
         </div>
       )}
 
       <div className="bg-card border border-border rounded-[5px] p-4">
         <div className="flex items-center justify-between text-sm mb-2">
-          <span className="font-semibold">{t("progress")}</span>
+          <span className="font-semibold">{"Progress"}</span>
           <span className="text-muted-foreground">{done} / 4 Modules</span>
         </div>
         <div className="h-2 bg-surface rounded-full overflow-hidden">
@@ -91,8 +89,8 @@ function AcademyHome() {
                     {status?.passed && (
                       <span className="badge badge-success"><CheckCircle2 className="w-3 h-3" /> {status.score}%</span>
                     )}
-                    {!unlocked && <span className="badge badge-gray">{t("locked")}</span>}
-                    {unlocked && !status && <span className="badge badge-success">{t("available")}</span>}
+                    {!unlocked && <span className="badge badge-gray">{"Locked"}</span>}
+                    {unlocked && !status && <span className="badge badge-success">{"Available"}</span>}
                   </div>
                   <div className="font-semibold text-sm mt-0.5">{m.title}</div>
                   <div className="text-xs text-muted-foreground mt-1">{m.desc}</div>
@@ -102,7 +100,7 @@ function AcademyHome() {
                       params={{ id: m.id }}
                       className="inline-flex min-h-[44px] items-center mt-3 text-xs font-semibold bg-orange text-orange-foreground rounded-md px-4 py-2"
                     >
-                      {status?.passed ? t("review") : t("start")}
+                      {status?.passed ? "Review" : "Start"}
                     </Link>
                   )}
                 </div>
@@ -113,7 +111,7 @@ function AcademyHome() {
       </div>
 
       <p className="text-[11px] text-center text-muted-foreground pt-2">
-        {t("academy_passing_req")}
+        {"You need at least 70% to pass each module."}
       </p>
 
       {done === 4 && (
@@ -121,7 +119,7 @@ function AcademyHome() {
           to="/executor/academy/complete"
           className="flex items-center justify-center w-full bg-orange text-orange-foreground font-semibold rounded-md min-h-[44px] py-3 text-sm"
         >
-          {t("view_certificate")}
+          {"View Certificate →"}
         </Link>
       )}
     </div>

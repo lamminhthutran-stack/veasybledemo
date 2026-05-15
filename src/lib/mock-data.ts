@@ -1,5 +1,5 @@
 export const executor = {
-  name: "Nguyễn Minh Khoa",
+  name: "John Doe",
   tier: "Standard",
   rating: 4.6,
   tasksCompleted: 23,
@@ -8,7 +8,7 @@ export const executor = {
 };
 
 export const ops = {
-  name: "Linh Trần",
+  name: "Linda Tran",
   role: "Ops Lead",
 };
 
@@ -32,13 +32,13 @@ export const tasks: Task[] = [
     id: "t-001",
     campaign: "Pepsi Summer 2026",
     brand: "Pepsi",
-    store: "FamilyMart Nguyễn Trãi",
-    district: "Quận 5, HCMC",
+    store: "FamilyMart Nguyen Trai",
+    district: "District 5, HCMC",
     date: "15/05/2026",
     time: "9:00–11:00 AM",
     pay: "180,000 VND",
     printStation: "Station #3",
-    printAddress: "45 Lê Lai, Quận 1",
+    printAddress: "45 Lê Lai, District 1",
     badge: "available",
     brief: "Set up Pepsi Summer endcap display with promotional signage and product facing per planogram.",
   },
@@ -46,13 +46,13 @@ export const tasks: Task[] = [
     id: "t-002",
     campaign: "Vinamilk Back-to-School",
     brand: "Vinamilk",
-    store: "Circle K Lê Lợi",
-    district: "Quận 1, HCMC",
+    store: "Circle K Le Loi",
+    district: "District 1, HCMC",
     date: "16/05/2026",
     time: "2:00–4:00 PM",
     pay: "150,000 VND",
     printStation: "Station #1",
-    printAddress: "12 Pasteur, Quận 1",
+    printAddress: "12 Pasteur, District 1",
     badge: "urgent",
     brief: "Replace shelf wobblers and install new POSM kit at checkout area.",
   },
@@ -60,13 +60,13 @@ export const tasks: Task[] = [
     id: "t-003",
     campaign: "Heineken Silver Launch",
     brand: "Heineken",
-    store: "GS25 Phạm Ngũ Lão",
-    district: "Quận 1, HCMC",
+    store: "GS25 Pham Ngu Lao",
+    district: "District 1, HCMC",
     date: "18/05/2026",
     time: "10:00 AM–12:00 PM",
     pay: "200,000 VND",
     printStation: "Station #3",
-    printAddress: "45 Lê Lai, Quận 1",
+    printAddress: "45 Lê Lai, District 1",
     badge: "outside",
     brief: "Build floor display with 3 cases. Photograph from 3 angles.",
   },
@@ -117,7 +117,7 @@ export const escalations = [
     phase: "Execute",
     severity: "Medium",
     status: "In Progress",
-    title: "Late check-in — Quận 7, Lotte Mart",
+    title: "Late check-in — District 7, Lotte Mart",
     executorId: "exec-002",
     createdAt: "2026-05-14T07:15:00Z",
     resolvedAt: null,
@@ -150,7 +150,7 @@ export const escalations = [
     phase: "Dispatch",
     severity: "Low",
     status: "Resolved",
-    title: "Coverage gap — Đà Nẵng District 2",
+    title: "Coverage gap — Da Nang District 2",
     executorId: "exec-005",
     createdAt: "2026-05-14T04:00:00Z",
     resolvedAt: "2026-05-14T05:30:00Z",
@@ -181,16 +181,16 @@ export type CoverageZone = {
 };
 
 export const coverageZones: CoverageZone[] = [
-  { district: "Quận 1", executorCount: 12, demandForecast: 10, matchRate: 120 },
-  { district: "Quận 7", executorCount: 8, demandForecast: 10, matchRate: 80 },
-  { district: "Bình Thạnh", executorCount: 3, demandForecast: 8, matchRate: 38 },
-  { district: "Thủ Đức", executorCount: 5, demandForecast: 6, matchRate: 83 },
-  { district: "Gò Vấp", executorCount: 1, demandForecast: 5, matchRate: 20 },
+  { district: "District 1", executorCount: 12, demandForecast: 10, matchRate: 120 },
+  { district: "District 7", executorCount: 8, demandForecast: 10, matchRate: 80 },
+  { district: "Binh Thanh", executorCount: 3, demandForecast: 8, matchRate: 38 },
+  { district: "Thu Duc", executorCount: 5, demandForecast: 6, matchRate: 83 },
+  { district: "Go Vap", executorCount: 1, demandForecast: 5, matchRate: 20 },
 ];
 
 export const applications = {
   "e-1": {
-    name: "Trần Văn Bảo",
+    name: "Thomas Bao",
     age: 24,
     background: "Freelancer (2y field activation)",
     availability: "5 days/week, mornings + afternoons",
@@ -202,19 +202,19 @@ export const applications = {
 export const campaigns = [
   { id: "c-1", name: "Pepsi Summer 2026", brand: "Pepsi", city: "HCMC", date: "15/05/2026", total: 48, filled: 42, status: "On Track", fillRate: 88, assignedCount: 42, totalSlots: 48, stalledExecutorCount: 0 },
   { id: "c-2", name: "Vinamilk Back-to-School", brand: "Vinamilk", city: "HCMC", date: "16/05/2026", total: 60, filled: 41, status: "At Risk", fillRate: 68, assignedCount: 41, totalSlots: 60, stalledExecutorCount: 3 },
-  { id: "c-3", name: "Heineken Silver Launch", brand: "Heineken", city: "Hà Nội", date: "18/05/2026", total: 30, filled: 12, status: "Urgent", fillRate: 40, assignedCount: 12, totalSlots: 30, stalledExecutorCount: 2 },
-  { id: "c-4", name: "Coca-Cola Tết Wrap-up", brand: "Coca-Cola", city: "Đà Nẵng", date: "01/03/2026", total: 25, filled: 25, status: "Completed", fillRate: 100, assignedCount: 25, totalSlots: 25, stalledExecutorCount: 0 },
+  { id: "c-3", name: "Heineken Silver Launch", brand: "Heineken", city: "Hanoi", date: "18/05/2026", total: 30, filled: 12, status: "Urgent", fillRate: 40, assignedCount: 12, totalSlots: 30, stalledExecutorCount: 2 },
+  { id: "c-4", name: "Coca-Cola Lunar New Year Wrap-up", brand: "Coca-Cola", city: "Da Nang", date: "01/03/2026", total: 25, filled: 25, status: "Completed", fillRate: 100, assignedCount: 25, totalSlots: 25, stalledExecutorCount: 0 },
 ];
 
 export const executionTasks = [
-  { id: "et-1", executorName: "Nguyễn Minh Khoa", storeName: "FamilyMart Nguyễn Trãi", district: "Quận 5", checkInTime: "9:05 AM", campaign: "Pepsi Summer 2026", status: "on-site" },
-  { id: "et-2", executorName: "Phạm Thị Hương", storeName: "Circle K Lê Lợi", district: "Quận 1", checkInTime: "2:20 PM", campaign: "Vinamilk Back-to-School", status: "late" },
-  { id: "et-3", executorName: "Lê Quang Huy", storeName: "GS25 Phạm Ngũ Lão", district: "Quận 1", checkInTime: null as string | null, campaign: "Heineken Silver Launch", status: "not-checked-in" },
-  { id: "et-4", executorName: "Trần Mỹ Linh", storeName: "WinMart Nguyen Van Linh", district: "Quận 7", checkInTime: "1:10 PM", campaign: "Unilever Perfect Store", status: "completed" },
+  { id: "et-1", executorName: "John Doe", storeName: "FamilyMart Nguyen Trai", district: "District 5", checkInTime: "9:05 AM", campaign: "Pepsi Summer 2026", status: "on-site" },
+  { id: "et-2", executorName: "Patricia Huong", storeName: "Circle K Le Loi", district: "District 1", checkInTime: "2:20 PM", campaign: "Vinamilk Back-to-School", status: "late" },
+  { id: "et-3", executorName: "Leon Huy", storeName: "GS25 Pham Ngu Lao", district: "District 1", checkInTime: null as string | null, campaign: "Heineken Silver Launch", status: "not-checked-in" },
+  { id: "et-4", executorName: "Mandy Linh", storeName: "WinMart Nguyen Van Linh", district: "District 7", checkInTime: "1:10 PM", campaign: "Unilever Perfect Store", status: "completed" },
 ];
 
 export const executorProfile = {
-  name: "Nguyễn Minh Tuấn",
+  name: "Michael Tuan",
   initials: "NMT",
   rating: 4.3,
   monthlyEarnings: 3200000,
@@ -223,24 +223,24 @@ export const executorProfile = {
   availableDates: [
     "2026-05-14", "2026-05-15", "2026-05-17", "2026-05-20", "2026-05-21",
   ],
-  availableDistricts: ["Quận 1", "Quận 3", "Quận 7", "Bình Thạnh"],
+  availableDistricts: ["District 1", "District 3", "District 7", "Binh Thanh"],
   ratingBreakdown: [
-    { label: "Đúng giờ check-in",   score: 4.5 },
-    { label: "Chất lượng PoP",       score: 4.2 },
-    { label: "Thực hiện đúng SOP",   score: 4.1 },
-    { label: "Thái độ & giao tiếp",  score: 4.6 },
-    { label: "Xử lý sự cố",          score: 3.8 },
+    { label: "On-time check-in",   score: 4.5 },
+    { label: "PoP Quality",       score: 4.2 },
+    { label: "Follows SOP strictly",   score: 4.1 },
+    { label: "Attitude & Communication",  score: 4.6 },
+    { label: "Issue Resolution",          score: 3.8 },
   ],
   feedback: [
     {
-      from: "Retailer · Big C Quận 7",
+      from: "Retailer · Big C District 7",
       date: "12/05/2026",
-      comment: "Executor đến đúng giờ, chụp ảnh sản phẩm đẹp và rõ ràng. Rất chuyên nghiệp.",
+      comment: "Executor arrived on time, took clear and beautiful product photos. Very professional.",
     },
     {
       from: "Brand · Milo",
       date: "08/05/2026",
-      comment: "Placement đúng theo planogram, ảnh đủ góc. Tuy nhiên selfie check-in hơi mờ.",
+      comment: "Placement matches planogram, photos cover all angles. However, check-in selfie is slightly blurry.",
     },
   ],
 };
@@ -265,18 +265,18 @@ export const setWeeklyAvailability = (newAvailability: WeeklyAvailability[]) => 
 
 export const executorsList = [
   { 
-    id: "u-1", name: "Nguyễn Minh Khoa", tier: "Standard", city: "HCMC", rating: 4.6, tasks: 23, status: "Active",
+    id: "u-1", name: "John Doe", tier: "Standard", city: "HCMC", rating: 4.6, tasks: 23, status: "Active",
     partnerFeedback: [
-      { from: "Milo Brand Team", campaignName: "Summer Activation Q2", submittedAt: "2026-05-13", sentiment: "positive", comment: "Executor thực hiện đúng planogram, ảnh chất lượng tốt. Rất đáng tin cậy." },
-      { from: "Big C Quận 7 — Store Manager", campaignName: "Summer Activation Q2", submittedAt: "2026-05-13", sentiment: "neutral", comment: "Đến đúng giờ nhưng cần hỏi thêm về vị trí đặt hàng. Không có vấn đề lớn." },
-      { from: "Pepsi Campaign Team", campaignName: "Back to School Launch", submittedAt: "2026-04-29", sentiment: "negative", comment: "Thiếu 1 góc chụp trong bộ PoP, phải nhắc lại. Cần cải thiện độ chủ động." }
+      { from: "Milo Brand Team", campaignName: "Summer Activation Q2", submittedAt: "2026-05-13", sentiment: "positive", comment: "Executor followed planogram perfectly, good quality photos. Very reliable." },
+      { from: "Big C District 7 — Store Manager", campaignName: "Summer Activation Q2", submittedAt: "2026-05-13", sentiment: "neutral", comment: "Arrived on time but had to ask about placement location. No major issues." },
+      { from: "Pepsi Campaign Team", campaignName: "Back to School Launch", submittedAt: "2026-04-29", sentiment: "negative", comment: "Missed 1 photo angle in the PoP set, had to remind them. Needs to improve proactiveness." }
     ]
   },
-  { id: "u-2", name: "Phạm Thị Hương", tier: "Senior", city: "HCMC", rating: 4.8, tasks: 91, status: "Active", partnerFeedback: [] },
-  { id: "u-3", name: "Lê Quang Huy", tier: "Standard", city: "Hà Nội", rating: 3.9, tasks: 14, status: "Warning", partnerFeedback: [] },
-  { id: "u-4", name: "Trần Mỹ Linh", tier: "Senior", city: "Đà Nẵng", rating: 4.5, tasks: 67, status: "Active", partnerFeedback: [] },
-  { id: "u-5", name: "Đỗ Văn Sơn", tier: "Standard", city: "HCMC", rating: 2.8, tasks: 9, status: "Suspended", partnerFeedback: [] },
-  { id: "u-6", name: "Bùi Thanh Hà", tier: "Standard", city: "HCMC", rating: 4.2, tasks: 31, status: "Dormant", partnerFeedback: [] },
+  { id: "u-2", name: "Patricia Huong", tier: "Senior", city: "HCMC", rating: 4.8, tasks: 91, status: "Active", partnerFeedback: [] },
+  { id: "u-3", name: "Leon Huy", tier: "Standard", city: "Hanoi", rating: 3.9, tasks: 14, status: "Warning", partnerFeedback: [] },
+  { id: "u-4", name: "Mandy Linh", tier: "Senior", city: "Da Nang", rating: 4.5, tasks: 67, status: "Active", partnerFeedback: [] },
+  { id: "u-5", name: "David Son", tier: "Standard", city: "HCMC", rating: 2.8, tasks: 9, status: "Suspended", partnerFeedback: [] },
+  { id: "u-6", name: "Bella Ha", tier: "Standard", city: "HCMC", rating: 4.2, tasks: 31, status: "Dormant", partnerFeedback: [] },
 ];
 
 export interface AvailableTask {
@@ -306,9 +306,9 @@ export const availableTasks: AvailableTask[] = [
     brand: "Pepsi",
     brandLogo: "",
     campaignName: "Pepsi Summer 2026",
-    storeName: "FamilyMart Nguyễn Trãi",
-    district: "Quận 5",
-    address: "245 Nguyễn Trãi, Quận 5",
+    storeName: "FamilyMart Nguyen Trai",
+    district: "District 5",
+    address: "123 Main St, District 5",
     scheduledTime: "9:00–11:00 AM",
     pay: 180000,
     date: "2026-05-14",
@@ -317,13 +317,13 @@ export const availableTasks: AvailableTask[] = [
       pickupDate: "2026-05-13",
       address: "123 Lê Lai, Q1",
       materials: "Banner A1, Shelf talker x5, Wobbler x2",
-      note: "Nhận trước ngày thực hiện ít nhất 1 ngày.",
+      note: "Pick up at least 1 day before execution.",
     },
     sopItems: [
-      "Chụp ảnh kệ TRƯỚC khi setup",
-      "Setup theo planogram đính kèm",
-      "Chụp ảnh kệ SAU khi setup — đủ 4 góc",
-      "Selfie tại store với đồng phục",
+      "Take photo of shelf BEFORE setup",
+      "Setup according to attached planogram",
+      "Take photo of shelf AFTER setup — all 4 angles",
+      "Selfie at store in uniform",
     ],
   },
   {
@@ -331,8 +331,8 @@ export const availableTasks: AvailableTask[] = [
     brand: "Vinamilk",
     brandLogo: "",
     campaignName: "Vinamilk Back-to-School",
-    storeName: "Circle K Lê Lợi",
-    district: "Quận 1",
+    storeName: "Circle K Le Loi",
+    district: "District 1",
     scheduledTime: "2:00–4:00 PM",
     pay: 150000,
     date: "2026-05-15",
@@ -343,8 +343,8 @@ export const availableTasks: AvailableTask[] = [
     brand: "Heineken",
     brandLogo: "",
     campaignName: "Heineken Silver Launch",
-    storeName: "GS25 Phạm Ngũ Lão",
-    district: "Quận 1",
+    storeName: "GS25 Pham Ngu Lao",
+    district: "District 1",
     scheduledTime: "10:00 AM–12:00 PM",
     pay: 200000,
     date: "2026-05-18",
@@ -356,7 +356,7 @@ export const availableTasks: AvailableTask[] = [
     brandLogo: "",
     campaignName: "Unilever Perfect Store",
     storeName: "WinMart Nguyen Van Linh",
-    district: "Quận 7",
+    district: "District 7",
     scheduledTime: "1:00–3:00 PM",
     pay: 190000,
     date: "2026-05-20",
@@ -368,7 +368,7 @@ export const availableTasks: AvailableTask[] = [
     brandLogo: "",
     campaignName: "Masan Pantry Reset",
     storeName: "Bach Hoa Xanh Go Vap",
-    district: "Gò Vấp",
+    district: "Go Vap",
     scheduledTime: "9:30–11:30 AM",
     pay: 170000,
     date: "2026-05-22",

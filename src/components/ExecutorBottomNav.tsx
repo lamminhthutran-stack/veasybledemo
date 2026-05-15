@@ -1,18 +1,14 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
-import { useLang } from "@/lib/i18n-context";
 
 export function ExecutorBottomNav() {
   const { pathname } = useLocation();
-  const { t } = useTranslation();
-  const { lang, setLang } = useLang();
-
+    
   const tabs = [
-    { to: "/executor/home",      label: t("nav_home"),      icon: "" },
-    { to: "/executor/tasks",     label: t("nav_tasks"),     icon: "" },
-    { to: "/executor/in-review", label: t("nav_in_review"), icon: "" },
-    { to: "/executor/knowledge", label: t("nav_faq") ?? "FAQ", icon: "" },
-    { to: "/executor/profile",   label: t("nav_profile"),   icon: "" },
+    { to: "/executor/home",      label: "Home",      icon: "" },
+    { to: "/executor/tasks",     label: "Browse",     icon: "" },
+    { to: "/executor/in-review", label: "In Review", icon: "" },
+    { to: "/executor/knowledge", label: "FAQ", icon: "" },
+    { to: "/executor/profile",   label: "Profile",   icon: "" },
     { to: "/executor/academy",   label: "Academy",          icon: "" },
   ];
 
@@ -28,14 +24,14 @@ export function ExecutorBottomNav() {
         <div className="pointer-events-auto bg-white/90 backdrop-blur-md rounded-full shadow-md border border-gray-200 flex items-center px-1">
           <button 
             onClick={() => setLang("vi")}
-            className={`min-h-[44px] px-3 text-[11px] font-bold ${lang === "vi" ? "text-[#1A3557]" : "text-[#9CA3AF]"}`}
+            className={`min-h-[44px] px-3 text-[11px] font-bold $"text-[#9CA3AF]"`}
           >
             VI
           </button>
           <span className="text-gray-300 text-[10px]">|</span>
           <button 
             onClick={() => setLang("en")}
-            className={`min-h-[44px] px-3 text-[11px] font-bold ${lang === "en" ? "text-[#1A3557]" : "text-[#9CA3AF]"}`}
+            className={`min-h-[44px] px-3 text-[11px] font-bold ${true ? "text-[#1A3557]" : "text-[#9CA3AF]"}`}
           >
             EN
           </button>

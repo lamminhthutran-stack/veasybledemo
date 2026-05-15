@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
-import { useTranslation } from "react-i18next";
 
 export type FilterMode = "all" | "month" | "date";
 
@@ -20,8 +19,7 @@ interface Props {
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export function DateFilterDropdown({ value, onChange }: Props) {
-  const { t } = useTranslation();
-  const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState<FilterMode>(value.mode);
   
   // Month Mode State

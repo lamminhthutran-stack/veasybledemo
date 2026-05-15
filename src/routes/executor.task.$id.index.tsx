@@ -1,7 +1,5 @@
 import { createFileRoute, Link, useRouter, useNavigate } from "@tanstack/react-router";
 import { availableTasks } from "@/lib/mock-data";
-import { useTranslation } from "react-i18next";
-import { useLang } from "@/lib/i18n-context";
 import { BackButton } from "@/components/BackButton";
 import { cancelTask } from "@/lib/task-state";
 import { useState } from "react";
@@ -12,9 +10,7 @@ export const Route = createFileRoute("/executor/task/$id/")({
 
 function TaskDetail() {
   const { id } = Route.useParams();
-  const { lang } = useLang();
-  const { t } = useTranslation();
-  const router = useRouter();
+      const router = useRouter();
   const navigate = useNavigate();
   const [showCancelDialog, setShowCancelDialog] = useState(false);
   
@@ -36,32 +32,32 @@ function TaskDetail() {
 
       <div className="px-4 py-4 space-y-4">
         {/* Campaign info */}
-        <InfoSection title={t("campaign_info")}>
-          <InfoRow label={t("brand")} value={task.brand} />
-          <InfoRow label={t("date")} value={task.date} />
-          <InfoRow label={t("start_time")} value={task.scheduledTime} />
-          <InfoRow label={t("pay")} value={`${task.pay.toLocaleString()}đ`} />
+        <InfoSection title={"Campaign Info"}>
+          <InfoRow label={"Brand"} value={task.brand} />
+          <InfoRow label={"Date"} value={task.date} />
+          <InfoRow label={"Start time"} value={task.scheduledTime} />
+          <InfoRow label={"Pay"} value={`${task.pay.toLocaleString()} VND`} />
         </InfoSection>
 
         {/* Location info */}
-        <InfoSection title={t("location")}>
-          <InfoRow label={t("store")} value={task.storeName} />
-          <InfoRow label={t("address")} value={task.address ?? "245 Nguyễn Trãi, Quận 5"} />
-          <InfoRow label={t("district")} value={task.district} />
+        <InfoSection title={"Location"}>
+          <InfoRow label={"Store"} value={task.storeName} />
+          <InfoRow label={"Address"} value={task.address ?? "123 Main St, District 5"} />
+          <InfoRow label={"District"} value={task.district} />
         </InfoSection>
 
         {/* Print Station info */}
-        <InfoSection title={t("print_station")}>
+        <InfoSection title={"Print Station"}>
           <InfoRow
-            label={t("pickup_date")}
-            value={task.printStation?.pickupDate ?? t("tbd")}
+            label={"Materials pickup date"}
+            value={task.printStation?.pickupDate ?? "TBD"}
           />
           <InfoRow
-            label={t("print_address")}
+            label={"Print station address"}
             value={task.printStation?.address ?? "—"}
           />
           <InfoRow
-            label={t("materials")}
+            label={"Materials to collect"}
             value={task.printStation?.materials ?? "—"}
           />
           {task.printStation?.note && (
@@ -72,7 +68,7 @@ function TaskDetail() {
         </InfoSection>
 
         {/* SOP summary */}
-        <InfoSection title={t("execution_req")}>
+        <InfoSection title={"Execution Requirements"}>
           {(task.sopItems ?? []).map((item, i) => (
             <div key={i} className="flex gap-2 py-2 border-b border-gray-50 last:border-0">
               <span className="text-[#F97316] text-sm">→</span>
@@ -81,7 +77,7 @@ function TaskDetail() {
           ))}
           {(!task.sopItems || task.sopItems.length === 0) && (
              <p className="text-sm text-gray-400 py-2">
-               {t("no_reqs")}
+               {"No requirements"}
              </p>
           )}
         </InfoSection>
@@ -93,14 +89,14 @@ function TaskDetail() {
           onClick={() => setShowCancelDialog(true)}
           className="flex-1 bg-white text-gray-600 border border-gray-200 text-sm font-semibold py-3.5 rounded-[5px] text-center"
         >
-          {t("cancel") ?? "Cancel"}
+          "Cancel"
         </button>
         <Link
           to="/executor/task/$id/pickup"
           params={{ id: task.id }}
           className="flex-1 bg-[#1A3557] text-white text-sm font-semibold py-3.5 rounded-[5px] text-center"
         >
-          {t("start_task") ?? "Start Task"}
+          "Start"
         </Link>
       </div>
 

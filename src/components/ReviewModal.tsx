@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 import { X, CheckCircle, Image as ImageIcon } from "lucide-react";
 import { findTask, getConfirmedPickups, type TaskHistoryEntry } from "@/lib/task-state";
 import { availableTasks } from "@/lib/mock-data";
 
 export function ReviewModal({ entry, onClose, onApprove, onReject }: { entry: TaskHistoryEntry; onClose: () => void; onApprove: () => void; onReject: (reason: string) => void }) {
-  const { t } = useTranslation();
-  const task = findTask(entry.taskId);
+    const task = findTask(entry.taskId);
   const richTask = availableTasks.find((t) => t.id === entry.taskId);
   const [rejecting, setRejecting] = useState(false);
   const [reason, setReason] = useState("");

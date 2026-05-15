@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChevronDown, ChevronRight, Settings } from "lucide-react";
-import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/ops/dashboard")({
   component: OpsDashboard,
@@ -67,35 +66,34 @@ type ExecutorData = {
 };
 
 const mockExecutors: ExecutorData[] = [
-  { id: "e1", name: "Nguyễn Minh Khoa", completionRate: 95, qualityScore: 92, preferred: true, escalationsRaised: 2, escalationsAgainst: 0 },
-  { id: "e2", name: "Trần Thị Lan", completionRate: 88, qualityScore: 85, preferred: false, escalationsRaised: 0, escalationsAgainst: 1 },
+  { id: "e1", name: "John Doe", completionRate: 95, qualityScore: 92, preferred: true, escalationsRaised: 2, escalationsAgainst: 0 },
+  { id: "e2", name: "Tracy Lan", completionRate: 88, qualityScore: 85, preferred: false, escalationsRaised: 0, escalationsAgainst: 1 },
   { id: "e3", name: "Lê Văn An", completionRate: 65, qualityScore: 70, preferred: false, escalationsRaised: 1, escalationsAgainst: 3 },
-  { id: "e4", name: "Phạm Thu Hương", completionRate: 92, qualityScore: 88, preferred: true, escalationsRaised: 0, escalationsAgainst: 0 },
-  { id: "e5", name: "Hoàng Thanh Sơn", completionRate: 75, qualityScore: 80, preferred: false, escalationsRaised: 5, escalationsAgainst: 0 },
+  { id: "e4", name: "Patricia Huong", completionRate: 92, qualityScore: 88, preferred: true, escalationsRaised: 0, escalationsAgainst: 0 },
+  { id: "e5", name: "Henry Son", completionRate: 75, qualityScore: 80, preferred: false, escalationsRaised: 5, escalationsAgainst: 0 },
 ];
 
 function OpsDashboard() {
   const [thresholds, setThresholds] = useState<Thresholds>(initialThresholds);
   const [dateRange, setDateRange] = useState("This Week");
-  const { t } = useTranslation();
-
+  
   return (
     <div className="space-y-6 pb-20">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-lg border border-gray-100 shadow-sm">
         <div>
-          <h1 className="text-2xl font-bold text-[#1A3557]">{t("ops_dashboard")}</h1>
-          <p className="mt-1 text-sm text-gray-500">{t("ops_dashboard_desc")}</p>
+          <h1 className="text-2xl font-bold text-[#1A3557]">{"Operations Dashboard"}</h1>
+          <p className="mt-1 text-sm text-gray-500">{"End-to-end network health & metrics"}</p>
         </div>
         <select
           value={dateRange}
           onChange={(e) => setDateRange(e.target.value)}
           className="border border-gray-200 rounded-md px-3 py-2 text-sm font-medium bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#F97316]"
         >
-          <option value="Today">{t("today")}</option>
-          <option value="This Week">{t("this_week")}</option>
-          <option value="This Month">{t("this_month")}</option>
-          <option value="This Quarter">{t("this_quarter")}</option>
+          <option value="Today">{"Today"}</option>
+          <option value="This Week">{"This Week"}</option>
+          <option value="This Month">{"This Month"}</option>
+          <option value="This Quarter">{"This Quarter"}</option>
         </select>
       </div>
 
@@ -136,8 +134,7 @@ function aggregateStageHealth(healths: ("green" | "amber" | "red")[]): "green" |
 
 function StagePanel({ num, title, health, children }: { num: number; title: string; health: "green" | "amber" | "red"; children: React.ReactNode }) {
   const [expanded, setExpanded] = useState(true);
-  const { t } = useTranslation();
-
+  
   const dotColor = health === "green" ? "bg-[#16A34A]" : health === "amber" ? "bg-[#D97706]" : "bg-[#DC2626]";
   
   return (
@@ -151,7 +148,7 @@ function StagePanel({ num, title, health, children }: { num: number; title: stri
           <span className="font-semibold">{title}</span>
           <div className="flex items-center gap-2 ml-4 px-2.5 py-1 rounded-full bg-white/10 border border-white/20 text-xs">
             <span className={`w-2.5 h-2.5 rounded-full ${dotColor} shadow-sm`} />
-            <span className="text-white/80 font-medium capitalize">{health === "green" ? t("healthy_status") : health === "amber" ? t("warning_status") : t("critical_status")}</span>
+            <span className="text-white/80 font-medium capitalize">{health === "green" ? "Healthy" : health === "amber" ? "Warning" : "Critical"}</span>
           </div>
         </div>
         {expanded ? <ChevronDown className="w-5 h-5 opacity-70" /> : <ChevronRight className="w-5 h-5 opacity-70" />}
@@ -162,8 +159,7 @@ function StagePanel({ num, title, health, children }: { num: number; title: stri
 }
 
 function KPICard({ label, value, health, def }: { label: string; value: string | number; health?: "green" | "amber" | "red"; def?: ThresholdDef }) {
-  const { t } = useTranslation();
-  const borderColor = health === "green" ? "border-l-[#16A34A]" : health === "amber" ? "border-l-[#D97706]" : health === "red" ? "border-l-[#DC2626]" : "border-l-gray-300";
+    const borderColor = health === "green" ? "border-l-[#16A34A]" : health === "amber" ? "border-l-[#D97706]" : health === "red" ? "border-l-[#DC2626]" : "border-l-gray-300";
   const textColor = health === "red" ? "text-[#DC2626]" : health === "amber" ? "text-[#D97706]" : "text-gray-900";
   const bgBadge = health === "green" ? "bg-[#16A34A]/10 text-[#16A34A]" : health === "amber" ? "bg-[#D97706]/10 text-[#D97706]" : health === "red" ? "bg-[#DC2626]/10 text-[#DC2626]" : "";
 
@@ -172,16 +168,16 @@ function KPICard({ label, value, health, def }: { label: string; value: string |
       <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 line-clamp-1" title={label}>{label}</div>
       <div className="flex items-end gap-2 mb-2">
         <div className={`text-3xl font-bold ${textColor}`}>{value}</div>
-        {health && <div className={`text-[10px] font-bold px-1.5 py-0.5 rounded uppercase mb-1 ${bgBadge}`}>{health === "green" ? t("healthy_status") : health === "amber" ? t("warning_status") : t("critical_status")}</div>}
+        {health && <div className={`text-[10px] font-bold px-1.5 py-0.5 rounded uppercase mb-1 ${bgBadge}`}>{health === "green" ? "Healthy" : health === "amber" ? "Warning" : "Critical"}</div>}
       </div>
       {def && (
         <div className="text-[10px] text-gray-400 mt-auto pt-2 border-t border-gray-200">
-          <span className="font-medium text-[#D97706]">{def.dir === "below" ? t("warn_below") : t("warn_above")} {def.warn}{def.type}</span>
+          <span className="font-medium text-[#D97706]">{def.dir === "below" ? "Warn below" : "Warn above"} {def.warn}{def.type}</span>
           <span className="mx-1">•</span>
-          <span className="font-medium text-[#DC2626]">{def.dir === "below" ? t("crit_below") : t("crit_above")} {def.critical}{def.type}</span>
+          <span className="font-medium text-[#DC2626]">{def.dir === "below" ? "Crit below" : "Crit above"} {def.critical}{def.type}</span>
         </div>
       )}
-      {!def && <div className="text-[10px] text-gray-400 mt-auto pt-2 border-t border-gray-200">{t("no_threshold")}</div>}
+      {!def && <div className="text-[10px] text-gray-400 mt-auto pt-2 border-t border-gray-200">{"No threshold configured"}</div>}
     </div>
   );
 }
@@ -196,14 +192,13 @@ function Stage1({ thresholds }: { thresholds: Thresholds }) {
   
   const overall = aggregateStageHealth([h1, h2, h3]);
 
-  const { t } = useTranslation();
-  return (
-    <StagePanel num={1} title={t("stage_1_pool")} health={overall}>
+    return (
+    <StagePanel num={1} title={"Stage 1 — Executor Pool"} health={overall}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KPICard label={t("total_reg_executors")} value={m.totalRegisteredExecutors} />
-        <KPICard label={t("onboarding_completion_rate")} value={`${m.onboardingCompletionRate}%`} health={h1} def={thresholds.onboardingCompletionRate} />
-        <KPICard label={t("active_executor_rate")} value={`${m.activeExecutorRate}%`} health={h2} def={thresholds.activeExecutorRate} />
-        <KPICard label={t("executor_dropout_rate")} value={`${m.executorDropoutRate}%`} health={h3} def={thresholds.executorDropoutRate} />
+        <KPICard label={"Total Reg. Executors"} value={m.totalRegisteredExecutors} />
+        <KPICard label={"Onboarding Completion Rate"} value={`${m.onboardingCompletionRate}%`} health={h1} def={thresholds.onboardingCompletionRate} />
+        <KPICard label={"Active Executor Rate"} value={`${m.activeExecutorRate}%`} health={h2} def={thresholds.activeExecutorRate} />
+        <KPICard label={"Executor Dropout Rate"} value={`${m.executorDropoutRate}%`} health={h3} def={thresholds.executorDropoutRate} />
       </div>
     </StagePanel>
   );
@@ -218,14 +213,13 @@ function Stage2({ thresholds }: { thresholds: Thresholds }) {
   
   const overall = aggregateStageHealth([h1, h2, h3, h4]);
 
-  const { t } = useTranslation();
-  return (
-    <StagePanel num={2} title={t("stage_2_acceptance")} health={overall}>
+    return (
+    <StagePanel num={2} title={"Stage 2 — Task Acceptance"} health={overall}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KPICard label={t("task_fill_rate")} value={`${m.taskFillRate}%`} health={h1} def={thresholds.taskFillRate} />
-        <KPICard label={t("avg_time_task_acceptance")} value={`${m.avgTimeTaskAcceptance}h`} health={h2} def={thresholds.avgTimeTaskAcceptance} />
-        <KPICard label={t("decline_rate_per_task")} value={`${m.declineRatePerTask}%`} health={h3} def={thresholds.declineRatePerTask} />
-        <KPICard label={t("browse_to_accept_conversion")} value={`${m.browseToAcceptConversion}%`} health={h4} def={thresholds.browseToAcceptConversion} />
+        <KPICard label={"Task Fill Rate"} value={`${m.taskFillRate}%`} health={h1} def={thresholds.taskFillRate} />
+        <KPICard label={"Avg Time to Acceptance"} value={`${m.avgTimeTaskAcceptance}h`} health={h2} def={thresholds.avgTimeTaskAcceptance} />
+        <KPICard label={"Decline Rate per Task"} value={`${m.declineRatePerTask}%`} health={h3} def={thresholds.declineRatePerTask} />
+        <KPICard label={"Browse-to-Accept Conv."} value={`${m.browseToAcceptConversion}%`} health={h4} def={thresholds.browseToAcceptConversion} />
       </div>
     </StagePanel>
   );
@@ -240,14 +234,13 @@ function Stage3({ thresholds }: { thresholds: Thresholds }) {
   
   const overall = aggregateStageHealth([h1, h2, h3, h4]);
 
-  const { t } = useTranslation();
-  return (
-    <StagePanel num={3} title={t("stage_3_execution")} health={overall}>
+    return (
+    <StagePanel num={3} title={"Stage 3 — Task Execution"} health={overall}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KPICard label={t("on_time_start_rate")} value={`${m.onTimeStartRate}%`} health={h1} def={thresholds.onTimeStartRate} />
-        <KPICard label={t("task_completion_rate")} value={`${m.taskCompletionRate}%`} health={h2} def={thresholds.taskCompletionRate} />
-        <KPICard label={t("avg_completion_time")} value={`${m.avgCompletionTime}h`} health={h3} def={thresholds.avgCompletionTime} />
-        <KPICard label={t("checklist_pass_rate")} value={`${m.checklistPassRate}%`} health={h4} def={thresholds.checklistPassRate} />
+        <KPICard label={"On-Time Start Rate"} value={`${m.onTimeStartRate}%`} health={h1} def={thresholds.onTimeStartRate} />
+        <KPICard label={"Task Completion Rate"} value={`${m.taskCompletionRate}%`} health={h2} def={thresholds.taskCompletionRate} />
+        <KPICard label={"Avg Completion Time"} value={`${m.avgCompletionTime}h`} health={h3} def={thresholds.avgCompletionTime} />
+        <KPICard label={"Checklist Pass Rate"} value={`${m.checklistPassRate}%`} health={h4} def={thresholds.checklistPassRate} />
       </div>
     </StagePanel>
   );
@@ -263,15 +256,14 @@ function Stage4({ thresholds }: { thresholds: Thresholds }) {
   
   const overall = aggregateStageHealth([h1, h2, h3, h4, h5]);
 
-  const { t } = useTranslation();
-  return (
-    <StagePanel num={4} title={t("stage_4_quality")} health={overall}>
+    return (
+    <StagePanel num={4} title={"Stage 4 — Quality & Escalation"} health={overall}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-        <KPICard label={t("escalation_rate")} value={`${m.escalationRate}%`} health={h1} def={thresholds.escalationRate} />
-        <KPICard label={t("open_escalation_count")} value={m.openEscalationCount} health={h2} def={thresholds.openEscalationCount} />
-        <KPICard label={t("avg_escalation_res_time")} value={`${m.avgEscalationResolutionTime}h`} health={h3} def={thresholds.avgEscalationResolutionTime} />
-        <KPICard label={t("brand_sat_score")} value={m.brandSatisfactionScore} health={h4} def={thresholds.brandSatisfactionScore} />
-        <KPICard label={t("retailer_sat_score")} value={m.retailerSatisfactionScore} health={h5} def={thresholds.retailerSatisfactionScore} />
+        <KPICard label={"Escalation Rate"} value={`${m.escalationRate}%`} health={h1} def={thresholds.escalationRate} />
+        <KPICard label={"Open Escalation Count"} value={m.openEscalationCount} health={h2} def={thresholds.openEscalationCount} />
+        <KPICard label={"Avg Escalation Res. Time"} value={`${m.avgEscalationResolutionTime}h`} health={h3} def={thresholds.avgEscalationResolutionTime} />
+        <KPICard label={"Brand Sat. Score"} value={m.brandSatisfactionScore} health={h4} def={thresholds.brandSatisfactionScore} />
+        <KPICard label={"Retailer Sat. Score"} value={m.retailerSatisfactionScore} health={h5} def={thresholds.retailerSatisfactionScore} />
       </div>
     </StagePanel>
   );
@@ -327,21 +319,20 @@ function Stage5() {
     </th>
   );
 
-  const { t } = useTranslation();
-
+  
   return (
-    <StagePanel num={5} title={t("stage_5_perf")} health="green">
+    <StagePanel num={5} title={"Stage 5 — Executor Performance"} health="green">
       <div className="overflow-x-auto rounded-lg border border-gray-200">
         <table className="w-full text-sm">
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
-              <Th field="name" label={t("executor_name")} />
-              <Th field="completionRate" label={t("completion_rate")} />
-              <Th field="qualityScore" label={t("quality_score")} />
-              <Th field="preferred" label={t("preferred")} />
-              <Th field="escalationsRaised" label={t("escalations_raised")} />
-              <Th field="escalationsAgainst" label={t("escalations_against")} />
-              <Th field="overall" label={t("overall_status")} />
+              <Th field="name" label={"Executor Name"} />
+              <Th field="completionRate" label={"Completion Rate"} />
+              <Th field="qualityScore" label={"Quality Score"} />
+              <Th field="preferred" label={"Preferred"} />
+              <Th field="escalationsRaised" label={"Escalations Raised"} />
+              <Th field="escalationsAgainst" label={"Escalations Against"} />
+              <Th field="overall" label={"Overall Status"} />
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 bg-white">
@@ -356,12 +347,12 @@ function Stage5() {
                   <td className="py-3 px-4">{e.completionRate}%</td>
                   <td className="py-3 px-4">{e.qualityScore}%</td>
                   <td className="py-3 px-4">
-                    {e.preferred ? <span className="text-[#1A3557] font-semibold bg-[#1A3557]/10 px-2 py-0.5 rounded text-[10px]">{t("yes")}</span> : <span className="text-gray-400">{t("no")}</span>}
+                    {e.preferred ? <span className="text-[#1A3557] font-semibold bg-[#1A3557]/10 px-2 py-0.5 rounded text-[10px]">{"YES"}</span> : <span className="text-gray-400">{"No"}</span>}
                   </td>
                   <td className="py-3 px-4">{e.escalationsRaised}</td>
                   <td className="py-3 px-4 font-medium">{e.escalationsAgainst}</td>
                   <td className="py-3 px-4">
-                    <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide ${badgeCls}`}>{status === "Flagged" ? t("flagged") : status === "At Risk" ? t("at_risk_status") : t("good_status")}</span>
+                    <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide ${badgeCls}`}>{status === "Flagged" ? "Flagged" : status === "At Risk" ? "At Risk" : "Good"}</span>
                   </td>
                 </tr>
               );
@@ -392,8 +383,7 @@ function ThresholdSettingsPanel({ thresholds, setThresholds }: { thresholds: Thr
     setExpanded(false);
   };
 
-  const { t } = useTranslation();
-
+  
   return (
     <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden mt-8">
       <button
@@ -402,22 +392,22 @@ function ThresholdSettingsPanel({ thresholds, setThresholds }: { thresholds: Thr
       >
         <div className="flex items-center gap-2 text-[#1A3557] font-bold">
           <Settings className="w-5 h-5" />
-          {t("threshold_settings")}
+          {"Threshold Settings"}
         </div>
         {expanded ? <ChevronDown className="w-5 h-5 opacity-70" /> : <ChevronRight className="w-5 h-5 opacity-70" />}
       </button>
       
       {expanded && (
         <div className="p-5 border-t border-gray-200">
-          <div className="text-sm text-gray-500 mb-4">{t("threshold_desc")}</div>
+          <div className="text-sm text-gray-500 mb-4">{"Adjust the warning (amber) and critical (red) thresholds for each metric. Changes apply immediately upon saving."}</div>
           
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-200">
-                  <th className="text-left font-semibold text-gray-500 pb-2 w-1/2">{t("metric")}</th>
-                  <th className="text-left font-semibold text-[#D97706] pb-2 w-1/4">{t("warning_threshold")}</th>
-                  <th className="text-left font-semibold text-[#DC2626] pb-2 w-1/4">{t("critical_threshold")}</th>
+                  <th className="text-left font-semibold text-gray-500 pb-2 w-1/2">{"Metric"}</th>
+                  <th className="text-left font-semibold text-[#D97706] pb-2 w-1/4">{"Warning Threshold"}</th>
+                  <th className="text-left font-semibold text-[#DC2626] pb-2 w-1/4">{"Critical Threshold"}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -461,13 +451,13 @@ function ThresholdSettingsPanel({ thresholds, setThresholds }: { thresholds: Thr
               onClick={() => { setLocal(thresholds); setExpanded(false); }}
               className="px-4 py-2 border border-gray-300 rounded-[5px] text-sm font-semibold text-gray-700 hover:bg-gray-50"
             >
-              {t("cancel")}
+              {"Cancel"}
             </button>
             <button 
               onClick={handleSave}
               className="px-4 py-2 bg-[#F97316] text-white rounded-[5px] text-sm font-bold hover:bg-[#F97316]/90 shadow-sm"
             >
-              {t("save_thresholds")}
+              {"Save Thresholds"}
             </button>
           </div>
         </div>

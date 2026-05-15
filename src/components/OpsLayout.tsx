@@ -1,7 +1,5 @@
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
 import { useAuth } from "@/lib/auth";
-import { LangToggle } from "@/lib/i18n-context";
 
 export function OpsLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,8 +7,7 @@ export function OpsLayout({ children }: { children: React.ReactNode }) {
       <OpsSidebar />
       <main className="flex-1 ml-56 flex flex-col">
         <header className="h-16 bg-white border-b border-gray-100 px-8 flex items-center justify-end sticky top-0 z-20">
-          <LangToggle />
-        </header>
+                  </header>
         <div className="p-8 max-w-6xl w-full">
           {children}
         </div>
@@ -21,17 +18,16 @@ export function OpsLayout({ children }: { children: React.ReactNode }) {
 
 function OpsSidebar() {
   const { pathname } = useLocation();
-  const { t } = useTranslation();
-  const { logout } = useAuth();
+    const { logout } = useAuth();
   const navigate = useNavigate();
 
   const navItems = [
-    { to: "/ops/dashboard",   label: t("nav_dashboard"),         icon: "" },
-    { to: "/ops/escalations", label: t("nav_escalations"),  icon: "" },
-    { to: "/ops/submissions", label: t("nav_submissions"),  icon: "" },
-    { to: "/ops/campaigns",   label: t("nav_campaigns"),  icon: "" },
-    { to: "/ops/execution",   label: t("nav_execution"),    icon: "" },
-    { to: "/ops/executors",   label: t("nav_executors"),  icon: "" },
+    { to: "/ops/dashboard",   label: "Dashboard",         icon: "" },
+    { to: "/ops/escalations", label: "Escalation Queue",  icon: "" },
+    { to: "/ops/submissions", label: "Submissions",  icon: "" },
+    { to: "/ops/campaigns",   label: "Campaign Monitor",  icon: "" },
+    { to: "/ops/execution",   label: "Execution Live",    icon: "" },
+    { to: "/ops/executors",   label: "Executor Network",  icon: "" },
   ];
 
   function handleLogout() {
@@ -44,7 +40,7 @@ function OpsSidebar() {
       {/* Logo */}
       <div className="mb-8 px-2">
         <p className="text-lg font-bold text-white">Veasyble</p>
-        <p className="text-[10px] text-white/50">{t("ops_portal")}</p>
+        <p className="text-[10px] text-white/50">{"Ops Portal"}</p>
       </div>
 
       {/* Nav */}
@@ -75,7 +71,7 @@ function OpsSidebar() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
               d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
           </svg>
-          {t("logout")}
+          {"Logout"}
         </button>
       </div>
     </aside>

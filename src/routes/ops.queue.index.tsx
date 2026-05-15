@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { escalations } from "@/lib/mock-data";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/ops/queue/")({
   component: Queue,
@@ -17,12 +16,11 @@ const tabs = [
 ];
 
 function Queue() {
-  const { t } = useTranslation();
-  const [tab, setTab] = useState("All");
+    const [tab, setTab] = useState("All");
 
   return (
     <div className="space-y-5">
-      <h1 className="text-2xl font-bold">{t("escalation_queue")}</h1>
+      <h1 className="text-2xl font-bold">{"Escalation Queue"}</h1>
 
       <div className="flex gap-1 border-b border-border">
         {tabs.map((tb) => (
@@ -49,18 +47,18 @@ function Queue() {
             <span className={`badge badge-${e.severity === "High" ? "danger" : e.severity === "Medium" ? "warning" : "gray"}`}>{e.severity}</span>
             <div className="flex items-center gap-2">
               {e.status === "Resolved" ? (
-                <span className="badge badge-gray">{t("resolved")}</span>
+                <span className="badge badge-gray">{"Resolved ✓"}</span>
               ) : e.status === "In Progress" ? (
-                <span className="badge badge-orange">{t("in_progress")}</span>
+                <span className="badge badge-orange">{"In Progress"}</span>
               ) : (
-                <button className="text-xs px-3 py-1.5 border border-border rounded-[5px]">{t("assign_to_me")}</button>
+                <button className="text-xs px-3 py-1.5 border border-border rounded-[5px]">{"Assign to Me"}</button>
               )}
               {e.phase === "Onboard" ? (
                 <Link to="/ops/queue/application/$id" params={{ id: e.id }} className="text-xs px-3 py-1.5 bg-orange text-orange-foreground rounded-[5px] font-semibold">
-                  {t("view")}
+                  {"View"}
                 </Link>
               ) : (
-                <button className="text-xs px-3 py-1.5 bg-orange text-orange-foreground rounded-[5px] font-semibold">{t("view")}</button>
+                <button className="text-xs px-3 py-1.5 bg-orange text-orange-foreground rounded-[5px] font-semibold">{"View"}</button>
               )}
             </div>
           </div>

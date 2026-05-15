@@ -1,7 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { availableTasks, executorProfile, getWeeklyAvailability, type AvailableTask } from "@/lib/mock-data";
-import { useTranslation } from "react-i18next";
 import { acceptTask, declineTask, getDeclinedTaskIds, getCancelledTaskIds } from "@/lib/task-state";
 import { isTaskMatchingAvailability } from "@/lib/availability-utils";
 
@@ -10,8 +9,7 @@ export const Route = createFileRoute("/executor/tasks")({
 });
 
 function ExecutorTasks() {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
+    const navigate = useNavigate();
   const [filterByAvailability, setFilterByAvailability] = useState(true);
   const [filters, setFilters] = useState({ district: "all", minPay: 0 });
   const [showFilter, setShowFilter] = useState(false);
@@ -56,7 +54,7 @@ function ExecutorTasks() {
       {/* Header */}
       <div className="bg-white px-4 pt-12 pb-4 shadow-sm border-b border-gray-100">
         <h1 className="text-xl font-bold text-gray-900 mb-3">
-          {t("browse_tasks")}
+          {"Browse Tasks"}
         </h1>
 
         <label className="flex items-center justify-between bg-gray-50 p-3 rounded-[5px] border border-gray-100 cursor-pointer">
@@ -84,7 +82,7 @@ function ExecutorTasks() {
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h18M7 12h10M11 20h2" />
           </svg>
-          {t("filter")} {hasActiveFilter && "•"}
+          {"Filter"} {hasActiveFilter && "•"}
         </button>
       </div>
 
@@ -93,7 +91,7 @@ function ExecutorTasks() {
         <div className="mx-4 mt-3 bg-white rounded-[5px] p-4 border border-gray-100 shadow-sm space-y-4">
           <div>
             <p className="text-xs font-semibold text-gray-500 mb-2">
-              {t("area")}
+              {"Area"}
             </p>
             <div className="flex flex-wrap gap-2">
               {districts.map((d) => (
@@ -106,16 +104,16 @@ function ExecutorTasks() {
                       : "bg-gray-50 text-gray-600 border-gray-200"
                   }`}
                 >
-                  {d === "all" ? t("all") : d}
+                  {d === "all" ? "All" : d}
                 </button>
               ))}
             </div>
           </div>
           <div>
             <p className="text-xs font-semibold text-gray-500 mb-2">
-              {t("min_pay")}: 
+              {"Minimum pay"}: 
               <span className="text-[#F97316]">
-                {filters.minPay === 0 ? t("all") : `${filters.minPay.toLocaleString()}đ`}
+                {filters.minPay === 0 ? "All" : `${filters.minPay.toLocaleString()} VND`}
               </span>
             </p>
             <input
@@ -129,14 +127,14 @@ function ExecutorTasks() {
             />
             <div className="flex justify-between text-[10px] text-gray-400 mt-1">
               <span>0</span>
-              <span>300,000đ</span>
+              <span>300,000 VND</span>
             </div>
           </div>
           <button
             onClick={() => setFilters({ district: "all", minPay: 0 })}
             className="text-xs text-gray-400 underline"
           >
-            {t("clear_filter")}
+            {"Clear filters"}
           </button>
         </div>
       )}
@@ -154,10 +152,10 @@ function ExecutorTasks() {
       ) : displayedTasks.length === 0 ? (
         <div className="mx-4 mt-4 bg-blue-50 rounded-[5px] p-4 border border-blue-100">
           <p className="text-xs font-semibold text-blue-700 mb-1">
-            {t("no_match")}
+            {"No matching tasks"}
           </p>
           <p className="text-xs text-blue-600">
-            {t("no_match_sub")}
+            {"Matching tasks must fit both your available dates AND districts set in Profile."}
           </p>
         </div>
       ) : (
@@ -189,8 +187,7 @@ function BrowseTaskCard({
   onDecline?: () => void;
   declined?: boolean;
 }) {
-  const { t } = useTranslation();
-  return (
+    return (
     <div className={`bg-white rounded-[5px] p-4 shadow-sm border border-gray-100 ${declined ? "opacity-60" : ""}`}>
       <Link to="/executor/task/$id" params={{ id: task.id }} className="block active:scale-[0.98] transition-transform">
         <div className="flex justify-between items-start mb-1">
@@ -203,7 +200,7 @@ function BrowseTaskCard({
               <p className="text-[11px] text-gray-400">{task.campaignName}</p>
             </div>
           </div>
-          <p className="font-bold text-[#F97316] text-sm">{task.pay.toLocaleString()}đ</p>
+          <p className="font-bold text-[#F97316] text-sm">{task.pay.toLocaleString()} VND</p>
         </div>
         <div className="mt-3 pt-3 border-t border-gray-50 flex items-center gap-4 text-xs text-gray-400">
           <span> {task.storeName} · {task.district}</span>
@@ -217,13 +214,13 @@ function BrowseTaskCard({
             onClick={onAccept}
             className="flex-1 bg-[#1A3557] text-white text-xs font-semibold py-2.5 rounded-[5px] text-center"
           >
-            {t("accept")}
+            {"Accept"}
           </button>
           <button
             onClick={onDecline}
             className="px-4 text-xs font-semibold text-gray-400 border border-gray-200 rounded-[5px]"
           >
-            {t("decline")}
+            {"Decline"}
           </button>
         </div>
       )}
@@ -232,8 +229,7 @@ function BrowseTaskCard({
 }
 
 function DeclinedSection({ declinedIds }: { declinedIds: string[] }) {
-  const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
   const declinedTasks = availableTasks.filter((t) => declinedIds.includes(t.id));
 
   if (declinedTasks.length === 0) return null;
@@ -244,7 +240,7 @@ function DeclinedSection({ declinedIds }: { declinedIds: string[] }) {
         onClick={() => setOpen(!open)}
         className="text-xs text-gray-400 underline font-medium"
       >
-        {t("declined")} ({declinedTasks.length})
+        {"Declined"} ({declinedTasks.length})
       </button>
       {open && (
         <div className="mt-3 space-y-3">

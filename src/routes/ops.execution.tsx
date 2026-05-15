@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { getStartedTasks, getTaskHistory, getCancelledTaskIds, findTask, type TaskHistoryEntry } from "@/lib/task-state";
 import { ReviewModal } from "@/components/ReviewModal";
 import { Clock, AlertTriangle, AlertCircle } from "lucide-react";
@@ -10,8 +9,7 @@ export const Route = createFileRoute("/ops/execution")({
 });
 
 function ExecutionLive() {
-  const { t } = useTranslation();
-  const [now, setNow] = useState(Date.now());
+    const [now, setNow] = useState(Date.now());
   const [selectedTask, setSelectedTask] = useState<{ taskId: string } | null>(null);
 
   useEffect(() => {
