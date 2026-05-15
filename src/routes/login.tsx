@@ -193,8 +193,8 @@ function LoginPage() {
               </button>
             </div>
             <div className="mt-3 grid grid-cols-2 gap-2 text-[10px] font-semibold text-gray-500">
-              <div className="rounded-[5px] bg-gray-50 px-2 py-2">Academy -> Tasks -> PoP</div>
-              <div className="rounded-[5px] bg-gray-50 px-2 py-2">Dashboard -> Submissions -> Quality</div>
+              <div className="rounded-[5px] bg-gray-50 px-2 py-2">{"Academy -> Tasks -> PoP"}</div>
+              <div className="rounded-[5px] bg-gray-50 px-2 py-2">{"Dashboard -> Submissions -> Quality"}</div>
             </div>
           </div>
         )}
