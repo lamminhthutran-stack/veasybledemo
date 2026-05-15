@@ -66,7 +66,7 @@ function CampaignMonitor() {
   return (
     <div className="space-y-5">
       <div>
-        <h1 className="text-2xl font-bold">{"Campaign Monitor"}</h1>
+        <h1 className="text-2xl font-bold">Campaign Monitor</h1>
         <p className="text-sm text-gray-500 mt-1">{filterText}</p>
       </div>
 
@@ -84,12 +84,12 @@ function CampaignMonitor() {
 
       <div className="bg-card border border-border rounded-[5px] overflow-hidden">
         <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr_auto] gap-4 px-4 py-3 text-[11px] uppercase tracking-wider text-muted-foreground font-semibold border-b border-border">
-          <div>{"Campaign"}</div>
-          <div>{"Brand"}</div>
-          <div>{"City"}</div>
-          <div>{"Date"}</div>
-          <div>{"Filled"}</div>
-          <div>{"Status"}</div>
+          <div>Campaign</div>
+          <div>Brand</div>
+          <div>City</div>
+          <div>Date</div>
+          <div>Filled</div>
+          <div>Status</div>
           <div></div>
         </div>
         {filteredCampaigns.length === 0 ? (
@@ -141,16 +141,11 @@ function CampaignMonitor() {
                             {row.exec} · {row.status}
                           </div>
                         </div>
-                        <div className="flex gap-2">
-                          {c.status === "Urgent" && (
-                            <button className="text-xs px-3 py-1.5 bg-orange text-orange-foreground rounded-[5px] font-semibold">
-                              {"Force Surge"}
-                            </button>
-                          )}
-                          <button className="text-xs px-3 py-1.5 border border-border rounded-[5px]">
-                            {"Reassign"}
+                        {c.status === "Urgent" && (
+                          <button className="text-xs px-3 py-1.5 bg-orange text-orange-foreground rounded-[5px] font-semibold">
+                            Force Surge
                           </button>
-                        </div>
+                        )}
                       </div>
                     ))}
                   </div>
