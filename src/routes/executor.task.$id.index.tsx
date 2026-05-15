@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useRouter, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { availableTasks } from "@/lib/mock-data";
 import { BackButton } from "@/components/BackButton";
 import { cancelTask } from "@/lib/task-state";
@@ -10,7 +10,6 @@ export const Route = createFileRoute("/executor/task/$id/")({
 
 function TaskDetail() {
   const { id } = Route.useParams();
-  const router = useRouter();
   const navigate = useNavigate();
   const [showCancelDialog, setShowCancelDialog] = useState(false);
 
@@ -32,25 +31,25 @@ function TaskDetail() {
 
       <div className="px-4 py-4 space-y-4">
         {/* Campaign info */}
-        <InfoSection title={"Campaign Info"}>
-          <InfoRow label={"Brand"} value={task.brand} />
-          <InfoRow label={"Date"} value={task.date} />
-          <InfoRow label={"Start time"} value={task.scheduledTime} />
-          <InfoRow label={"Pay"} value={`${task.pay.toLocaleString()} VND`} />
+        <InfoSection title="Campaign Info">
+          <InfoRow label="Brand" value={task.brand} />
+          <InfoRow label="Date" value={task.date} />
+          <InfoRow label="Start time" value={task.scheduledTime} />
+          <InfoRow label="Pay" value={`${task.pay.toLocaleString()} VND`} />
         </InfoSection>
 
         {/* Location info */}
-        <InfoSection title={"Location"}>
-          <InfoRow label={"Store"} value={task.storeName} />
-          <InfoRow label={"Address"} value={task.address ?? "123 Main St, District 5"} />
-          <InfoRow label={"District"} value={task.district} />
+        <InfoSection title="Location">
+          <InfoRow label="Store" value={task.storeName} />
+          <InfoRow label="Address" value={task.address ?? "123 Main St, District 5"} />
+          <InfoRow label="District" value={task.district} />
         </InfoSection>
 
         {/* Print Station info */}
-        <InfoSection title={"Print Station"}>
-          <InfoRow label={"Materials pickup date"} value={task.printStation?.pickupDate ?? "TBD"} />
-          <InfoRow label={"Print station address"} value={task.printStation?.address ?? "—"} />
-          <InfoRow label={"Materials to collect"} value={task.printStation?.materials ?? "—"} />
+        <InfoSection title="Print Station">
+          <InfoRow label="Materials pickup date" value={task.printStation?.pickupDate ?? "TBD"} />
+          <InfoRow label="Print station address" value={task.printStation?.address ?? "-"} />
+          <InfoRow label="Materials to collect" value={task.printStation?.materials ?? "-"} />
           {task.printStation?.note && (
             <div className="bg-orange-50 rounded-[5px] p-3 mt-2 border border-orange-100">
               <p className="text-xs text-orange-700">{task.printStation.note}</p>
@@ -59,7 +58,7 @@ function TaskDetail() {
         </InfoSection>
 
         {/* SOP summary */}
-        <InfoSection title={"Execution Requirements"}>
+        <InfoSection title="Execution Requirements">
           {(task.sopItems ?? []).map((item, i) => (
             <div key={i} className="flex gap-2 py-2 border-b border-gray-50 last:border-0">
               <span className="text-[#F97316] text-sm">→</span>
@@ -67,7 +66,7 @@ function TaskDetail() {
             </div>
           ))}
           {(!task.sopItems || task.sopItems.length === 0) && (
-            <p className="text-sm text-gray-400 py-2">{"No requirements"}</p>
+            <p className="text-sm text-gray-400 py-2">No requirements</p>
           )}
         </InfoSection>
       </div>
@@ -81,14 +80,14 @@ function TaskDetail() {
           onClick={() => setShowCancelDialog(true)}
           className="flex-1 bg-white text-gray-600 border border-gray-200 text-sm font-semibold py-3.5 rounded-[5px] text-center"
         >
-          "Cancel"
+          Cancel
         </button>
         <Link
           to="/executor/task/$id/pickup"
           params={{ id: task.id }}
           className="flex-1 bg-[#1A3557] text-white text-sm font-semibold py-3.5 rounded-[5px] text-center"
         >
-          "Start"
+          Start
         </Link>
       </div>
 
