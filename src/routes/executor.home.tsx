@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { getAcceptedTaskIds, cancelTask } from "@/lib/task-state";
 import { availableTasks, executorProfile, type AvailableTask } from "@/lib/mock-data";
+import { ContextGuide } from "@/components/ContextGuide";
 
 import { formatEarnings } from "@/lib/format";
 
@@ -36,6 +37,16 @@ function ExecutorHome() {
       </div>
 
       <div className="px-4 py-4 space-y-4">
+        <ContextGuide
+          title="How Home works"
+          steps={[
+            "Use the stats row to understand your current rating, earnings, and campaign activity.",
+            "Current Tasks are jobs you already accepted and are responsible for completing.",
+            "Tap View Task to review details and continue into pickup, on-site execution, and PoP submission.",
+            "Use Browse Tasks from the bottom navigation when you want to find new available work.",
+          ]}
+        />
+
         {/* Stats row */}
         <div className="grid grid-cols-3 gap-3">
           {/* Card Rating */}
