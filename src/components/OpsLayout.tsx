@@ -22,7 +22,7 @@ function OpsSidebar() {
     { to: "/ops/dashboard", label: "Dashboard", icon: "" },
     { to: "/ops/escalations", label: "Escalation Queue", icon: "" },
     { to: "/ops/campaigns", label: "Campaign Monitor", icon: "" },
-    { to: "/ops/execution", label: "Submissions Check", icon: "" },
+    { to: "/ops/execution", label: "Submissions", icon: "" },
     { to: "/ops/executors", label: "Executor Network", icon: "" },
   ];
 
