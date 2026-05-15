@@ -36,6 +36,9 @@ function LoginPage() {
     }
   }
 
+  const portalCardClass =
+    "w-full flex items-center gap-3 bg-white border border-gray-200 rounded-[5px] px-4 py-4 hover:border-[#F97316] hover:shadow-sm transition-all";
+
   return (
     <div className="min-h-screen bg-[#F7F8FA] flex flex-col items-center justify-center px-6 relative">
       {/* Top Right Controls */}
@@ -52,24 +55,18 @@ function LoginPage() {
             <p className="text-xs text-center text-gray-400 font-medium mb-4 uppercase tracking-wide">
               Select Portal
             </p>
-            <button
-              onClick={() => setPortal("executor")}
-              className="w-full flex items-center gap-3 bg-white border border-gray-200 rounded-[5px] px-4 py-4 hover:border-[#F97316] transition-colors"
-            >
+            <button onClick={() => setPortal("executor")} className={portalCardClass}>
               <span className="text-2xl"></span>
               <div className="text-left">
                 <p className="text-sm font-semibold text-gray-900">Execution Team</p>
-                <p className="text-[10px] text-gray-400">Mobile App (Web Demo)</p>
+                <p className="text-[10px] text-gray-400">Mobile App</p>
               </div>
             </button>
-            <button
-              onClick={() => setPortal("ops")}
-              className="w-full flex items-center gap-3 bg-[#1A3557] rounded-[5px] px-4 py-4 hover:bg-[#162d47] transition-colors shadow-sm"
-            >
+            <button onClick={() => setPortal("ops")} className={portalCardClass}>
               <span className="text-2xl"></span>
               <div className="text-left">
-                <p className="text-sm font-semibold text-white">Veasyble Ops</p>
-                <p className="text-[10px] text-white/50">Desktop Dashboard</p>
+                <p className="text-sm font-semibold text-gray-900">Veasyble Ops</p>
+                <p className="text-[10px] text-gray-400">Desktop Dashboard</p>
               </div>
             </button>
           </div>
